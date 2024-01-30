@@ -1,9 +1,32 @@
-import { CloudFrontRequest, CloudFrontRequestEvent, Handler } from 'aws-lambda';
+import { CloudFrontHeaders, CloudFrontRequest, CloudFrontRequestEvent, CloudFrontResultResponse, Handler } from 'aws-lambda';
 
 import { imageRequestController } from '@controllers';
 
-export const handler: Handler<CloudFrontRequestEvent> = async (event) => {
-  return imageRequestController.handle(event.Records[0].cf.request);
+export const handler: Handler<CloudFrontRequestEvent, CloudFrontResultResponse> = async (event) => {
+  try {
+    const result = await imageRequestController.handle(event.Records[0].cf.request);
+
+    const headers: CloudFrontHeaders = {}
+
+    for (const [key, value] of Object.entries(result.headers)) {
+      headers[key] = [{
+        key,
+        value
+      }]
+    }
+
+    return {
+      body: result.body.toString(),
+      status: result.statusCode,
+      headers
+    }
+
+  } catch (error) {
+    return {
+      body: 'Internal Server Error',
+      status: '500',
+    }
+  }
 };
 
 const exampleRequest: CloudFrontRequest = {

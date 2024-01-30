@@ -2,7 +2,7 @@ import { CloudFrontRequest } from 'aws-lambda';
 import { imageService } from '@services';
 
 interface HandlerResponse {
-  statusCode: number;
+  statusCode: string;
   body: string | ReadableStream;
   headers: {
     [key: string]: string;
@@ -11,12 +11,12 @@ interface HandlerResponse {
 
 export const handle = async (
   request: CloudFrontRequest,
-): Promise<HandlerResponse | undefined> => {
+): Promise<HandlerResponse> => {
   const uri = request.uri;
 
   if (uri === undefined) {
     return {
-      statusCode: 400,
+      statusCode: '400',
       body: 'Invalid Request',
       headers: {
         'Content-Type': 'text/plain',
@@ -31,7 +31,7 @@ export const handle = async (
 
   if (isNaN(width) || isNaN(quality)) {
     return {
-      statusCode: 400,
+      statusCode: '400',
       body: 'Invalid value for width or quality',
       headers: {
         'Content-Type': 'text/plain',
@@ -43,7 +43,7 @@ export const handle = async (
 
   if (result === undefined) {
     return {
-      statusCode: 404,
+      statusCode: '404',
       body: 'Not Found',
       headers: {
         'Content-Type': 'text/plain',
@@ -52,7 +52,7 @@ export const handle = async (
   }
 
   return {
-    statusCode: 200,
+    statusCode: '200',
     body: result.body,
     headers: {
       'Content-Type': result.contentType

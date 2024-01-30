@@ -56,6 +56,10 @@
       "type": "build"
     },
     {
+      "name": "projen",
+      "type": "build"
+    },
+    {
       "name": "@aws-sdk/client-s3",
       "type": "runtime"
     },

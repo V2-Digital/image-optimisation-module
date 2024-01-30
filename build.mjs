@@ -1,20 +1,8 @@
-const injectedEnvironmentVariables = [
-  'TEST_VAR'
-]
-
-const environtmentVariablesDefinition = {}
-
-injectedEnvironmentVariables.forEach(envVariableName => {
-  environtmentVariablesDefinition[`process.env.${envVariableName}`] = process.env[envVariableName]
-})
-
 const result = await Bun.build({
   entrypoints: ['./src/index.ts'],
-  outdir: './dist',
-  target: 'node',
-  define: {
-    ...environtmentVariablesDefinition
-  }
+  outdir: './terraform/templates',
+  
+  target: 'node'
 })
 
 const success = result.success

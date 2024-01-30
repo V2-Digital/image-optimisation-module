@@ -1,16 +1,6 @@
-import { detectImageFormat, imageFormats, optimiseImage } from '@common';
+import { detectImageFormat, logger, optimiseImage } from '@common';
 
 import { imageRepository } from '@repositories';
-
-const generateOptimisedImageKey = (
-  imagePath: string,
-  width: number,
-  quality: number,
-) =>
-  `resized/${imagePath.replaceAll('/', '-')}-${imagePath.replaceAll(
-    '/',
-    '-',
-  )}-${width}-${quality}-cover`;
 
 interface OptimisedImage {
   body: ReadableStream;
@@ -22,24 +12,20 @@ export const getOptimisedImage = async (
   width: number,
   quality: number,
 ): Promise<OptimisedImage | undefined> => {
-  const optimisedImageKey = generateOptimisedImageKey(
+  logger.info({
+    message: 'getting optimised image',
     imagePath,
     width,
-    quality,
-  );
-
-  const cachedImage = await imageRepository.get(optimisedImageKey);
-
-  if (cachedImage?.Body !== undefined) {
-    return {
-      body: cachedImage.Body?.transformToWebStream(),
-      contentType: cachedImage.ContentType || imageFormats.WEBP,
-    };
-  }
+    quality
+  })
 
   const originalImage = await imageRepository.get(imagePath);
 
   if (originalImage?.Body === undefined) {
+    logger.error({
+      message: 'unable to find image'
+    })
+
     return;
   }
 
@@ -50,16 +36,14 @@ export const getOptimisedImage = async (
   const imageType = detectImageFormat(imageBuffer) ?? originalImage.ContentType;
 
   if (imageType === undefined) {
-    return
+    logger.error({
+      message: 'unable to determine image type'
+    })
+
+    throw new Error('Unable to determine image type')
   }
 
   const optimisedImage = await optimiseImage(imageBuffer, imageType, width, quality)
-
-  imageRepository.store(
-    optimisedImageKey,
-    imageType,
-    optimisedImage
-  )
 
   return {
     body: new Blob([optimisedImage]).stream(),
