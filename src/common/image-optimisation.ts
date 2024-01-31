@@ -42,9 +42,7 @@ export const optimiseImage = async (
 
   let pipe = sharp(imageBuffer);
 
-  pipe.resize({
-    width
-  });
+  pipe.resize(width);
 
   pipe = translateImageFormat(contentType, pipe);
 
