@@ -4,6 +4,11 @@ terraform {
       source  = "poseidon/util"
       version = "0.2.2"
     }
+
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~>5.7"
+    }
   }
 }
 
