@@ -37,6 +37,6 @@ resource "aws_lambda_function" "main" {
 }
 
 resource "aws_cloudwatch_log_group" "this" {
-  name              = "/aws/ecs/${local.name}"
+  name              = "/aws/lambda/${local.name}"
   retention_in_days = 7
 }
