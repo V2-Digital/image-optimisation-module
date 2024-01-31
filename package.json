@@ -22,7 +22,7 @@
     "eslint-plugin-n": "^16.6.2",
     "eslint-plugin-promise": "^6.1.1",
     "prettier": "^3.2.4",
-    "projen": "^0.76.29"
+    "projen": "^0.79.0"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.499.0",
