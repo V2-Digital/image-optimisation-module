@@ -13,11 +13,11 @@ data "archive_file" "function" {
 }
 
 resource "aws_lambda_function" "main" {
-  function_name = local.name
-  role          = aws_iam_role.function.arn
-  publish = true
+  function_name    = local.name
+  role             = aws_iam_role.function.arn
+  publish          = true
   source_code_hash = data.archive_file.function.output_base64sha256
   filename         = data.archive_file.function.output_path
-  handler = "index.handle"
-  runtime = "nodejs20.x"
+  handler          = "index.handle"
+  runtime          = "nodejs20.x"
 }
