@@ -12,3 +12,4 @@ node_modules/
 !/.prettierrc
 !/docker-compose.yml
 .terraform
+!/.projenrc.ts

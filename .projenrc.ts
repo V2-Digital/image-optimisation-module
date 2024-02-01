@@ -2,14 +2,13 @@ import { DockerCompose, DockerComposeService } from 'projen';
 
 import { BunTypescript } from 'bun-ts-projen';
 
-const PROJECT_NAME = 'image-optimisation-module'
-
+const PROJECT_NAME = 'image-optimisation-module';
 
 const project = new BunTypescript({
   name: PROJECT_NAME,
-  deps: ['@aws-sdk/client-s3', 'pino', 'sharp'],
+  deps: ['@aws-sdk/client-s3', 'pino', 'sharp@0.32.6'],
   devDeps: ['bun-ts-projen', '@types/aws-lambda', 'projen'],
-  bunContainerVersion: "1.0.25-alpine",
+  bunContainerVersion: '1.0.25-alpine',
   tsconfigPaths: {
     '@repositories': ['./src/repositories'],
     '@services': ['./src/services'],
@@ -18,7 +17,7 @@ const project = new BunTypescript({
   },
 });
 
-project.package.addField('type', 'module')
+project.package.addField('type', 'module');
 
 project.makefile.addRule({
   targets: ['build'],
@@ -29,46 +28,45 @@ project.makefile.addRule({
 });
 
 const AWS_ENV_OBJECT = {
-  AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID:-}",
-  AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY:-}",
-  AWS_SESSION_TOKEN: "${AWS_SESSION_TOKEN:-}",
+  AWS_ACCESS_KEY_ID: '${AWS_ACCESS_KEY_ID:-}',
+  AWS_SECRET_ACCESS_KEY: '${AWS_SECRET_ACCESS_KEY:-}',
+  AWS_SESSION_TOKEN: '${AWS_SESSION_TOKEN:-}',
   AWS_REGION: '${AWS_REGION:-ap-southeast-2}',
-}
+};
 
-project.composeFile.addService('terraform', new DockerComposeService('app', {
-  imageBuild: {
-    context: './containers',
-    dockerfile: 'Dockerfile.terraform',
-    args: {
-      TERRAFORM_VERSION: "1.5.5"
-    }
-  },
-  environment: {
-    APP_ENVIRONMENT: '${APP_ENVIRONMENT:-dev}',
-    APP_NAME: 'digital',
-    COMPONENT: PROJECT_NAME,
-    ...AWS_ENV_OBJECT
-  },
-  volumes: [
-    DockerCompose.bindVolume("./terraform", "/app"),
-  ],
-}))
+project.composeFile.addService(
+  'terraform',
+  new DockerComposeService('app', {
+    imageBuild: {
+      context: './containers',
+      dockerfile: 'Dockerfile.terraform',
+      args: {
+        TERRAFORM_VERSION: '1.5.5',
+      },
+    },
+    environment: {
+      APP_ENVIRONMENT: '${APP_ENVIRONMENT:-dev}',
+      APP_NAME: 'digital',
+      COMPONENT: PROJECT_NAME,
+      ...AWS_ENV_OBJECT,
+    },
+    volumes: [DockerCompose.bindVolume('./terraform', '/app')],
+  }),
+);
 
 project.makefile.addRule({
   targets: ['init', 'plan', 'apply', 'tf_shell'],
-  prerequisites: ["% :"],
-  recipe: [
-    'docker compose run --rm terraform make $(*)'
-  ]
-})
+  prerequisites: ['% :'],
+  recipe: ['docker compose run --rm terraform make $(*)'],
+});
 
 project.makefile.addRule({
   targets: ['clean'],
   recipe: [
-    "rm -rf terraform/.terraform dist",
-    "docker compose down --remove-orphans --volumes"
-  ]
-})
+    'rm -rf terraform/.terraform dist',
+    'docker compose down --remove-orphans --volumes',
+  ],
+});
 
 project.package.setScript('node_start', 'node dist/index.js');
 
