@@ -1,8 +1,16 @@
 data "util_replace" "environment_variable_substitution" {
-  content      = file("${path.module}/templates/index.js")
+  content      = file("${path.module}/bin/index.js")
   replacements = local.var_substitues
 }
 
+resource "null_resource" "npm_install" {
+  provisioner "local-exec" {
+    command = "cd ${path.module}/bin && npm install --cpu=x64 --os=linux"
+  }
+  triggers = {
+    always_run = timestamp()
+  }
+}
 
 data "archive_file" "function" {
   type = "zip"
@@ -13,6 +21,17 @@ data "archive_file" "function" {
     filename = "index.mjs"
     content  = data.util_replace.environment_variable_substitution.replaced
   }
+
+  dynamic "source" {
+    for_each = fileset("${path.module}/bin/node_modules", "**")
+
+    content {
+      content  = file("${path.module}/bin/node_modules/${each.key}")
+      filename = "node_modules/${each.key}"
+    }
+  }
+
+  depends_on = [null_resource.npm_install]
 }
 
 resource "aws_lambda_function" "main" {
@@ -22,11 +41,10 @@ resource "aws_lambda_function" "main" {
   source_code_hash = data.archive_file.function.output_base64sha256
   filename         = data.archive_file.function.output_path
 
-  handler = "index.handle"
+  handler = "index.handler"
   runtime = "nodejs20.x"
 
   logging_config {
-
     log_group  = aws_cloudwatch_log_group.this.name
     log_format = "JSON"
   }

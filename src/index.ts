@@ -1,31 +1,44 @@
-import { CloudFrontHeaders, CloudFrontRequest, CloudFrontRequestEvent, CloudFrontResultResponse, Handler } from 'aws-lambda';
+import {
+  CloudFrontHeaders,
+  CloudFrontRequest,
+  CloudFrontRequestEvent,
+  CloudFrontResultResponse,
+  Handler,
+} from 'aws-lambda';
 
+import { TASK_PARAMETERS } from '@common';
 import { imageRequestController } from '@controllers';
 
-export const handler: Handler<CloudFrontRequestEvent, CloudFrontResultResponse> = async (event) => {
+export const handler: Handler<
+  CloudFrontRequestEvent,
+  CloudFrontResultResponse
+> = async (event) => {
   try {
-    const result = await imageRequestController.handle(event.Records[0].cf.request);
+    const result = await imageRequestController.handle(
+      event.Records[0].cf.request,
+    );
 
-    const headers: CloudFrontHeaders = {}
+    const headers: CloudFrontHeaders = {};
 
     for (const [key, value] of Object.entries(result.headers)) {
-      headers[key] = [{
-        key,
-        value
-      }]
+      headers[key] = [
+        {
+          key,
+          value,
+        },
+      ];
     }
 
     return {
       body: result.body.toString(),
       status: result.statusCode,
-      headers
-    }
-
+      headers,
+    };
   } catch (error) {
     return {
       body: 'Internal Server Error',
       status: '500',
-    }
+    };
   }
 };
 
@@ -56,36 +69,38 @@ const exampleRequest: CloudFrontRequest = {
   uri: '/',
 };
 
-handler(
-  {
-    Records: [
-      {
-        cf: {
-          config: {
-            distributionDomainName: 'd111111abcdef8.cloudfront.net',
-            distributionId: 'EDFDVBD6EXAMPLE',
-            eventType: 'viewer-request',
-            requestId:
-              '4TyzHTaYWb1GX1qTfsHhEqV6HUDd_BzoBZnwfnvQc_1oF26ClkoUSEQ==',
+if (TASK_PARAMETERS.LOCAL_ENVIRONMENT) {
+  handler(
+    {
+      Records: [
+        {
+          cf: {
+            config: {
+              distributionDomainName: 'd111111abcdef8.cloudfront.net',
+              distributionId: 'EDFDVBD6EXAMPLE',
+              eventType: 'viewer-request',
+              requestId:
+                '4TyzHTaYWb1GX1qTfsHhEqV6HUDd_BzoBZnwfnvQc_1oF26ClkoUSEQ==',
+            },
+            request: exampleRequest,
           },
-          request: exampleRequest,
         },
-      },
-    ],
-  },
-  {
-    callbackWaitsForEmptyEventLoop: false,
-    functionName: 'example',
-    awsRequestId: '1234',
-    functionVersion: '1234',
-    getRemainingTimeInMillis: () => 10,
-    invokedFunctionArn: '',
-    logGroupName: 'log group',
-    logStreamName: 'stream',
-    memoryLimitInMB: '512',
-    done: () => {},
-    fail: () => {},
-    succeed: () => {},
-  },
-  () => {},
-);
+      ],
+    },
+    {
+      callbackWaitsForEmptyEventLoop: false,
+      functionName: 'example',
+      awsRequestId: '1234',
+      functionVersion: '1234',
+      getRemainingTimeInMillis: () => 10,
+      invokedFunctionArn: '',
+      logGroupName: 'log group',
+      logStreamName: 'stream',
+      memoryLimitInMB: '512',
+      done: () => {},
+      fail: () => {},
+      succeed: () => {},
+    },
+    () => {},
+  );
+}
