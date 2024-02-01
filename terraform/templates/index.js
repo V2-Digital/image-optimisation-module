@@ -4156,6 +4156,10 @@ var require_is = __commonJS((exports, module) => {
   var invalidParameterError = function(name, expected, actual) {
     return new Error(`Expected ${expected} for ${name} but received ${actual} of type ${typeof actual}`);
   };
+  var nativeError = function(native, context) {
+    context.message = native.message;
+    return context;
+  };
   module.exports = {
     defined,
     object,
@@ -4170,7 +4174,251 @@ var require_is = __commonJS((exports, module) => {
     integer,
     inRange,
     inArray,
-    invalidParameterError
+    invalidParameterError,
+    nativeError
+  };
+});
+
+// node_modules/detect-libc/lib/process.js
+var require_process = __commonJS((exports, module) => {
+  var isLinux = () => process.platform === "linux";
+  var report = null;
+  var getReport = () => {
+    if (!report) {
+      report = isLinux() && process.report ? process.report.getReport() : {};
+    }
+    return report;
+  };
+  module.exports = { isLinux, getReport };
+});
+
+// node_modules/detect-libc/lib/filesystem.js
+var require_filesystem = __commonJS((exports, module) => {
+  var fs = __require("fs");
+  var LDD_PATH = "/usr/bin/ldd";
+  var readFileSync = (path) => fs.readFileSync(path, "utf-8");
+  var readFile = (path) => new Promise((resolve, reject) => {
+    fs.readFile(path, "utf-8", (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+  module.exports = {
+    LDD_PATH,
+    readFileSync,
+    readFile
+  };
+});
+
+// node_modules/detect-libc/lib/detect-libc.js
+var require_detect_libc = __commonJS((exports, module) => {
+  var childProcess = __require("child_process");
+  var { isLinux, getReport } = require_process();
+  var { LDD_PATH, readFile, readFileSync } = require_filesystem();
+  var cachedFamilyFilesystem;
+  var cachedVersionFilesystem;
+  var command = "getconf GNU_LIBC_VERSION 2>&1 || true; ldd --version 2>&1 || true";
+  var commandOut = "";
+  var safeCommand = () => {
+    if (!commandOut) {
+      return new Promise((resolve) => {
+        childProcess.exec(command, (err, out) => {
+          commandOut = err ? " " : out;
+          resolve(commandOut);
+        });
+      });
+    }
+    return commandOut;
+  };
+  var safeCommandSync = () => {
+    if (!commandOut) {
+      try {
+        commandOut = childProcess.execSync(command, { encoding: "utf8" });
+      } catch (_err) {
+        commandOut = " ";
+      }
+    }
+    return commandOut;
+  };
+  var GLIBC = "glibc";
+  var RE_GLIBC_VERSION = /GLIBC\s(\d+\.\d+)/;
+  var MUSL = "musl";
+  var GLIBC_ON_LDD = GLIBC.toUpperCase();
+  var MUSL_ON_LDD = MUSL.toLowerCase();
+  var isFileMusl = (f) => f.includes("libc.musl-") || f.includes("ld-musl-");
+  var familyFromReport = () => {
+    const report = getReport();
+    if (report.header && report.header.glibcVersionRuntime) {
+      return GLIBC;
+    }
+    if (Array.isArray(report.sharedObjects)) {
+      if (report.sharedObjects.some(isFileMusl)) {
+        return MUSL;
+      }
+    }
+    return null;
+  };
+  var familyFromCommand = (out) => {
+    const [getconf, ldd1] = out.split(/[\r\n]+/);
+    if (getconf && getconf.includes(GLIBC)) {
+      return GLIBC;
+    }
+    if (ldd1 && ldd1.includes(MUSL)) {
+      return MUSL;
+    }
+    return null;
+  };
+  var getFamilyFromLddContent = (content) => {
+    if (content.includes(MUSL_ON_LDD)) {
+      return MUSL;
+    }
+    if (content.includes(GLIBC_ON_LDD)) {
+      return GLIBC;
+    }
+    return null;
+  };
+  var familyFromFilesystem = async () => {
+    if (cachedFamilyFilesystem !== undefined) {
+      return cachedFamilyFilesystem;
+    }
+    cachedFamilyFilesystem = null;
+    try {
+      const lddContent = await readFile(LDD_PATH);
+      cachedFamilyFilesystem = getFamilyFromLddContent(lddContent);
+    } catch (e) {
+    }
+    return cachedFamilyFilesystem;
+  };
+  var familyFromFilesystemSync = () => {
+    if (cachedFamilyFilesystem !== undefined) {
+      return cachedFamilyFilesystem;
+    }
+    cachedFamilyFilesystem = null;
+    try {
+      const lddContent = readFileSync(LDD_PATH);
+      cachedFamilyFilesystem = getFamilyFromLddContent(lddContent);
+    } catch (e) {
+    }
+    return cachedFamilyFilesystem;
+  };
+  var family = async () => {
+    let family2 = null;
+    if (isLinux()) {
+      family2 = await familyFromFilesystem();
+      if (!family2) {
+        family2 = familyFromReport();
+      }
+      if (!family2) {
+        const out = await safeCommand();
+        family2 = familyFromCommand(out);
+      }
+    }
+    return family2;
+  };
+  var familySync = () => {
+    let family2 = null;
+    if (isLinux()) {
+      family2 = familyFromFilesystemSync();
+      if (!family2) {
+        family2 = familyFromReport();
+      }
+      if (!family2) {
+        const out = safeCommandSync();
+        family2 = familyFromCommand(out);
+      }
+    }
+    return family2;
+  };
+  var isNonGlibcLinux = async () => isLinux() && await family() !== GLIBC;
+  var isNonGlibcLinuxSync = () => isLinux() && familySync() !== GLIBC;
+  var versionFromFilesystem = async () => {
+    if (cachedVersionFilesystem !== undefined) {
+      return cachedVersionFilesystem;
+    }
+    cachedVersionFilesystem = null;
+    try {
+      const lddContent = await readFile(LDD_PATH);
+      const versionMatch = lddContent.match(RE_GLIBC_VERSION);
+      if (versionMatch) {
+        cachedVersionFilesystem = versionMatch[1];
+      }
+    } catch (e) {
+    }
+    return cachedVersionFilesystem;
+  };
+  var versionFromFilesystemSync = () => {
+    if (cachedVersionFilesystem !== undefined) {
+      return cachedVersionFilesystem;
+    }
+    cachedVersionFilesystem = null;
+    try {
+      const lddContent = readFileSync(LDD_PATH);
+      const versionMatch = lddContent.match(RE_GLIBC_VERSION);
+      if (versionMatch) {
+        cachedVersionFilesystem = versionMatch[1];
+      }
+    } catch (e) {
+    }
+    return cachedVersionFilesystem;
+  };
+  var versionFromReport = () => {
+    const report = getReport();
+    if (report.header && report.header.glibcVersionRuntime) {
+      return report.header.glibcVersionRuntime;
+    }
+    return null;
+  };
+  var versionSuffix = (s) => s.trim().split(/\s+/)[1];
+  var versionFromCommand = (out) => {
+    const [getconf, ldd1, ldd2] = out.split(/[\r\n]+/);
+    if (getconf && getconf.includes(GLIBC)) {
+      return versionSuffix(getconf);
+    }
+    if (ldd1 && ldd2 && ldd1.includes(MUSL)) {
+      return versionSuffix(ldd2);
+    }
+    return null;
+  };
+  var version = async () => {
+    let version2 = null;
+    if (isLinux()) {
+      version2 = await versionFromFilesystem();
+      if (!version2) {
+        version2 = versionFromReport();
+      }
+      if (!version2) {
+        const out = await safeCommand();
+        version2 = versionFromCommand(out);
+      }
+    }
+    return version2;
+  };
+  var versionSync = () => {
+    let version2 = null;
+    if (isLinux()) {
+      version2 = versionFromFilesystemSync();
+      if (!version2) {
+        version2 = versionFromReport();
+      }
+      if (!version2) {
+        const out = safeCommandSync();
+        version2 = versionFromCommand(out);
+      }
+    }
+    return version2;
+  };
+  module.exports = {
+    GLIBC,
+    MUSL,
+    family,
+    familySync,
+    isNonGlibcLinux,
+    isNonGlibcLinuxSync,
+    version,
+    versionSync
   };
 });
 
@@ -4631,277 +4879,12 @@ var require_gte = __commonJS((exports, module) => {
   module.exports = gte;
 });
 
-// node_modules/detect-libc/lib/process.js
-var require_process = __commonJS((exports, module) => {
-  var isLinux = () => process.platform === "linux";
-  var report = null;
-  var getReport = () => {
-    if (!report) {
-      report = isLinux() && process.report ? process.report.getReport() : {};
-    }
-    return report;
-  };
-  module.exports = { isLinux, getReport };
-});
-
-// node_modules/detect-libc/lib/filesystem.js
-var require_filesystem = __commonJS((exports, module) => {
-  var fs = __require("fs");
-  var LDD_PATH = "/usr/bin/ldd";
-  var readFileSync = (path) => fs.readFileSync(path, "utf-8");
-  var readFile = (path) => new Promise((resolve, reject) => {
-    fs.readFile(path, "utf-8", (err, data) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(data);
-      }
-    });
-  });
-  module.exports = {
-    LDD_PATH,
-    readFileSync,
-    readFile
-  };
-});
-
-// node_modules/detect-libc/lib/detect-libc.js
-var require_detect_libc = __commonJS((exports, module) => {
-  var childProcess = __require("child_process");
-  var { isLinux, getReport } = require_process();
-  var { LDD_PATH, readFile, readFileSync } = require_filesystem();
-  var cachedFamilyFilesystem;
-  var cachedVersionFilesystem;
-  var command = "getconf GNU_LIBC_VERSION 2>&1 || true; ldd --version 2>&1 || true";
-  var commandOut = "";
-  var safeCommand = () => {
-    if (!commandOut) {
-      return new Promise((resolve) => {
-        childProcess.exec(command, (err, out) => {
-          commandOut = err ? " " : out;
-          resolve(commandOut);
-        });
-      });
-    }
-    return commandOut;
-  };
-  var safeCommandSync = () => {
-    if (!commandOut) {
-      try {
-        commandOut = childProcess.execSync(command, { encoding: "utf8" });
-      } catch (_err) {
-        commandOut = " ";
-      }
-    }
-    return commandOut;
-  };
-  var GLIBC = "glibc";
-  var RE_GLIBC_VERSION = /GLIBC\s(\d+\.\d+)/;
-  var MUSL = "musl";
-  var GLIBC_ON_LDD = GLIBC.toUpperCase();
-  var MUSL_ON_LDD = MUSL.toLowerCase();
-  var isFileMusl = (f) => f.includes("libc.musl-") || f.includes("ld-musl-");
-  var familyFromReport = () => {
-    const report = getReport();
-    if (report.header && report.header.glibcVersionRuntime) {
-      return GLIBC;
-    }
-    if (Array.isArray(report.sharedObjects)) {
-      if (report.sharedObjects.some(isFileMusl)) {
-        return MUSL;
-      }
-    }
-    return null;
-  };
-  var familyFromCommand = (out) => {
-    const [getconf, ldd1] = out.split(/[\r\n]+/);
-    if (getconf && getconf.includes(GLIBC)) {
-      return GLIBC;
-    }
-    if (ldd1 && ldd1.includes(MUSL)) {
-      return MUSL;
-    }
-    return null;
-  };
-  var getFamilyFromLddContent = (content) => {
-    if (content.includes(MUSL_ON_LDD)) {
-      return MUSL;
-    }
-    if (content.includes(GLIBC_ON_LDD)) {
-      return GLIBC;
-    }
-    return null;
-  };
-  var familyFromFilesystem = async () => {
-    if (cachedFamilyFilesystem !== undefined) {
-      return cachedFamilyFilesystem;
-    }
-    cachedFamilyFilesystem = null;
-    try {
-      const lddContent = await readFile(LDD_PATH);
-      cachedFamilyFilesystem = getFamilyFromLddContent(lddContent);
-    } catch (e) {
-    }
-    return cachedFamilyFilesystem;
-  };
-  var familyFromFilesystemSync = () => {
-    if (cachedFamilyFilesystem !== undefined) {
-      return cachedFamilyFilesystem;
-    }
-    cachedFamilyFilesystem = null;
-    try {
-      const lddContent = readFileSync(LDD_PATH);
-      cachedFamilyFilesystem = getFamilyFromLddContent(lddContent);
-    } catch (e) {
-    }
-    return cachedFamilyFilesystem;
-  };
-  var family = async () => {
-    let family2 = null;
-    if (isLinux()) {
-      family2 = await familyFromFilesystem();
-      if (!family2) {
-        family2 = familyFromReport();
-      }
-      if (!family2) {
-        const out = await safeCommand();
-        family2 = familyFromCommand(out);
-      }
-    }
-    return family2;
-  };
-  var familySync = () => {
-    let family2 = null;
-    if (isLinux()) {
-      family2 = familyFromFilesystemSync();
-      if (!family2) {
-        family2 = familyFromReport();
-      }
-      if (!family2) {
-        const out = safeCommandSync();
-        family2 = familyFromCommand(out);
-      }
-    }
-    return family2;
-  };
-  var isNonGlibcLinux = async () => isLinux() && await family() !== GLIBC;
-  var isNonGlibcLinuxSync = () => isLinux() && familySync() !== GLIBC;
-  var versionFromFilesystem = async () => {
-    if (cachedVersionFilesystem !== undefined) {
-      return cachedVersionFilesystem;
-    }
-    cachedVersionFilesystem = null;
-    try {
-      const lddContent = await readFile(LDD_PATH);
-      const versionMatch = lddContent.match(RE_GLIBC_VERSION);
-      if (versionMatch) {
-        cachedVersionFilesystem = versionMatch[1];
-      }
-    } catch (e) {
-    }
-    return cachedVersionFilesystem;
-  };
-  var versionFromFilesystemSync = () => {
-    if (cachedVersionFilesystem !== undefined) {
-      return cachedVersionFilesystem;
-    }
-    cachedVersionFilesystem = null;
-    try {
-      const lddContent = readFileSync(LDD_PATH);
-      const versionMatch = lddContent.match(RE_GLIBC_VERSION);
-      if (versionMatch) {
-        cachedVersionFilesystem = versionMatch[1];
-      }
-    } catch (e) {
-    }
-    return cachedVersionFilesystem;
-  };
-  var versionFromReport = () => {
-    const report = getReport();
-    if (report.header && report.header.glibcVersionRuntime) {
-      return report.header.glibcVersionRuntime;
-    }
-    return null;
-  };
-  var versionSuffix = (s) => s.trim().split(/\s+/)[1];
-  var versionFromCommand = (out) => {
-    const [getconf, ldd1, ldd2] = out.split(/[\r\n]+/);
-    if (getconf && getconf.includes(GLIBC)) {
-      return versionSuffix(getconf);
-    }
-    if (ldd1 && ldd2 && ldd1.includes(MUSL)) {
-      return versionSuffix(ldd2);
-    }
-    return null;
-  };
-  var version = async () => {
-    let version2 = null;
-    if (isLinux()) {
-      version2 = await versionFromFilesystem();
-      if (!version2) {
-        version2 = versionFromReport();
-      }
-      if (!version2) {
-        const out = await safeCommand();
-        version2 = versionFromCommand(out);
-      }
-    }
-    return version2;
-  };
-  var versionSync = () => {
-    let version2 = null;
-    if (isLinux()) {
-      version2 = versionFromFilesystemSync();
-      if (!version2) {
-        version2 = versionFromReport();
-      }
-      if (!version2) {
-        const out = safeCommandSync();
-        version2 = versionFromCommand(out);
-      }
-    }
-    return version2;
-  };
-  module.exports = {
-    GLIBC,
-    MUSL,
-    family,
-    familySync,
-    isNonGlibcLinux,
-    isNonGlibcLinuxSync,
-    version,
-    versionSync
-  };
-});
-
-// node_modules/sharp/lib/platform.js
-var require_platform = __commonJS((exports, module) => {
-  var detectLibc = require_detect_libc();
-  var env = process.env;
-  module.exports = function() {
-    const arch = env.npm_config_arch || process.arch;
-    const platform = env.npm_config_platform || process.platform;
-    const libc = process.env.npm_config_libc || (detectLibc.isNonGlibcLinuxSync() ? detectLibc.familySync() : "");
-    const libcId = platform !== "linux" || libc === detectLibc.GLIBC ? "" : libc;
-    const platformId = [`${platform}${libcId}`];
-    if (arch === "arm") {
-      const fallback = process.versions.electron ? "7" : "6";
-      platformId.push(`armv${env.npm_config_arm_version || process.config.variables.arm_version || fallback}`);
-    } else if (arch === "arm64") {
-      platformId.push(`arm64v${env.npm_config_arm_version || "8"}`);
-    } else {
-      platformId.push(arch);
-    }
-    return platformId.join("-");
-  };
-});
-
 // node_modules/sharp/package.json
 var require_package2 = __commonJS((exports, module) => {
   module.exports = {
     name: "sharp",
     description: "High performance Node.js image processing, the fastest module to resize JPEG, PNG, WebP, GIF, AVIF and TIFF images",
-    version: "0.32.6",
+    version: "0.33.0",
     author: "Lovell Fuller <npm@lovell.info>",
     homepage: "https://github.com/lovell/sharp",
     contributors: [
@@ -4986,32 +4969,36 @@ var require_package2 = __commonJS((exports, module) => {
       "Ankur Parihar <ankur.github@gmail.com>",
       "Brahim Ait elhaj <brahima@gmail.com>",
       "Mart Jansink <m.jansink@gmail.com>",
-      "Lachlan Newman <lachnewman007@gmail.com>"
+      "Lachlan Newman <lachnewman007@gmail.com>",
+      "Dennis Beatty <dennis@dcbeatty.com>",
+      "Ingvar Stepanyan <me@rreverser.com>"
     ],
     scripts: {
-      install: "(node install/libvips && node install/dll-copy && prebuild-install) || (node install/can-compile && node-gyp rebuild && node install/dll-copy)",
-      clean: "rm -rf node_modules/ build/ vendor/ .nyc_output/ coverage/ test/fixtures/output.*",
+      install: "node install/check",
+      clean: "rm -rf src/build/ .nyc_output/ coverage/ test/fixtures/output.*",
       test: "npm run test-lint && npm run test-unit && npm run test-licensing && npm run test-types",
       "test-lint": "semistandard && cpplint",
       "test-unit": "nyc --reporter=lcov --reporter=text --check-coverage --branches=100 mocha",
-      "test-licensing": "license-checker --production --summary --onlyAllow=\"Apache-2.0;BSD;ISC;MIT\"",
+      "test-licensing": "license-checker --production --summary --onlyAllow=\"Apache-2.0;BSD;ISC;LGPL-3.0-or-later;MIT\"",
       "test-leak": "./test/leak/leak.sh",
       "test-types": "tsd",
+      "package-from-local-build": "node npm/from-local-build",
+      "package-from-github-release": "node npm/from-github-release",
       "docs-build": "node docs/build && node docs/search-index/build",
       "docs-serve": "cd docs && npx serve",
       "docs-publish": "cd docs && npx firebase-tools deploy --project pixelplumbing --only hosting:pixelplumbing-sharp"
     },
+    type: "commonjs",
     main: "lib/index.js",
     types: "lib/index.d.ts",
     files: [
-      "binding.gyp",
-      "install/**",
-      "lib/**",
-      "src/**"
+      "install",
+      "lib",
+      "src/*.{cc,h,gyp}"
     ],
     repository: {
       type: "git",
-      url: "git://github.com/lovell/sharp"
+      url: "git://github.com/lovell/sharp.git"
     },
     keywords: [
       "jpeg",
@@ -5034,57 +5021,63 @@ var require_package2 = __commonJS((exports, module) => {
     dependencies: {
       color: "^4.2.3",
       "detect-libc": "^2.0.2",
-      "node-addon-api": "^6.1.0",
-      "prebuild-install": "^7.1.1",
-      semver: "^7.5.4",
-      "simple-get": "^4.0.1",
-      "tar-fs": "^3.0.4",
-      "tunnel-agent": "^0.6.0"
+      semver: "^7.5.4"
+    },
+    optionalDependencies: {
+      "@img/sharp-darwin-arm64": "0.33.0",
+      "@img/sharp-darwin-x64": "0.33.0",
+      "@img/sharp-libvips-darwin-arm64": "1.0.0",
+      "@img/sharp-libvips-darwin-x64": "1.0.0",
+      "@img/sharp-libvips-linux-arm": "1.0.0",
+      "@img/sharp-libvips-linux-arm64": "1.0.0",
+      "@img/sharp-libvips-linux-s390x": "1.0.0",
+      "@img/sharp-libvips-linux-x64": "1.0.0",
+      "@img/sharp-libvips-linuxmusl-arm64": "1.0.0",
+      "@img/sharp-libvips-linuxmusl-x64": "1.0.0",
+      "@img/sharp-linux-arm": "0.33.0",
+      "@img/sharp-linux-arm64": "0.33.0",
+      "@img/sharp-linux-s390x": "0.33.0",
+      "@img/sharp-linux-x64": "0.33.0",
+      "@img/sharp-linuxmusl-arm64": "0.33.0",
+      "@img/sharp-linuxmusl-x64": "0.33.0",
+      "@img/sharp-wasm32": "0.33.0",
+      "@img/sharp-win32-ia32": "0.33.0",
+      "@img/sharp-win32-x64": "0.33.0"
     },
     devDependencies: {
+      "@emnapi/runtime": "^0.44.0",
+      "@img/sharp-libvips-dev": "1.0.0",
+      "@img/sharp-libvips-dev-wasm32": "1.0.0",
+      "@img/sharp-libvips-win32-ia32": "1.0.0",
+      "@img/sharp-libvips-win32-x64": "1.0.0",
       "@types/node": "*",
-      async: "^3.2.4",
+      async: "^3.2.5",
       cc: "^3.0.1",
-      "exif-reader": "^1.2.0",
+      emnapi: "^0.44.0",
+      "exif-reader": "^2.0.0",
       "extract-zip": "^2.0.1",
       icc: "^3.0.0",
       "jsdoc-to-markdown": "^8.0.0",
       "license-checker": "^25.0.1",
       mocha: "^10.2.0",
-      "mock-fs": "^5.2.0",
+      "node-addon-api": "^7.0.0",
       nyc: "^15.1.0",
-      prebuild: "^12.0.0",
-      semistandard: "^16.0.1",
+      prebuild: "^12.1.0",
+      semistandard: "^17.0.0",
+      "tar-fs": "^3.0.4",
       tsd: "^0.29.0"
     },
     license: "Apache-2.0",
-    config: {
-      libvips: "8.14.5",
-      integrity: {
-        "darwin-arm64v8": "sha512-1QZzICfCJd4wAO0P6qmYI5e5VFMt9iCE4QgefI8VMMbdSzjIXA9L/ARN6pkMQPZ3h20Y9RtJ2W1skgCsvCIccw==",
-        "darwin-x64": "sha512-sMIKMYXsdU9FlIfztj6Kt/SfHlhlDpP0Ups7ftVFqwjaszmYmpI9y/d/q3mLb4jrzuSiSUEislSWCwBnW7MPTw==",
-        "linux-arm64v8": "sha512-CD8owELzkDumaom+O3jJ8fKamILAQdj+//KK/VNcHK3sngUcFpdjx36C8okwbux9sml/T7GTB/gzpvReDrAejQ==",
-        "linux-armv6": "sha512-wk6IPHatDFVWKJy7lI1TJezHGHPQut1wF2bwx256KlZwXUQU3fcVcMpV1zxXjgLFewHq2+uhyMkoSGBPahWzlA==",
-        "linux-armv7": "sha512-HEZC9KYtkmBK5rUR2MqBhrVarnQVZ/TwLUeLkKq0XuoM2pc/eXI6N0Fh5NGEFwdXI2XE8g1ySf+OYS6DDi+xCQ==",
-        "linux-x64": "sha512-SlFWrITSW5XVUkaFPQOySAaSGXnhkGJCj8X2wGYYta9hk5piZldQyMp4zwy0z6UeRu1qKTKtZvmq28W3Gnh9xA==",
-        "linuxmusl-arm64v8": "sha512-ga9iX7WUva3sG/VsKkOD318InLlCfPIztvzCZKZ2/+izQXRbQi8VoXWMHgEN4KHACv45FTl7mJ/8CRqUzhS8wQ==",
-        "linuxmusl-x64": "sha512-yeaHnpfee1hrZLok2l4eFceHzlfq8gN3QOu0R4Mh8iMK5O5vAUu97bdtxeZZeJJvHw8tfh2/msGi0qysxKN8bw==",
-        "win32-arm64v8": "sha512-kR91hy9w1+GEXK56hLh51+hBCBo7T+ijM4Slkmvb/2PsYZySq5H7s61n99iDYl6kTJP2y9sW5Xcvm3uuXDaDgg==",
-        "win32-ia32": "sha512-HrnofEbzHNpHJ0vVnjsTj5yfgVdcqdWshXuwFO2zc8xlEjA83BvXZ0lVj9MxPxkxJ2ta+/UlLr+CFzc5bOceMw==",
-        "win32-x64": "sha512-BwKckinJZ0Fu/EcunqiLPwOLEBWp4xf8GV7nvmVuKKz5f6B+GxoA2k9aa2wueqv4r4RJVgV/aWXZWFKOIjre/Q=="
-      },
-      runtime: "napi",
-      target: 7
-    },
     engines: {
-      node: ">=14.15.0"
+      node: "^18.17.0 || ^20.3.0 || >=21.0.0",
+      libvips: ">=8.15.0"
     },
     funding: {
       url: "https://opencollective.com/libvips"
     },
     binary: {
       napi_versions: [
-        7
+        9
       ]
     },
     semistandard: {
@@ -5098,6 +5091,11 @@ var require_package2 = __commonJS((exports, module) => {
         "build/include"
       ]
     },
+    nyc: {
+      include: [
+        "lib"
+      ]
+    },
     tsd: {
       directory: "test/types/"
     }
@@ -5106,62 +5104,96 @@ var require_package2 = __commonJS((exports, module) => {
 
 // node_modules/sharp/lib/libvips.js
 var require_libvips = __commonJS((exports, module) => {
-  var __dirname = "/app/node_modules/sharp/lib";
-  var fs = __require("fs");
-  var os = __require("os");
-  var path = __require("path");
-  var spawnSync = __require("child_process").spawnSync;
+  var { spawnSync } = __require("node:child_process");
   var semverCoerce = require_coerce();
   var semverGreaterThanOrEqualTo = require_gte();
-  var platform = require_platform();
-  var { config } = require_package2();
-  var env = process.env;
-  var minimumLibvipsVersionLabelled = env.npm_package_config_libvips || config.libvips;
+  var detectLibc = require_detect_libc();
+  var { engines } = require_package2();
+  var minimumLibvipsVersionLabelled = process.env.npm_package_config_libvips || engines.libvips;
   var minimumLibvipsVersion = semverCoerce(minimumLibvipsVersionLabelled).version;
+  var prebuiltPlatforms = [
+    "darwin-arm64",
+    "darwin-x64",
+    "linux-arm",
+    "linux-arm64",
+    "linux-s390x",
+    "linux-x64",
+    "linuxmusl-arm64",
+    "linuxmusl-x64",
+    "win32-ia32",
+    "win32-x64"
+  ];
   var spawnSyncOptions = {
     encoding: "utf8",
     shell: true
   };
-  var vendorPath = path.join(__dirname, "..", "vendor", minimumLibvipsVersion, platform());
-  var mkdirSync = function(dirPath) {
-    try {
-      fs.mkdirSync(dirPath, { recursive: true });
-    } catch (err) {
-      if (err.code !== "EEXIST") {
-        throw err;
-      }
-    }
-  };
-  var cachePath = function() {
-    const npmCachePath = env.npm_config_cache || (env.APPDATA ? path.join(env.APPDATA, "npm-cache") : path.join(os.homedir(), ".npm"));
-    mkdirSync(npmCachePath);
-    const libvipsCachePath = path.join(npmCachePath, "_libvips");
-    mkdirSync(libvipsCachePath);
-    return libvipsCachePath;
-  };
-  var integrity = function(platformAndArch) {
-    return env[`npm_package_config_integrity_${platformAndArch.replace("-", "_")}`] || config.integrity[platformAndArch];
-  };
-  var log = function(item) {
+  var log = (item) => {
     if (item instanceof Error) {
       console.error(`sharp: Installation error: ${item.message}`);
     } else {
       console.log(`sharp: ${item}`);
     }
   };
-  var isRosetta = function() {
+  var runtimeLibc = () => detectLibc.isNonGlibcLinuxSync() ? detectLibc.familySync() : "";
+  var runtimePlatformArch = () => `${process.platform}${runtimeLibc()}-${process.arch}`;
+  var buildPlatformArch = () => {
+    if (isEmscripten()) {
+      return "wasm32";
+    }
+    const { npm_config_arch, npm_config_platform, npm_config_libc } = process.env;
+    const libc = typeof npm_config_libc === "string" ? npm_config_libc : runtimeLibc();
+    return `${npm_config_platform || process.platform}${libc}-${npm_config_arch || process.arch}`;
+  };
+  var buildSharpLibvipsIncludeDir = () => {
+    try {
+      return __require(`@img/sharp-libvips-dev-${buildPlatformArch()}/include`);
+    } catch {
+      try {
+        return (()=>{throw new Error(`Cannot require module "@img/sharp-libvips-dev/include"`);})();
+      } catch {
+      }
+    }
+    return "";
+  };
+  var buildSharpLibvipsCPlusPlusDir = () => {
+    try {
+      return (()=>{throw new Error(`Cannot require module "@img/sharp-libvips-dev/cplusplus"`);})();
+    } catch {
+    }
+    return "";
+  };
+  var buildSharpLibvipsLibDir = () => {
+    try {
+      return __require(`@img/sharp-libvips-dev-${buildPlatformArch()}/lib`);
+    } catch {
+      try {
+        return __require(`@img/sharp-libvips-${buildPlatformArch()}/lib`);
+      } catch {
+      }
+    }
+    return "";
+  };
+  var isEmscripten = () => {
+    const { CC } = process.env;
+    return Boolean(CC && CC.endsWith("/emcc"));
+  };
+  var isRosetta = () => {
     if (process.platform === "darwin" && process.arch === "x64") {
       const translated = spawnSync("sysctl sysctl.proc_translated", spawnSyncOptions).stdout;
       return (translated || "").trim() === "sysctl.proc_translated: 1";
     }
     return false;
   };
-  var globalLibvipsVersion = function() {
+  var spawnRebuild = () => spawnSync(`node-gyp rebuild --directory=src ${isEmscripten() ? "--nodedir=emscripten" : ""}`, {
+    ...spawnSyncOptions,
+    stdio: "inherit"
+  }).status;
+  var globalLibvipsVersion = () => {
     if (process.platform !== "win32") {
       const globalLibvipsVersion2 = spawnSync("pkg-config --modversion vips-cpp", {
         ...spawnSyncOptions,
         env: {
-          ...env,
+          ...process.env,
           PKG_CONFIG_PATH: pkgConfigPath()
         }
       }).stdout;
@@ -5170,18 +5202,12 @@ var require_libvips = __commonJS((exports, module) => {
       return "";
     }
   };
-  var hasVendoredLibvips = function() {
-    return fs.existsSync(vendorPath);
-  };
-  var removeVendoredLibvips = function() {
-    fs.rmSync(vendorPath, { recursive: true, maxRetries: 3, force: true });
-  };
-  var pkgConfigPath = function() {
+  var pkgConfigPath = () => {
     if (process.platform !== "win32") {
       const brewPkgConfigPath = spawnSync('which brew >/dev/null 2>&1 && brew environment --plain | grep PKG_CONFIG_LIBDIR | cut -d" " -f2', spawnSyncOptions).stdout || "";
       return [
         brewPkgConfigPath.trim(),
-        env.PKG_CONFIG_PATH,
+        process.env.PKG_CONFIG_PATH,
         "/usr/local/lib/pkgconfig",
         "/usr/lib/pkgconfig",
         "/usr/local/libdata/pkgconfig",
@@ -5191,8 +5217,9 @@ var require_libvips = __commonJS((exports, module) => {
       return "";
     }
   };
-  var useGlobalLibvips = function() {
-    if (Boolean(env.SHARP_IGNORE_GLOBAL_LIBVIPS) === true) {
+  var useGlobalLibvips = () => {
+    if (Boolean(process.env.SHARP_IGNORE_GLOBAL_LIBVIPS) === true) {
+      log("Detected SHARP_IGNORE_GLOBAL_LIBVIPS, skipping search for globally-installed libvips");
       return false;
     }
     if (isRosetta()) {
@@ -5204,42 +5231,90 @@ var require_libvips = __commonJS((exports, module) => {
   };
   module.exports = {
     minimumLibvipsVersion,
-    minimumLibvipsVersionLabelled,
-    cachePath,
-    integrity,
+    prebuiltPlatforms,
+    buildPlatformArch,
+    buildSharpLibvipsIncludeDir,
+    buildSharpLibvipsCPlusPlusDir,
+    buildSharpLibvipsLibDir,
+    runtimePlatformArch,
     log,
+    spawnRebuild,
     globalLibvipsVersion,
-    hasVendoredLibvips,
-    removeVendoredLibvips,
     pkgConfigPath,
-    useGlobalLibvips,
-    mkdirSync
+    useGlobalLibvips
   };
 });
 
 // node_modules/sharp/lib/sharp.js
 var require_sharp = __commonJS((exports, module) => {
-  var platformAndArch = require_platform()();
-  try {
-    module.exports = __require(`../build/Release/sharp-${platformAndArch}.node`);
-  } catch (err) {
-    const help = ["", 'Something went wrong installing the "sharp" module', "", err.message, "", "Possible solutions:"];
-    if (/dylib/.test(err.message) && /Incompatible library version/.test(err.message)) {
-      help.push('- Update Homebrew: "brew update && brew upgrade vips"');
-    } else {
-      const [platform, arch] = platformAndArch.split("-");
-      if (platform === "linux" && /Module did not self-register/.test(err.message)) {
-        help.push("- Using worker threads? See https://sharp.pixelplumbing.com/install#worker-threads");
-      }
-      help.push('- Install with verbose logging and look for errors: "npm install --ignore-scripts=false --foreground-scripts --verbose sharp"', `- Install for the current ${platformAndArch} runtime: "npm install --platform=${platform} --arch=${arch} sharp"`);
+  var { familySync, versionSync } = require_detect_libc();
+  var { runtimePlatformArch, prebuiltPlatforms, minimumLibvipsVersion } = require_libvips();
+  var runtimePlatform = runtimePlatformArch();
+  var paths = [
+    `../src/build/Release/sharp-${runtimePlatform}.node`,
+    "../src/build/Release/sharp-wasm32.node",
+    `@img/sharp-${runtimePlatform}/sharp.node`,
+    "@img/sharp-wasm32/sharp.node"
+  ];
+  var sharp;
+  var errors = [];
+  for (const path of paths) {
+    try {
+      sharp = __require(path);
+      break;
+    } catch (err) {
+      errors.push(err);
     }
-    help.push("- Consult the installation documentation: https://sharp.pixelplumbing.com/install");
-    if (process.platform === "win32" || /symbol/.test(err.message)) {
-      const loadedModule = Object.keys(__require.cache).find((i) => /[\\/]build[\\/]Release[\\/]sharp(.*)\.node$/.test(i));
-      if (loadedModule) {
-        const [, loadedPackage] = loadedModule.match(/node_modules[\\/]([^\\/]+)[\\/]/);
-        help.push(`- Ensure the version of sharp aligns with the ${loadedPackage} package: "npm ls sharp"`);
+  }
+  if (sharp) {
+    module.exports = sharp;
+  } else {
+    const [isLinux, isMacOs, isWindows] = ["linux", "darwin", "win32"].map((os) => runtimePlatform.startsWith(os));
+    const help = [`Could not load the "sharp" module using the ${runtimePlatform} runtime`];
+    errors.forEach((err) => {
+      if (err.code !== "MODULE_NOT_FOUND") {
+        help.push(`${err.code}: ${err.message}`);
       }
+    });
+    const messages = errors.map((err) => err.message).join(" ");
+    help.push("Possible solutions:");
+    if (prebuiltPlatforms.includes(runtimePlatform)) {
+      const [os, cpu] = runtimePlatform.split("-");
+      help.push("- Add platform-specific dependencies:");
+      help.push(`    npm install --os=${os} --cpu=${cpu} sharp`);
+      help.push("  or");
+      help.push(`    npm install --force @img/sharp-${runtimePlatform}`);
+    } else {
+      help.push(`- Manually install libvips >= ${minimumLibvipsVersion}`);
+      help.push("- Add experimental WebAssembly-based dependencies:");
+      help.push("    npm install --cpu=wasm32 sharp");
+    }
+    if (isLinux && /symbol not found/i.test(messages)) {
+      try {
+        const { engines } = __require(`@img/sharp-libvips-${runtimePlatform}/package`);
+        const libcFound = `${familySync()} ${versionSync()}`;
+        const libcRequires = `${engines.musl ? "musl" : "glibc"} ${engines.musl || engines.glibc}`;
+        help.push("- Update your OS:");
+        help.push(`    Found ${libcFound}`);
+        help.push(`    Requires ${libcRequires}`);
+      } catch (errEngines) {
+      }
+    }
+    if (isMacOs && /Incompatible library version/.test(messages)) {
+      help.push("- Update Homebrew:");
+      help.push("    brew update && brew upgrade vips");
+    }
+    if (errors.some((err) => err.code === "ERR_DLOPEN_DISABLED")) {
+      help.push("- Run Node.js without using the --no-addons flag");
+    }
+    if (process.versions.pnp) {
+      help.push("- Use a supported yarn linker, either pnpm or node-modules:");
+      help.push("    yarn config set nodeLinker node-modules");
+    }
+    if (isWindows && /The specified procedure could not be found/.test(messages)) {
+      help.push("- Using the canvas package on Windows? See https://sharp.pixelplumbing.com/install#canvas-and-windows");
+    } else {
+      help.push("- Consult the installation documentation: https://sharp.pixelplumbing.com/install");
     }
     throw new Error(help.join("\n"));
   }
@@ -5259,10 +5334,9 @@ var require_constructor = __commonJS((exports, module) => {
     }
     return clone2;
   };
-  var util = __require("util");
-  var stream = __require("stream");
+  var util = __require("node:util");
+  var stream = __require("node:stream");
   var is = require_is();
-  require_libvips().hasVendoredLibvips();
   require_sharp();
   var debuglog = util.debuglog("sharp");
   var Sharp = function(input, options) {
@@ -5311,8 +5385,7 @@ var require_constructor = __commonJS((exports, module) => {
       affineInterpolator: this.constructor.interpolators.bilinear,
       kernel: "lanczos3",
       fastShrinkOnLoad: true,
-      tintA: 128,
-      tintB: 128,
+      tint: [-1, 0, 0, 0],
       flatten: false,
       flattenBackground: [0, 0, 0],
       unflatten: false,
@@ -5329,7 +5402,8 @@ var require_constructor = __commonJS((exports, module) => {
       threshold: 0,
       thresholdGrayscale: true,
       trimBackground: [],
-      trimThreshold: 0,
+      trimThreshold: -1,
+      trimLineArt: false,
       gamma: 0,
       gammaOut: 0,
       greyscale: false,
@@ -5355,11 +5429,12 @@ var require_constructor = __commonJS((exports, module) => {
       fileOut: "",
       formatOut: "input",
       streamOut: false,
-      withMetadata: false,
+      keepMetadata: 0,
       withMetadataOrientation: -1,
       withMetadataDensity: 0,
-      withMetadataIcc: "",
-      withMetadataStrs: {},
+      withIccProfile: "",
+      withExif: {},
+      withExifMerge: true,
       resolveWithObject: false,
       jpegQuality: 80,
       jpegProgressive: false,
@@ -5402,6 +5477,7 @@ var require_constructor = __commonJS((exports, module) => {
       tiffCompression: "jpeg",
       tiffPredictor: "horizontal",
       tiffPyramid: false,
+      tiffMiniswhite: false,
       tiffBitdepth: 8,
       tiffTile: false,
       tiffTileHeight: 256,
@@ -7317,14 +7393,27 @@ var require_input = __commonJS((exports, module) => {
     return Array.isArray(this.options.input.buffer);
   };
   var metadata = function(callback) {
+    const stack = Error();
     if (is.fn(callback)) {
       if (this._isStreamInput()) {
         this.on("finish", () => {
           this._flattenBufferIn();
-          sharp.metadata(this.options, callback);
+          sharp.metadata(this.options, (err, metadata2) => {
+            if (err) {
+              callback(is.nativeError(err, stack));
+            } else {
+              callback(null, metadata2);
+            }
+          });
         });
       } else {
-        sharp.metadata(this.options, callback);
+        sharp.metadata(this.options, (err, metadata2) => {
+          if (err) {
+            callback(is.nativeError(err, stack));
+          } else {
+            callback(null, metadata2);
+          }
+        });
       }
       return this;
     } else {
@@ -7334,7 +7423,7 @@ var require_input = __commonJS((exports, module) => {
             this._flattenBufferIn();
             sharp.metadata(this.options, (err, metadata2) => {
               if (err) {
-                reject(err);
+                reject(is.nativeError(err, stack));
               } else {
                 resolve(metadata2);
               }
@@ -7350,7 +7439,7 @@ var require_input = __commonJS((exports, module) => {
         return new Promise((resolve, reject) => {
           sharp.metadata(this.options, (err, metadata2) => {
             if (err) {
-              reject(err);
+              reject(is.nativeError(err, stack));
             } else {
               resolve(metadata2);
             }
@@ -7360,14 +7449,27 @@ var require_input = __commonJS((exports, module) => {
     }
   };
   var stats = function(callback) {
+    const stack = Error();
     if (is.fn(callback)) {
       if (this._isStreamInput()) {
         this.on("finish", () => {
           this._flattenBufferIn();
-          sharp.stats(this.options, callback);
+          sharp.stats(this.options, (err, stats2) => {
+            if (err) {
+              callback(is.nativeError(err, stack));
+            } else {
+              callback(null, stats2);
+            }
+          });
         });
       } else {
-        sharp.stats(this.options, callback);
+        sharp.stats(this.options, (err, stats2) => {
+          if (err) {
+            callback(is.nativeError(err, stack));
+          } else {
+            callback(null, stats2);
+          }
+        });
       }
       return this;
     } else {
@@ -7377,7 +7479,7 @@ var require_input = __commonJS((exports, module) => {
             this._flattenBufferIn();
             sharp.stats(this.options, (err, stats2) => {
               if (err) {
-                reject(err);
+                reject(is.nativeError(err, stack));
               } else {
                 resolve(stats2);
               }
@@ -7388,7 +7490,7 @@ var require_input = __commonJS((exports, module) => {
         return new Promise((resolve, reject) => {
           sharp.stats(this.options, (err, stats2) => {
             if (err) {
-              reject(err);
+              reject(is.nativeError(err, stack));
             } else {
               resolve(stats2);
             }
@@ -7431,6 +7533,9 @@ var require_resize = __commonJS((exports, module) => {
   var resize = function(widthOrOptions, height, options) {
     if (isResizeExpected(this.options)) {
       this.options.debuglog("ignoring previous resize options");
+    }
+    if (this.options.widthPost !== -1) {
+      this.options.debuglog("operation order will be: extract, resize, extract");
     }
     if (is.defined(widthOrOptions)) {
       if (is.object(widthOrOptions) && !is.defined(options)) {
@@ -7574,29 +7679,26 @@ var require_resize = __commonJS((exports, module) => {
     }
     return this;
   };
-  var trim = function(trim2) {
-    if (!is.defined(trim2)) {
-      this.options.trimThreshold = 10;
-    } else if (is.string(trim2)) {
-      this._setBackgroundColourOption("trimBackground", trim2);
-      this.options.trimThreshold = 10;
-    } else if (is.number(trim2)) {
-      if (trim2 >= 0) {
-        this.options.trimThreshold = trim2;
+  var trim = function(options) {
+    this.options.trimThreshold = 10;
+    if (is.defined(options)) {
+      if (is.object(options)) {
+        if (is.defined(options.background)) {
+          this._setBackgroundColourOption("trimBackground", options.background);
+        }
+        if (is.defined(options.threshold)) {
+          if (is.number(options.threshold) && options.threshold >= 0) {
+            this.options.trimThreshold = options.threshold;
+          } else {
+            throw is.invalidParameterError("threshold", "positive number", options.threshold);
+          }
+        }
+        if (is.defined(options.lineArt)) {
+          this._setBooleanOption("trimLineArt", options.lineArt);
+        }
       } else {
-        throw is.invalidParameterError("threshold", "positive number", trim2);
+        throw is.invalidParameterError("trim", "object", options);
       }
-    } else if (is.object(trim2)) {
-      this._setBackgroundColourOption("trimBackground", trim2.background);
-      if (!is.defined(trim2.threshold)) {
-        this.options.trimThreshold = 10;
-      } else if (is.number(trim2.threshold) && trim2.threshold >= 0) {
-        this.options.trimThreshold = trim2.threshold;
-      } else {
-        throw is.invalidParameterError("threshold", "positive number", trim2);
-      }
-    } else {
-      throw is.invalidParameterError("trim", "string, number or object", trim2);
     }
     if (isRotationExpected(this.options)) {
       this.options.rotateBeforePreExtract = true;
@@ -8199,10 +8301,8 @@ var require_operation = __commonJS((exports, module) => {
 
 // node_modules/sharp/lib/colour.js
 var require_colour = __commonJS((exports, module) => {
-  var tint = function(rgb) {
-    const colour = color(rgb);
-    this.options.tintA = colour.a();
-    this.options.tintB = colour.b();
+  var tint = function(tint2) {
+    this._setBackgroundColourOption("tint", tint2);
     return this;
   };
   var greyscale = function(greyscale2) {
@@ -8357,7 +8457,8 @@ var require_output = __commonJS((exports, module) => {
       }
     } else {
       this.options.fileOut = fileOut;
-      return this._pipeline(callback);
+      const stack = Error();
+      return this._pipeline(callback, stack);
     }
     return this;
   };
@@ -8368,10 +8469,70 @@ var require_output = __commonJS((exports, module) => {
       this.options.resolveWithObject = false;
     }
     this.options.fileOut = "";
-    return this._pipeline(is.fn(options) ? options : callback);
+    const stack = Error();
+    return this._pipeline(is.fn(options) ? options : callback, stack);
+  };
+  var keepExif = function() {
+    this.options.keepMetadata |= 1;
+    return this;
+  };
+  var withExif = function(exif) {
+    if (is.object(exif)) {
+      for (const [ifd, entries] of Object.entries(exif)) {
+        if (is.object(entries)) {
+          for (const [k, v] of Object.entries(entries)) {
+            if (is.string(v)) {
+              this.options.withExif[`exif-${ifd.toLowerCase()}-${k}`] = v;
+            } else {
+              throw is.invalidParameterError(`${ifd}.${k}`, "string", v);
+            }
+          }
+        } else {
+          throw is.invalidParameterError(ifd, "object", entries);
+        }
+      }
+    } else {
+      throw is.invalidParameterError("exif", "object", exif);
+    }
+    this.options.withExifMerge = false;
+    return this.keepExif();
+  };
+  var withExifMerge = function(exif) {
+    this.withExif(exif);
+    this.options.withExifMerge = true;
+    return this;
+  };
+  var keepIccProfile = function() {
+    this.options.keepMetadata |= 8;
+    return this;
+  };
+  var withIccProfile = function(icc, options) {
+    if (is.string(icc)) {
+      this.options.withIccProfile = icc;
+    } else {
+      throw is.invalidParameterError("icc", "string", icc);
+    }
+    this.keepIccProfile();
+    if (is.object(options)) {
+      if (is.defined(options.attach)) {
+        if (is.bool(options.attach)) {
+          if (!options.attach) {
+            this.options.keepMetadata &= ~8;
+          }
+        } else {
+          throw is.invalidParameterError("attach", "boolean", options.attach);
+        }
+      }
+    }
+    return this;
+  };
+  var keepMetadata = function() {
+    this.options.keepMetadata = 31;
+    return this;
   };
   var withMetadata = function(options) {
-    this.options.withMetadata = is.bool(options) ? options : true;
+    this.keepMetadata();
+    this.withIccProfile("srgb");
     if (is.object(options)) {
       if (is.defined(options.orientation)) {
         if (is.integer(options.orientation) && is.inRange(options.orientation, 1, 8)) {
@@ -8388,30 +8549,10 @@ var require_output = __commonJS((exports, module) => {
         }
       }
       if (is.defined(options.icc)) {
-        if (is.string(options.icc)) {
-          this.options.withMetadataIcc = options.icc;
-        } else {
-          throw is.invalidParameterError("icc", "string filesystem path to ICC profile", options.icc);
-        }
+        this.withIccProfile(options.icc);
       }
       if (is.defined(options.exif)) {
-        if (is.object(options.exif)) {
-          for (const [ifd, entries] of Object.entries(options.exif)) {
-            if (is.object(entries)) {
-              for (const [k, v] of Object.entries(entries)) {
-                if (is.string(v)) {
-                  this.options.withMetadataStrs[`exif-${ifd.toLowerCase()}-${k}`] = v;
-                } else {
-                  throw is.invalidParameterError(`exif.${ifd}.${k}`, "string", v);
-                }
-              }
-            } else {
-              throw is.invalidParameterError(`exif.${ifd}`, "object", entries);
-            }
-          }
-        } else {
-          throw is.invalidParameterError("exif", "object", options.exif);
-        }
+        this.withExifMerge(options.exif);
       }
     }
     return this;
@@ -8729,6 +8870,9 @@ var require_output = __commonJS((exports, module) => {
           throw is.invalidParameterError("tileHeight", "integer greater than zero", options.tileHeight);
         }
       }
+      if (is.defined(options.miniswhite)) {
+        this._setBooleanOption("tiffMiniswhite", options.miniswhite);
+      }
       if (is.defined(options.pyramid)) {
         this._setBooleanOption("tiffPyramid", options.pyramid);
       }
@@ -8775,6 +8919,11 @@ var require_output = __commonJS((exports, module) => {
   };
   var heif = function(options) {
     if (is.object(options)) {
+      if (is.string(options.compression) && is.inArray(options.compression, ["av1", "hevc"])) {
+        this.options.heifCompression = options.compression;
+      } else {
+        throw is.invalidParameterError("compression", "one of: av1, hevc", options.compression);
+      }
       if (is.defined(options.quality)) {
         if (is.integer(options.quality) && is.inRange(options.quality, 1, 100)) {
           this.options.heifQuality = options.quality;
@@ -8787,13 +8936,6 @@ var require_output = __commonJS((exports, module) => {
           this.options.heifLossless = options.lossless;
         } else {
           throw is.invalidParameterError("lossless", "boolean", options.lossless);
-        }
-      }
-      if (is.defined(options.compression)) {
-        if (is.string(options.compression) && is.inArray(options.compression, ["av1", "hevc"])) {
-          this.options.heifCompression = options.compression;
-        } else {
-          throw is.invalidParameterError("compression", "one of: av1, hevc", options.compression);
         }
       }
       if (is.defined(options.effort)) {
@@ -8810,6 +8952,8 @@ var require_output = __commonJS((exports, module) => {
           throw is.invalidParameterError("chromaSubsampling", "one of: 4:2:0, 4:4:4", options.chromaSubsampling);
         }
       }
+    } else {
+      throw is.invalidParameterError("options", "Object", options);
     }
     return this._updateFormatOut("heif", options);
   };
@@ -8974,18 +9118,31 @@ var require_output = __commonJS((exports, module) => {
   var _read = function() {
     if (!this.options.streamOut) {
       this.options.streamOut = true;
-      this._pipeline();
+      const stack = Error();
+      this._pipeline(undefined, stack);
     }
   };
-  var _pipeline = function(callback) {
+  var _pipeline = function(callback, stack) {
     if (typeof callback === "function") {
       if (this._isStreamInput()) {
         this.on("finish", () => {
           this._flattenBufferIn();
-          sharp.pipeline(this.options, callback);
+          sharp.pipeline(this.options, (err, data, info) => {
+            if (err) {
+              callback(is.nativeError(err, stack));
+            } else {
+              callback(null, data, info);
+            }
+          });
         });
       } else {
-        sharp.pipeline(this.options, callback);
+        sharp.pipeline(this.options, (err, data, info) => {
+          if (err) {
+            callback(is.nativeError(err, stack));
+          } else {
+            callback(null, data, info);
+          }
+        });
       }
       return this;
     } else if (this.options.streamOut) {
@@ -8994,7 +9151,7 @@ var require_output = __commonJS((exports, module) => {
           this._flattenBufferIn();
           sharp.pipeline(this.options, (err, data, info) => {
             if (err) {
-              this.emit("error", err);
+              this.emit("error", is.nativeError(err, stack));
             } else {
               this.emit("info", info);
               this.push(data);
@@ -9009,7 +9166,7 @@ var require_output = __commonJS((exports, module) => {
       } else {
         sharp.pipeline(this.options, (err, data, info) => {
           if (err) {
-            this.emit("error", err);
+            this.emit("error", is.nativeError(err, stack));
           } else {
             this.emit("info", info);
             this.push(data);
@@ -9026,7 +9183,7 @@ var require_output = __commonJS((exports, module) => {
             this._flattenBufferIn();
             sharp.pipeline(this.options, (err, data, info) => {
               if (err) {
-                reject(err);
+                reject(is.nativeError(err, stack));
               } else {
                 if (this.options.resolveWithObject) {
                   resolve({ data, info });
@@ -9041,7 +9198,7 @@ var require_output = __commonJS((exports, module) => {
         return new Promise((resolve, reject) => {
           sharp.pipeline(this.options, (err, data, info) => {
             if (err) {
-              reject(err);
+              reject(is.nativeError(err, stack));
             } else {
               if (this.options.resolveWithObject) {
                 resolve({ data, info });
@@ -9054,7 +9211,7 @@ var require_output = __commonJS((exports, module) => {
       }
     }
   };
-  var path = __require("path");
+  var path = __require("node:path");
   var is = require_is();
   var sharp = require_sharp();
   var formats = new Map([
@@ -9085,6 +9242,12 @@ var require_output = __commonJS((exports, module) => {
     Object.assign(Sharp.prototype, {
       toFile,
       toBuffer,
+      keepExif,
+      withExif,
+      withExifMerge,
+      keepIccProfile,
+      withIccProfile,
+      keepMetadata,
       withMetadata,
       toFormat,
       jpeg,
@@ -9153,14 +9316,13 @@ var require_utility = __commonJS((exports, module) => {
       throw is.invalidParameterError("options", "object", options);
     }
   };
-  var __dirname = "/app/node_modules/sharp/lib";
-  var fs = __require("fs");
-  var path = __require("path");
-  var events = __require("events");
+  var events = __require("node:events");
   var detectLibc = require_detect_libc();
   var is = require_is();
-  var platformAndArch = require_platform()();
+  var { runtimePlatformArch } = require_libvips();
   var sharp = require_sharp();
+  var runtimePlatform = runtimePlatformArch();
+  var libvipsVersion = sharp.libvipsVersion();
   var format = sharp.format();
   format.heif.output.alias = ["avif", "heic"];
   format.jpeg.output.alias = ["jpe", "jpg"];
@@ -9175,21 +9337,26 @@ var require_utility = __commonJS((exports, module) => {
     vertexSplitQuadraticBasisSpline: "vsqbs"
   };
   var versions = {
-    vips: sharp.libvipsVersion()
+    vips: libvipsVersion.semver
   };
-  try {
-    versions = __require(`../vendor/${versions.vips}/${platformAndArch}/versions.json`);
-  } catch (_err) {
+  if (!libvipsVersion.isGlobal) {
+    if (!libvipsVersion.isWasm) {
+      try {
+        versions = __require(`@img/sharp-${runtimePlatform}/versions`);
+      } catch (_) {
+        try {
+          versions = __require(`@img/sharp-libvips-${runtimePlatform}/versions`);
+        } catch (_2) {
+        }
+      }
+    } else {
+      try {
+        versions = (()=>{throw new Error(`Cannot require module "@img/sharp-wasm32/versions"`);})();
+      } catch (_) {
+      }
+    }
   }
   versions.sharp = require_package2().version;
-  var vendor = {
-    current: platformAndArch,
-    installed: []
-  };
-  try {
-    vendor.installed = fs.readdirSync(path.join(__dirname, `../vendor/${versions.vips}`));
-  } catch (_err) {
-  }
   cache(true);
   if (detectLibc.familySync() === detectLibc.GLIBC && !sharp._isUsingJemalloc()) {
     sharp.concurrency(1);
@@ -9204,7 +9371,6 @@ var require_utility = __commonJS((exports, module) => {
     Sharp.format = format;
     Sharp.interpolators = interpolators;
     Sharp.versions = versions;
-    Sharp.vendor = vendor;
     Sharp.queue = queue;
     Sharp.block = block;
     Sharp.unblock = unblock;
