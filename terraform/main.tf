@@ -31,7 +31,8 @@ resource "aws_lambda_function" "main" {
   runtime = "nodejs20.x"
 
   logging_config {
-    log_group  = aws_cloudwatch_log_group.this.arn
+
+    log_group  = aws_cloudwatch_log_group.this.name
     log_format = "JSON"
   }
 }
