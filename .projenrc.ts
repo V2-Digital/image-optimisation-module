@@ -6,7 +6,7 @@ const PROJECT_NAME = 'image-optimisation-module';
 
 const project = new BunTypescript({
   name: PROJECT_NAME,
-  deps: ['@aws-sdk/client-s3', 'pino', 'sharp@0.32.6'],
+  deps: ['@aws-sdk/client-s3', 'pino', 'sharp'],
   devDeps: ['bun-ts-projen', '@types/aws-lambda', 'projen'],
   bunContainerVersion: '1.0.25-alpine',
   tsconfigPaths: {
@@ -68,7 +68,7 @@ project.makefile.addRule({
   ],
 });
 
-project.package.setScript('node_start', 'node dist/index.js');
+project.package.setScript('node_start', 'node terraform/templates/index.js');
 
 project.addGitIgnore('.terraform');
 
