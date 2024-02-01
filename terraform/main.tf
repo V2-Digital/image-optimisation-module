@@ -26,8 +26,8 @@ data "archive_file" "function" {
     for_each = fileset("${path.module}/bin/node_modules", "**")
 
     content {
-      content  = file("${path.module}/bin/node_modules/${each.key}")
-      filename = "node_modules/${each.key}"
+      content  = file("${path.module}/bin/node_modules/${source.key}")
+      filename = "node_modules/${source.key}"
     }
   }
 
