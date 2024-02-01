@@ -7,7 +7,9 @@ services:
       context: ./containers
       dockerfile: Dockerfile.app
       args:
-        BUN_VERSION: 1.0.25-alpine
+        BUN_VERSION: 1.0.25-slim
+    environment:
+      ENVIRONMENT: local
     volumes:
       - type: bind
         source: ./

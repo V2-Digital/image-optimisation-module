@@ -8,7 +8,7 @@ const project = new BunTypescript({
   name: PROJECT_NAME,
   deps: ['@aws-sdk/client-s3', 'pino', 'sharp'],
   devDeps: ['bun-ts-projen', '@types/aws-lambda', 'projen'],
-  bunContainerVersion: '1.0.25-alpine',
+  bunContainerVersion: '1.0.25-slim',
   tsconfigPaths: {
     '@repositories': ['./src/repositories'],
     '@services': ['./src/services'],
@@ -17,8 +17,6 @@ const project = new BunTypescript({
   },
 });
 
-project.package.addField('type', 'module');
-
 project.makefile.addRule({
   targets: ['build'],
   recipe: [
@@ -26,6 +24,8 @@ project.makefile.addRule({
     'docker compose run --rm app bun run build',
   ],
 });
+
+project.appService.addEnvironment('ENVIRONMENT', 'local');
 
 const AWS_ENV_OBJECT = {
   AWS_ACCESS_KEY_ID: '${AWS_ACCESS_KEY_ID:-}',
