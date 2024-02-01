@@ -41373,9 +41373,7 @@ var optimiseImage = async (imageBuffer, contentType, width, quality) => {
     return imageBuffer;
   }
   let pipe = import_sharp.default(imageBuffer);
-  pipe.resize({
-    width
-  });
+  pipe.resize(width);
   pipe = translateImageFormat(contentType, pipe);
   pipe = setImageQuality(contentType, quality, pipe);
   return pipe.toBuffer();
@@ -41408,11 +41406,6 @@ var detectImageFormat = (buffer) => {
 // node_modules/@aws-sdk/cli
 var exports_image = {};
 __export(exports_image, {
-  store: () => {
-    {
-      return store;
-    }
-  },
   get: () => {
     {
       return get;
@@ -41434,14 +41427,6 @@ var get = async (imageKey) => {
     });
     return null;
   });
-};
-var store = async (imageKey, contentType, buffer) => {
-  await s3Client.send(new client_s3.PutObjectCommand({
-    Bucket: exports_task_parameters.IMAGE_STORE_BUCKET,
-    Key: imageKey,
-    ContentType: contentType,
-    Body: buffer
-  }));
 };
 // node_modules/@aws-sdk
 var getOptimisedImage = async (imagePath, width, quality) => {
