@@ -10,13 +10,8 @@ data "archive_file" "function" {
   output_path = "/tmp/function.zip"
 
   source {
-    filename = "index.js"
+    filename = "index.mjs"
     content  = data.util_replace.environment_variable_substitution.replaced
-  }
-
-  source {
-    filename = "package.json"
-    content  = file("${path.module}/templates/package.json")
   }
 }
 
