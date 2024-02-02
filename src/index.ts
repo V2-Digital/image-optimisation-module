@@ -13,7 +13,11 @@ export const handler: Handler<
   CloudFrontRequestEvent,
   CloudFrontResultResponse
 > = async (event) => {
-  logger.info(event);
+  logger.info({
+    message: 'lambda starting',
+    TASK_PARAMETERS,
+    event
+  });
   try {
     const result = await imageRequestController.handle(
       event.Records[0].cf.request,
