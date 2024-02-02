@@ -24,7 +24,7 @@ data "archive_file" "function" {
   output_path = "/tmp/function.zip"
   source_dir  = "${path.module}/bin"
 
-  excludes = ["package.json", "template.js"]
+  excludes = ["package.json", "index.js"]
 
   depends_on = [null_resource.npm_install, local_sensitive_file.function]
 }
