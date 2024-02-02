@@ -12,26 +12,21 @@ resource "null_resource" "npm_install" {
   }
 }
 
+// Using sensitive to reduce console noise
+resource "local_sensitive_file" "function" {
+  content  = data.util_replace.environment_variable_substitution.replaced
+  filename = "${path.module}/bin/index.mjs"
+}
+
 data "archive_file" "function" {
   type = "zip"
 
   output_path = "/tmp/function.zip"
+  source_dir  = "${path.module}/bin"
 
-  source {
-    filename = "index.mjs"
-    content  = data.util_replace.environment_variable_substitution.replaced
-  }
+  excludes = ["package.json", "template.js"]
 
-  dynamic "source" {
-    for_each = fileset("${path.module}/bin/node_modules", "**")
-
-    content {
-      content  = file("${path.module}/bin/node_modules/${source.key}")
-      filename = "node_modules/${source.key}"
-    }
-  }
-
-  depends_on = [null_resource.npm_install]
+  depends_on = [null_resource.npm_install, local_sensitive_file.function]
 }
 
 resource "aws_lambda_function" "main" {

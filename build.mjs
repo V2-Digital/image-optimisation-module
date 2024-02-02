@@ -1,7 +1,10 @@
 const result = await Bun.build({
   entrypoints: ['./src/index.ts'],
-  outdir: './terraform/templates',
+  outdir: './terraform/bin',
   target: 'node',
+  naming: {
+    asset: 'template.js'
+  },
   external: ['sharp']
 })
 
