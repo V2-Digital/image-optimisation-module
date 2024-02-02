@@ -5,14 +5,15 @@ import {
   CloudFrontResultResponse,
   Handler,
 } from 'aws-lambda';
+import { TASK_PARAMETERS, logger } from '@common';
 
-import { TASK_PARAMETERS } from '@common';
 import { imageRequestController } from '@controllers';
 
 export const handler: Handler<
   CloudFrontRequestEvent,
   CloudFrontResultResponse
 > = async (event) => {
+  logger.info(event);
   try {
     const result = await imageRequestController.handle(
       event.Records[0].cf.request,

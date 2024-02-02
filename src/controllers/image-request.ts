@@ -26,8 +26,8 @@ export const handle = async (
 
   const queryString = new URLSearchParams(request.querystring);
 
-  const width = parseInt(queryString.get('width') ?? '');
-  const quality = parseInt(queryString.get('quality') ?? '');
+  const width = parseInt(queryString.get('width') ?? '0');
+  const quality = parseInt(queryString.get('quality') ?? '75');
 
   if (isNaN(width) || isNaN(quality)) {
     return {
@@ -39,7 +39,11 @@ export const handle = async (
     };
   }
 
-  const result = await imageService.getOptimisedImage(uri, width, quality);
+  const result = await imageService.getOptimisedImage(
+    uri,
+    width,
+    Math.min(quality, 75),
+  );
 
   if (result === undefined) {
     return {
@@ -55,7 +59,7 @@ export const handle = async (
     statusCode: '200',
     body: result.body,
     headers: {
-      'Content-Type': result.contentType
-    }
-  }
+      'Content-Type': result.contentType,
+    },
+  };
 };

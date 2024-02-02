@@ -34847,7 +34847,9 @@ var optimiseImage = async (imageBuffer, contentType, width, quality) => {
     return imageBuffer;
   }
   let pipe = sharp(imageBuffer);
-  pipe.resize(width);
+  if (width > 0) {
+    pipe.resize(width);
+  }
   pipe = translateImageFormat(contentType, pipe);
   pipe = setImageQuality(contentType, quality, pipe);
   return pipe.toBuffer();
@@ -34964,8 +34966,8 @@ var handle = async (request) => {
     };
   }
   const queryString = new URLSearchParams(request.querystring);
-  const width = parseInt(queryString.get("width") ?? "");
-  const quality = parseInt(queryString.get("quality") ?? "");
+  const width = parseInt(queryString.get("width") ?? "0");
+  const quality = parseInt(queryString.get("quality") ?? "75");
   if (isNaN(width) || isNaN(quality)) {
     return {
       statusCode: "400",
@@ -34975,7 +34977,7 @@ var handle = async (request) => {
       }
     };
   }
-  const result = await exports_image2.getOptimisedImage(uri, width, quality);
+  const result = await exports_image2.getOptimisedImage(uri, width, Math.min(quality, 75));
   if (result === undefined) {
     return {
       statusCode: "404",
@@ -34995,6 +34997,7 @@ var handle = async (request) => {
 };
 // src/index.ts
 var handler = async (event) => {
+  logger.info(event);
   try {
     const result = await exports_image_request.handle(event.Records[0].cf.request);
     const headers = {};
