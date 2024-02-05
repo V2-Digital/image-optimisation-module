@@ -38,14 +38,4 @@ resource "aws_lambda_function" "main" {
 
   handler = "index.handler"
   runtime = "nodejs20.x"
-
-  logging_config {
-    log_group  = aws_cloudwatch_log_group.this.name
-    log_format = "JSON"
-  }
-}
-
-resource "aws_cloudwatch_log_group" "this" {
-  name              = "/aws/lambda/${local.name}"
-  retention_in_days = 7
 }

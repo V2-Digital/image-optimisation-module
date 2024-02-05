@@ -9,10 +9,11 @@ export const get = async (imageKey: string) => {
   return s3Client.send(new GetObjectCommand({
     Bucket: TASK_PARAMETERS.IMAGE_STORE_BUCKET,
     Key: imageKey
-  })).catch(() => {
+  })).catch((error) => {
 
     logger.error({
-      message: 'image not found in image store',
+      message: 'error getting image from image store',
+      error,
       imageKey
     })
 
