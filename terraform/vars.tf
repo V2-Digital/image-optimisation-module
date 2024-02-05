@@ -1,4 +1,7 @@
 variable "image_bucket" {
-  type        = string
-  description = "ARN of the bucket where the original images are stored"
+  description = "The bucket where the original images are stored"
+  type = object({
+    id  = string
+    arn = string
+  })
 }

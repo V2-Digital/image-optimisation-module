@@ -22,7 +22,7 @@ data "aws_iam_policy_document" "image_bucket_access" {
     effect = "Allow"
 
     actions   = ["s3:GetObject"]
-    resources = ["${var.image_bucket}/*"]
+    resources = ["${var.image_bucket.arn}/*"]
   }
 }
 
