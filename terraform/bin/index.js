@@ -34916,9 +34916,10 @@ var get = async (imageKey) => {
   return s3Client.send(new client_s3.GetObjectCommand({
     Bucket: exports_task_parameters.IMAGE_STORE_BUCKET,
     Key: imageKey
-  })).catch(() => {
+  })).catch((error) => {
     logger.error({
-      message: "image not found in image store",
+      message: "error getting image from image store",
+      error,
       imageKey
     });
     return null;
@@ -34997,7 +34998,11 @@ var handle = async (request) => {
 };
 // src/index.ts
 var handler = async (event) => {
-  logger.info(event);
+  logger.info({
+    message: "lambda starting",
+    TASK_PARAMETERS: exports_task_parameters,
+    event
+  });
   try {
     const result = await exports_image_request.handle(event.Records[0].cf.request);
     const headers = {};
