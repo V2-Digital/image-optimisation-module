@@ -34927,13 +34927,15 @@ var get = async (imageKey) => {
 };
 // src/services/image.ts
 var getOptimisedImage = async (imagePath, width, quality) => {
+  const imageKey = imagePath.slice(1);
   logger.info({
     message: "getting optimised image",
     imagePath,
     width,
-    quality
+    quality,
+    imageKey
   });
-  const originalImage = await exports_image.get(imagePath);
+  const originalImage = await exports_image.get(imageKey);
   if (originalImage?.Body === undefined) {
     logger.error({
       message: "unable to find image"

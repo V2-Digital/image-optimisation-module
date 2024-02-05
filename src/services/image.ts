@@ -12,14 +12,17 @@ export const getOptimisedImage = async (
   width: number,
   quality: number,
 ): Promise<OptimisedImage | undefined> => {
+  const imageKey = imagePath.slice(1)
+
   logger.info({
     message: 'getting optimised image',
     imagePath,
     width,
-    quality
+    quality,
+    imageKey
   })
 
-  const originalImage = await imageRepository.get(imagePath);
+  const originalImage = await imageRepository.get(imageKey);
 
   if (originalImage?.Body === undefined) {
     logger.error({
