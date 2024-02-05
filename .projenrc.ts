@@ -14,7 +14,7 @@ const project = new BunTypescript({
     '@services': ['./src/services'],
     '@common': ['./src/common'],
     '@controllers': ['./src/controllers'],
-  },
+  }
 });
 
 project.makefile.addRule({
