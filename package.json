@@ -6,7 +6,7 @@
     "build": "bun run build.mjs",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write \"**/*.ts\"",
-    "node_start": "node terraform/templates/index.js"
+    "start:node": "node terraform/templates/index.js"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.131",

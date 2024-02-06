@@ -3,7 +3,7 @@ import { detectImageFormat, logger, optimiseImage } from '@common';
 import { imageRepository } from '@repositories';
 
 interface OptimisedImage {
-  body: ReadableStream;
+  body: Buffer;
   contentType: string;
 }
 
@@ -49,7 +49,7 @@ export const getOptimisedImage = async (
   const optimisedImage = await optimiseImage(imageBuffer, imageType, width, quality)
 
   return {
-    body: new Blob([optimisedImage]).stream(),
+    body: optimisedImage,
     contentType: imageType
   }
 };

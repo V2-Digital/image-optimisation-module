@@ -1,9 +1,10 @@
 import { CloudFrontRequest } from 'aws-lambda';
 import { imageService } from '@services';
+import { logger } from '../common/logger';
 
 interface HandlerResponse {
   statusCode: string;
-  body: string | ReadableStream;
+  body: string | Buffer;
   headers: {
     [key: string]: string;
   };
@@ -54,6 +55,10 @@ export const handle = async (
       },
     };
   }
+
+  logger.info({
+    message: 'succesfully generated optimised image'
+  })
 
   return {
     statusCode: '200',

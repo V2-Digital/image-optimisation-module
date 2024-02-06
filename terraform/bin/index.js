@@ -34788,6 +34788,11 @@ var require_dist_cjs69 = __commonJS((exports, module) => {
 // src/common/task-parameters.ts
 var exports_task_parameters = {};
 __export(exports_task_parameters, {
+  PORT: () => {
+    {
+      return PORT;
+    }
+  },
   LOCAL_ENVIRONMENT: () => {
     {
       return LOCAL_ENVIRONMENT;
@@ -34801,6 +34806,7 @@ __export(exports_task_parameters, {
 });
 var IMAGE_STORE_BUCKET = process.env.IMAGE_STORE_BUCKET;
 var LOCAL_ENVIRONMENT = process.env.ENVIRONMENT === "local";
+var PORT = process.env.PORT;
 // src/common/logger.ts
 var import_pino = __toESM(require_pino(), 1);
 var logger = import_pino.default({
@@ -34952,7 +34958,7 @@ var getOptimisedImage = async (imagePath, width, quality) => {
   }
   const optimisedImage = await optimiseImage(imageBuffer, imageType, width, quality);
   return {
-    body: new Blob([optimisedImage]).stream(),
+    body: optimisedImage,
     contentType: imageType
   };
 };
@@ -34990,6 +34996,9 @@ var handle = async (request) => {
       }
     };
   }
+  logger.info({
+    message: "succesfully generated optimised image"
+  });
   return {
     statusCode: "200",
     body: result.body,
@@ -35017,7 +35026,8 @@ var handler = async (event) => {
       ];
     }
     return {
-      body: result.body.toString(),
+      body: result.body.toString("base64"),
+      bodyEncoding: "base64",
       status: result.statusCode,
       headers
     };
@@ -35028,66 +35038,6 @@ var handler = async (event) => {
     };
   }
 };
-var exampleRequest = {
-  clientIp: "203.0.113.178",
-  headers: {
-    host: [
-      {
-        key: "Host",
-        value: "d111111abcdef8.cloudfront.net"
-      }
-    ],
-    "user-agent": [
-      {
-        key: "User-Agent",
-        value: "curl/7.66.0"
-      }
-    ],
-    accept: [
-      {
-        key: "accept",
-        value: "*/*"
-      }
-    ]
-  },
-  method: "GET",
-  querystring: "",
-  uri: "/"
-};
-if (exports_task_parameters.LOCAL_ENVIRONMENT) {
-  handler({
-    Records: [
-      {
-        cf: {
-          config: {
-            distributionDomainName: "d111111abcdef8.cloudfront.net",
-            distributionId: "EDFDVBD6EXAMPLE",
-            eventType: "viewer-request",
-            requestId: "4TyzHTaYWb1GX1qTfsHhEqV6HUDd_BzoBZnwfnvQc_1oF26ClkoUSEQ=="
-          },
-          request: exampleRequest
-        }
-      }
-    ]
-  }, {
-    callbackWaitsForEmptyEventLoop: false,
-    functionName: "example",
-    awsRequestId: "1234",
-    functionVersion: "1234",
-    getRemainingTimeInMillis: () => 10,
-    invokedFunctionArn: "",
-    logGroupName: "log group",
-    logStreamName: "stream",
-    memoryLimitInMB: "512",
-    done: () => {
-    },
-    fail: () => {
-    },
-    succeed: () => {
-    }
-  }, () => {
-  });
-}
 export {
   handler
 };
