@@ -5,6 +5,8 @@ import { imageRepository } from '@repositories';
 interface OptimisedImage {
   image: Buffer;
   imageType: string;
+  etag: string | undefined;
+  cacheControl: string | undefined;
 }
 
 export const getOptimisedImage = async (
@@ -36,8 +38,10 @@ export const getOptimisedImage = async (
     await originalImage.Body.transformToByteArray(),
   );
 
-
-  const imageType = detectImageFormat(imageBuffer, originalImage.ContentType?.split('image/')[1])
+  const imageType = detectImageFormat(
+    imageBuffer,
+    originalImage.ContentType?.split('image/')[1],
+  );
 
   if (imageType === undefined) {
     logger.error({
@@ -47,10 +51,9 @@ export const getOptimisedImage = async (
     throw new Error('Unable to determine image type');
   }
 
-  return optimiseImage(
-    imageBuffer,
-    imageType,
-    width,
-    quality,
-  )
+  return {
+    ...await optimiseImage(imageBuffer, imageType, width, quality),
+    cacheControl: originalImage.CacheControl,
+    etag: originalImage.ETag,
+  };
 };

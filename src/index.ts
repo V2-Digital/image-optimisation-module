@@ -28,7 +28,7 @@ export const handler: Handler<
       headers[key] = [
         {
           key,
-          value,
+          value: value ?? "",
         },
       ];
     }

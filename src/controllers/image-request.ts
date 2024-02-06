@@ -6,7 +6,7 @@ interface HandlerResponse {
   statusCode: string;
   body: string | Buffer;
   headers: {
-    [key: string]: string;
+    [key: string]: string | undefined;
   };
 }
 
@@ -57,14 +57,16 @@ export const handle = async (
   }
 
   logger.info({
-    message: 'succesfully generated optimised image'
-  })
+    message: 'succesfully generated optimised image',
+  });
 
   return {
     statusCode: '200',
     body: result.image,
     headers: {
       'Content-Type': 'image/' + result.imageType,
+      ETag: result.etag,
+      'Cache-Control': result.cacheControl,
     },
   };
 };
