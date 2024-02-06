@@ -14,7 +14,8 @@ const project = new BunTypescript({
     '@services': ['./src/services'],
     '@common': ['./src/common'],
     '@controllers': ['./src/controllers'],
-  }
+  },
+  skipRunCommand: true
 });
 
 project.makefile.addRule({
@@ -33,6 +34,10 @@ const AWS_ENV_OBJECT = {
   AWS_SESSION_TOKEN: '${AWS_SESSION_TOKEN:-}',
   AWS_REGION: '${AWS_REGION:-ap-southeast-2}',
 };
+
+for (const [key, value] of Object.entries(AWS_ENV_OBJECT)) {
+  project.appService.addEnvironment(key, value)
+}
 
 project.composeFile.addService(
   'terraform',
@@ -68,7 +73,22 @@ project.makefile.addRule({
   ],
 });
 
-project.package.setScript('node_start', 'node terraform/templates/index.js');
+project.makefile.addRule({
+  targets: ['run'],
+  recipe: [
+    'docker compose run --service-ports --rm app bun --hot run src/local.ts'
+  ]
+})
+
+project.package.setScript('start:node', 'node terraform/templates/index.js');
+
+
+const servicePort = 3000
+
+project.appService.addEnvironment('PORT', servicePort.toString())
+project.appService.addEnvironment('IMAGE_STORE_BUCKET', '${IMAGE_STORE_BUCKET:-}')
+project.appService.addPort(servicePort, servicePort)
+
 
 project.addGitIgnore('.terraform');
 
