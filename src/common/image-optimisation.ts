@@ -1,54 +1,55 @@
-import sharp, { Sharp } from 'sharp';
+import { ImageTypes } from './constants';
+import sharp from 'sharp';
 
-import { imageFormats } from '@common';
-
-const translateImageFormat = (contentType: string, pipe: Sharp) => {
-  if (contentType === imageFormats.GIF) {
-    return pipe;
+const generateDesiredImageFormat = (contentType: string): ImageTypes => {
+  if (contentType === ImageTypes.gif) {
+    return ImageTypes.gif;
   }
 
-  if (contentType === imageFormats.AVIF) {
-    return pipe.toFormat('avif');
+  if (contentType === ImageTypes.avif) {
+    return ImageTypes.avif;
   }
 
-  return pipe.toFormat('webp');
-};
-
-const setImageQuality = (contentType: string, quality: number, pipe: Sharp) => {
-  if (contentType === imageFormats.GIF) {
-    return pipe;
-  }
-
-  if (contentType === imageFormats.AVIF) {
-    return pipe.avif({
-      quality,
-    });
-  }
-
-  return pipe.webp({
-    quality,
-  });
+  return ImageTypes.webp;
 };
 
 export const optimiseImage = async (
-  imageBuffer: Buffer,
-  contentType: string,
+  image: Buffer,
+  imageType: string,
   width: number,
   quality: number,
-): Promise<Buffer> => {
-  if (contentType === imageFormats.SVG) {
-    return imageBuffer;
+): Promise<{
+  image: Buffer;
+  imageType: ImageTypes;
+}> => {
+  if (imageType === ImageTypes.svg) {
+    return {
+      image,
+      imageType,
+    };
   }
 
-  let pipe = sharp(imageBuffer);
+  const pipe = sharp(image);
 
   if (width > 0) {
     pipe.resize(width);
   }
 
-  pipe = translateImageFormat(contentType, pipe);
+  if (imageType === ImageTypes.gif) {
+    return {
+      image: await pipe.toBuffer(),
+      imageType
+    }
+  }
 
-  pipe = setImageQuality(contentType, quality, pipe);
+  const desiredImageFormat = generateDesiredImageFormat(imageType);
 
-  return pipe.toBuffer();
+  pipe.toFormat(desiredImageFormat, {
+    quality
+  });
+
+  return {
+    image: await pipe.toBuffer(),
+    imageType: desiredImageFormat,
+  };
 };

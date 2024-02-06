@@ -15,7 +15,7 @@ export const handler: Handler<
   logger.info({
     message: 'lambda starting',
     TASK_PARAMETERS,
-    event
+    event,
   });
   try {
     const result = await imageRequestController.handle(
@@ -31,6 +31,14 @@ export const handler: Handler<
           value,
         },
       ];
+    }
+
+    if (typeof result.body === 'string' || TASK_PARAMETERS.LOCAL_ENVIRONMENT) {
+      return {
+        body: result.body as string,
+        status: result.statusCode,
+        headers,
+      };
     }
 
     return {

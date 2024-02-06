@@ -3,8 +3,8 @@ import { detectImageFormat, logger, optimiseImage } from '@common';
 import { imageRepository } from '@repositories';
 
 interface OptimisedImage {
-  body: Buffer;
-  contentType: string;
+  image: Buffer;
+  imageType: string;
 }
 
 export const getOptimisedImage = async (
@@ -12,22 +12,22 @@ export const getOptimisedImage = async (
   width: number,
   quality: number,
 ): Promise<OptimisedImage | undefined> => {
-  const imageKey = imagePath.slice(1)
+  const imageKey = imagePath.slice(1);
 
   logger.info({
     message: 'getting optimised image',
     imagePath,
     width,
     quality,
-    imageKey
-  })
+    imageKey,
+  });
 
   const originalImage = await imageRepository.get(imageKey);
 
   if (originalImage?.Body === undefined) {
     logger.error({
-      message: 'unable to find image'
-    })
+      message: 'unable to find image',
+    });
 
     return;
   }
@@ -36,20 +36,21 @@ export const getOptimisedImage = async (
     await originalImage.Body.transformToByteArray(),
   );
 
-  const imageType = detectImageFormat(imageBuffer) ?? originalImage.ContentType;
+
+  const imageType = detectImageFormat(imageBuffer, originalImage.ContentType?.split('image/')[1])
 
   if (imageType === undefined) {
     logger.error({
-      message: 'unable to determine image type'
-    })
+      message: 'unable to determine image type',
+    });
 
-    throw new Error('Unable to determine image type')
+    throw new Error('Unable to determine image type');
   }
 
-  const optimisedImage = await optimiseImage(imageBuffer, imageType, width, quality)
-
-  return {
-    body: optimisedImage,
-    contentType: imageType
-  }
+  return optimiseImage(
+    imageBuffer,
+    imageType,
+    width,
+    quality,
+  )
 };

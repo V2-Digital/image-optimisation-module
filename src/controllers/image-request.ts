@@ -62,9 +62,9 @@ export const handle = async (
 
   return {
     statusCode: '200',
-    body: result.body,
+    body: result.image,
     headers: {
-      'Content-Type': result.contentType,
+      'Content-Type': 'image/' + result.imageType,
     },
   };
 };

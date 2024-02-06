@@ -57,14 +57,14 @@ const server = Bun.serve({
         logGroupName: 'log group',
         logStreamName: 'stream',
         memoryLimitInMB: '512',
-        done: () => { },
-        fail: () => { },
-        succeed: () => { },
+        done: () => {},
+        fail: () => {},
+        succeed: () => {},
       },
-      () => { },
+      () => {},
     );
 
-    // eslint-disable-next-line valid-typeof
+    // removes void values
     if (!result) {
       return new Response();
     }
@@ -75,7 +75,17 @@ const server = Bun.serve({
       responseHeaders.push([key, value[0].value]);
     }
 
-    return new Response(result.body, {
+    if (result.bodyEncoding !== 'base64') {
+      return new Response(result.body, {
+        headers: responseHeaders,
+      });
+    }
+
+    if (result.body === undefined) {
+      return new Response('Bad Response');
+    }
+
+    return new Response(Buffer.from(result.body, 'base64'), {
       headers: responseHeaders,
     });
   },
