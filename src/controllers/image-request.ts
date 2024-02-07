@@ -2,6 +2,16 @@ import { CloudFrontRequest } from 'aws-lambda';
 import { imageService } from '@services';
 import { logger } from '../common/logger';
 
+const canAcceptAvif = (
+  acceptHeader: Array<{
+    key?: string | undefined;
+    value: string;
+  }>,
+): boolean =>
+  acceptHeader
+    .reduce((oldValue, { value }) => oldValue + value, '')
+    .includes('image/avif');
+
 interface HandlerResponse {
   statusCode: string;
   body: string | Buffer;
@@ -40,10 +50,13 @@ export const handle = async (
     };
   }
 
+  const acceptsAvif = canAcceptAvif(request.headers['accept'])
+
   const result = await imageService.getOptimisedImage(
     uri,
     width,
     Math.min(quality, 75),
+    acceptsAvif
   );
 
   if (result === undefined) {
