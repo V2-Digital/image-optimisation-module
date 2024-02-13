@@ -34815,75 +34815,82 @@ var logger = import_pino.default({
   }
 });
 // src/common/constants.ts
-var imageFormats = {
-  AVIF: "image/avif",
-  WEBP: "image/webp",
-  PNG: "image/png",
-  JPEG: "image/jpeg",
-  GIF: "image/gif",
-  SVG: "image/svg+xml",
-  ICO: "image/x-icon"
-};
+var ImageTypes;
+(function(ImageTypes2) {
+  ImageTypes2["avif"] = "avif";
+  ImageTypes2["dz"] = "dz";
+  ImageTypes2["fits"] = "fits";
+  ImageTypes2["gif"] = "gif";
+  ImageTypes2["heif"] = "heif";
+  ImageTypes2["input"] = "input";
+  ImageTypes2["jpeg"] = "jpeg";
+  ImageTypes2["jpg"] = "jpg";
+  ImageTypes2["jp2"] = "jp2";
+  ImageTypes2["jxl"] = "jxl";
+  ImageTypes2["magick"] = "magick";
+  ImageTypes2["openslide"] = "openslide";
+  ImageTypes2["pdf"] = "pdf";
+  ImageTypes2["png"] = "png";
+  ImageTypes2["ppm"] = "ppm";
+  ImageTypes2["raw"] = "raw";
+  ImageTypes2["svg"] = "svg";
+  ImageTypes2["tiff"] = "tiff";
+  ImageTypes2["tif"] = "tif";
+  ImageTypes2["v"] = "v";
+  ImageTypes2["webp"] = "webp";
+})(ImageTypes || (ImageTypes = {}));
 // src/common/image-optimisation.ts
 import sharp from "sharp";
-var translateImageFormat = (contentType, pipe) => {
-  if (contentType === imageFormats.GIF) {
-    return pipe;
+var optimiseImage = async (image, imageType, width, quality, canAcceptAvif) => {
+  if (imageType === ImageTypes.svg) {
+    return {
+      image,
+      imageType
+    };
   }
-  if (contentType === imageFormats.AVIF) {
-    return pipe.toFormat("avif");
-  }
-  return pipe.toFormat("webp");
-};
-var setImageQuality = (contentType, quality, pipe) => {
-  if (contentType === imageFormats.GIF) {
-    return pipe;
-  }
-  if (contentType === imageFormats.AVIF) {
-    return pipe.avif({
-      quality
-    });
-  }
-  return pipe.webp({
-    quality
-  });
-};
-var optimiseImage = async (imageBuffer, contentType, width, quality) => {
-  if (contentType === imageFormats.SVG) {
-    return imageBuffer;
-  }
-  let pipe = sharp(imageBuffer);
+  const pipe = sharp(image);
   if (width > 0) {
     pipe.resize(width);
   }
-  pipe = translateImageFormat(contentType, pipe);
-  pipe = setImageQuality(contentType, quality, pipe);
-  return pipe.toBuffer();
+  if (imageType === ImageTypes.gif) {
+    return {
+      image: await pipe.toBuffer(),
+      imageType
+    };
+  }
+  const desiredImageFormat = canAcceptAvif ? ImageTypes.avif : ImageTypes.webp;
+  pipe.toFormat(desiredImageFormat, {
+    quality
+  });
+  return {
+    image: await pipe.toBuffer(),
+    imageType: desiredImageFormat
+  };
 };
 // src/common/image-format.ts
-var detectImageFormat = (buffer) => {
+var detectImageFormat = (buffer, fallbackContentType) => {
   if ([255, 216, 255].every((b, i) => buffer[i] === b)) {
-    return imageFormats.JPEG;
+    return ImageTypes.jpeg;
   }
   if ([137, 80, 78, 71, 13, 10, 26, 10].every((b, i) => buffer[i] === b)) {
-    return imageFormats.PNG;
+    return ImageTypes.png;
   }
   if ([71, 73, 70, 56].every((b, i) => buffer[i] === b)) {
-    return imageFormats.GIF;
+    return ImageTypes.gif;
   }
   if ([82, 73, 70, 70, 0, 0, 0, 0, 87, 69, 66, 80].every((b, i) => !b || buffer[i] === b)) {
-    return imageFormats.WEBP;
+    return ImageTypes.webp;
   }
   if ([60, 63, 120, 109, 108].every((b, i) => buffer[i] === b)) {
-    return imageFormats.SVG;
+    return ImageTypes.svg;
   }
   if ([0, 0, 0, 0, 102, 116, 121, 112, 97, 118, 105, 102].every((b, i) => !b || buffer[i] === b)) {
-    return imageFormats.AVIF;
+    return ImageTypes.avif;
   }
-  if ([0, 0, 1, 0].every((b, i) => buffer[i] === b)) {
-    return imageFormats.ICO;
+  if (Object.values(ImageTypes).includes(fallbackContentType)) {
+    return fallbackContentType;
   }
-  return null;
+  return;
 };
 // src/controllers/image-request.ts
 var exports_image_request = {};
@@ -34915,9 +34922,7 @@ __export(exports_image, {
   }
 });
 var client_s3 = __toESM(require_dist_cjs69(), 1);
-var s3Client = new client_s3.S3Client({
-  region: "ap-southeast-2"
-});
+var s3Client = new client_s3.S3Client;
 var get = async (imageKey) => {
   return s3Client.send(new client_s3.GetObjectCommand({
     Bucket: exports_task_parameters.IMAGE_STORE_BUCKET,
@@ -34932,7 +34937,7 @@ var get = async (imageKey) => {
   });
 };
 // src/services/image.ts
-var getOptimisedImage = async (imagePath, width, quality) => {
+var getOptimisedImage = async (imagePath, width, quality, canAcceptAvif) => {
   const imageKey = imagePath.slice(1);
   logger.info({
     message: "getting optimised image",
@@ -34949,20 +34954,21 @@ var getOptimisedImage = async (imagePath, width, quality) => {
     return;
   }
   const imageBuffer = Buffer.from(await originalImage.Body.transformToByteArray());
-  const imageType = detectImageFormat(imageBuffer) ?? originalImage.ContentType;
+  const imageType = detectImageFormat(imageBuffer, originalImage.ContentType?.split("image/")[1]);
   if (imageType === undefined) {
     logger.error({
       message: "unable to determine image type"
     });
     throw new Error("Unable to determine image type");
   }
-  const optimisedImage = await optimiseImage(imageBuffer, imageType, width, quality);
   return {
-    body: optimisedImage,
-    contentType: imageType
+    ...await optimiseImage(imageBuffer, imageType, width, quality, canAcceptAvif),
+    cacheControl: originalImage.CacheControl,
+    etag: originalImage.ETag
   };
 };
 // src/controllers/image-request.ts
+var canAcceptAvif = (acceptHeader) => acceptHeader.reduce((oldValue, { value }) => oldValue + value, "").includes("image/avif");
 var handle = async (request) => {
   const uri = request.uri;
   if (uri === undefined) {
@@ -34986,7 +34992,8 @@ var handle = async (request) => {
       }
     };
   }
-  const result = await exports_image2.getOptimisedImage(uri, width, Math.min(quality, 75));
+  const acceptsAvif = canAcceptAvif(request.headers["accept"]);
+  const result = await exports_image2.getOptimisedImage(uri, width, Math.min(quality, 75), acceptsAvif);
   if (result === undefined) {
     return {
       statusCode: "404",
@@ -35001,9 +35008,11 @@ var handle = async (request) => {
   });
   return {
     statusCode: "200",
-    body: result.body,
+    body: result.image,
     headers: {
-      "Content-Type": result.contentType
+      "Content-Type": "image/" + result.imageType,
+      ETag: result.etag,
+      "Cache-Control": result.cacheControl
     }
   };
 };
@@ -35021,9 +35030,16 @@ var handler = async (event) => {
       headers[key] = [
         {
           key,
-          value
+          value: value ?? ""
         }
       ];
+    }
+    if (typeof result.body === "string" || exports_task_parameters.LOCAL_ENVIRONMENT) {
+      return {
+        body: result.body,
+        status: result.statusCode,
+        headers
+      };
     }
     return {
       body: result.body.toString("base64"),
