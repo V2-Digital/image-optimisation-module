@@ -11,7 +11,7 @@ export const optimiseImage = async (
   image: Buffer;
   imageType: ImageTypes;
 }> => {
-  if (imageType === ImageTypes.svg) {
+  if (imageType === ImageTypes.svg || imageType === ImageTypes['svg+xml']) {
     return {
       image,
       imageType,
