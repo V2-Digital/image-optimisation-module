@@ -1,28 +1,17 @@
 import { ImageTypes } from './constants';
 import sharp from 'sharp';
 
-const generateDesiredImageFormat = (contentType: string): ImageTypes => {
-  if (contentType === ImageTypes.gif) {
-    return ImageTypes.gif;
-  }
-
-  if (contentType === ImageTypes.avif) {
-    return ImageTypes.avif;
-  }
-
-  return ImageTypes.webp;
-};
-
 export const optimiseImage = async (
   image: Buffer,
   imageType: string,
   width: number,
   quality: number,
+  canAcceptAvif: boolean
 ): Promise<{
   image: Buffer;
   imageType: ImageTypes;
 }> => {
-  if (imageType === ImageTypes.svg) {
+  if (imageType === ImageTypes.svg || imageType === ImageTypes['svg+xml']) {
     return {
       image,
       imageType,
@@ -42,7 +31,7 @@ export const optimiseImage = async (
     }
   }
 
-  const desiredImageFormat = generateDesiredImageFormat(imageType);
+  const desiredImageFormat = canAcceptAvif ? ImageTypes.avif : ImageTypes.webp
 
   pipe.toFormat(desiredImageFormat, {
     quality

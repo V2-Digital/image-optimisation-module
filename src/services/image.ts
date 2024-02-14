@@ -13,7 +13,10 @@ export const getOptimisedImage = async (
   imagePath: string,
   width: number,
   quality: number,
+  canAcceptAvif: boolean
 ): Promise<OptimisedImage | undefined> => {
+
+  // remove first backslash
   const imageKey = imagePath.slice(1);
 
   logger.info({
@@ -52,7 +55,7 @@ export const getOptimisedImage = async (
   }
 
   return {
-    ...await optimiseImage(imageBuffer, imageType, width, quality),
+    ...await optimiseImage(imageBuffer, imageType, width, quality, canAcceptAvif),
     cacheControl: originalImage.CacheControl,
     etag: originalImage.ETag,
   };
