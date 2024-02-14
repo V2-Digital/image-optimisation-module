@@ -19,9 +19,11 @@ export const optimiseImage = async (
   }
 
   const pipe = sharp(image);
-
+  
   if (width > 0) {
-    pipe.resize(width);
+    pipe.resize(width, undefined, {
+      withoutEnlargement: true
+    });
   }
 
   if (imageType === ImageTypes.gif) {
