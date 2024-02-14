@@ -7,10 +7,15 @@ const canAcceptAvif = (
     key?: string | undefined;
     value: string;
   }>,
-): boolean =>
-  acceptHeader
-    .reduce((oldValue, { value }) => oldValue + value, '')
-    .includes('image/avif');
+): boolean => {
+  acceptHeader.forEach(({ value }) => {
+    if (value.includes('image/avif')) {
+      return true;
+    }
+  });
+
+  return false
+};
 
 interface HandlerResponse {
   statusCode: string;
@@ -35,10 +40,27 @@ export const handle = async (
     };
   }
 
+  logger.info({
+    message: 'valid uri',
+    uri,
+  });
+
   const queryString = new URLSearchParams(request.querystring);
 
+  logger.info({
+    queryString,
+  });
+
   const width = parseInt(queryString.get('width') ?? '0');
+  logger.info({
+    width,
+  });
+
   const quality = parseInt(queryString.get('quality') ?? '75');
+
+  logger.info({
+    quality,
+  });
 
   if (isNaN(width) || isNaN(quality)) {
     return {
@@ -50,13 +72,17 @@ export const handle = async (
     };
   }
 
-  const acceptsAvif = canAcceptAvif(request.headers['accept'])
+  const acceptsAvif = canAcceptAvif(request.headers['accept']);
+  
+  logger.info({
+    acceptsAvif
+  })
 
   const result = await imageService.getOptimisedImage(
     uri,
     width,
     Math.min(quality, 75),
-    acceptsAvif
+    acceptsAvif,
   );
 
   if (result === undefined) {

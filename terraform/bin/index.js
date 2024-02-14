@@ -34969,7 +34969,14 @@ var getOptimisedImage = async (imagePath, width, quality, canAcceptAvif) => {
   };
 };
 // src/controllers/image-request.ts
-var canAcceptAvif = (acceptHeader) => acceptHeader.reduce((oldValue, { value }) => oldValue + value, "").includes("image/avif");
+var canAcceptAvif = (acceptHeader) => {
+  acceptHeader.forEach(({ value }) => {
+    if (value.includes("image/avif")) {
+      return true;
+    }
+  });
+  return false;
+};
 var handle = async (request) => {
   const uri = request.uri;
   if (uri === undefined) {
@@ -34981,9 +34988,22 @@ var handle = async (request) => {
       }
     };
   }
+  logger.info({
+    message: "valid uri",
+    uri
+  });
   const queryString = new URLSearchParams(request.querystring);
+  logger.info({
+    queryString
+  });
   const width = parseInt(queryString.get("width") ?? "0");
+  logger.info({
+    width
+  });
   const quality = parseInt(queryString.get("quality") ?? "75");
+  logger.info({
+    quality
+  });
   if (isNaN(width) || isNaN(quality)) {
     return {
       statusCode: "400",
@@ -34994,6 +35014,9 @@ var handle = async (request) => {
     };
   }
   const acceptsAvif = canAcceptAvif(request.headers["accept"]);
+  logger.info({
+    acceptsAvif
+  });
   const result = await exports_image2.getOptimisedImage(uri, width, Math.min(quality, 75), acceptsAvif);
   if (result === undefined) {
     return {
@@ -35049,6 +35072,10 @@ var handler = async (event) => {
       headers
     };
   } catch (error) {
+    logger.error({
+      message: "image optimisation failed",
+      error
+    });
     return {
       body: "Internal Server Error",
       status: "500"
