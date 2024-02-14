@@ -34851,7 +34851,9 @@ var optimiseImage = async (image, imageType, width, quality, canAcceptAvif) => {
   }
   const pipe = sharp(image);
   if (width > 0) {
-    pipe.resize(width);
+    pipe.resize(width, undefined, {
+      withoutEnlargement: true
+    });
   }
   if (imageType === ImageTypes.gif) {
     return {
@@ -34883,7 +34885,7 @@ var detectImageFormat = (buffer, fallbackContentType) => {
     return ImageTypes.webp;
   }
   if ([60, 63, 120, 109, 108].every((b, i) => buffer[i] === b)) {
-    return ImageTypes.svg;
+    return ImageTypes["svg+xml"];
   }
   if ([0, 0, 0, 0, 102, 116, 121, 112, 97, 118, 105, 102].every((b, i) => !b || buffer[i] === b)) {
     return ImageTypes.avif;

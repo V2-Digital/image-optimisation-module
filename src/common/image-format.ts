@@ -25,7 +25,7 @@ export const detectImageFormat = (
     return ImageTypes.webp;
   }
   if ([0x3c, 0x3f, 0x78, 0x6d, 0x6c].every((b, i) => buffer[i] === b)) {
-    return ImageTypes.svg;
+    return ImageTypes['svg+xml'];
   }
   if (
     [0, 0, 0, 0, 0x66, 0x74, 0x79, 0x70, 0x61, 0x76, 0x69, 0x66].every(
