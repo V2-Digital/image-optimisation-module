@@ -34834,6 +34834,7 @@ var ImageTypes;
   ImageTypes2["ppm"] = "ppm";
   ImageTypes2["raw"] = "raw";
   ImageTypes2["svg"] = "svg";
+  ImageTypes2["svg+xml"] = "svg+xml";
   ImageTypes2["tiff"] = "tiff";
   ImageTypes2["tif"] = "tif";
   ImageTypes2["v"] = "v";
@@ -34842,7 +34843,7 @@ var ImageTypes;
 // src/common/image-optimisation.ts
 import sharp from "sharp";
 var optimiseImage = async (image, imageType, width, quality, canAcceptAvif) => {
-  if (imageType === ImageTypes.svg) {
+  if (imageType === ImageTypes.svg || imageType === ImageTypes["svg+xml"]) {
     return {
       image,
       imageType
