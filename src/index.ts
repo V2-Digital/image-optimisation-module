@@ -48,6 +48,11 @@ export const handler: Handler<
       headers,
     };
   } catch (error) {
+    logger.error({
+      message: 'image optimisation failed',
+      error
+    })
+
     return {
       body: 'Internal Server Error',
       status: '500',
