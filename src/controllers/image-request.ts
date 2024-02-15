@@ -6,15 +6,23 @@ const canAcceptAvif = (
   acceptHeader: Array<{
     key?: string | undefined;
     value: string;
-  }>,
+  }> | undefined,
 ): boolean => {
+  if (acceptHeader === undefined) {
+    return false;
+  }
+
   acceptHeader.forEach(({ value }) => {
     if (value.includes('image/avif')) {
       return true;
     }
+
+    if (value.includes('*/*')) {
+      return true
+    }
   });
 
-  return false
+  return false;
 };
 
 interface HandlerResponse {
@@ -72,11 +80,11 @@ export const handle = async (
     };
   }
 
-  const acceptsAvif = canAcceptAvif(request.headers['Accept']);
+  const acceptsAvif = canAcceptAvif(request.headers['accept']);
 
   logger.info({
-    acceptsAvif
-  })
+    acceptsAvif,
+  });
 
   const result = await imageService.getOptimisedImage(
     uri,
