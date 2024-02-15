@@ -34802,10 +34802,16 @@ __export(exports_task_parameters, {
     {
       return IMAGE_STORE_BUCKET;
     }
+  },
+  AWS_REGION: () => {
+    {
+      return AWS_REGION;
+    }
   }
 });
 var IMAGE_STORE_BUCKET = process.env.IMAGE_STORE_BUCKET;
 var LOCAL_ENVIRONMENT = process.env.ENVIRONMENT === "local";
+var AWS_REGION = process.env.AWS_REGION;
 var PORT = process.env.PORT;
 // src/common/logger.ts
 var import_pino = __toESM(require_pino(), 1);
@@ -34925,7 +34931,9 @@ __export(exports_image, {
   }
 });
 var client_s3 = __toESM(require_dist_cjs69(), 1);
-var s3Client = new client_s3.S3Client;
+var s3Client = new client_s3.S3Client({
+  region: exports_task_parameters.AWS_REGION
+});
 var get = async (imageKey) => {
   return s3Client.send(new client_s3.GetObjectCommand({
     Bucket: exports_task_parameters.IMAGE_STORE_BUCKET,
