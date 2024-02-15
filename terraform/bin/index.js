@@ -34957,15 +34957,34 @@ var getOptimisedImage = async (imagePath, width, quality, canAcceptAvif) => {
     return;
   }
   const imageBuffer = Buffer.from(await originalImage.Body.transformToByteArray());
-  const imageType = detectImageFormat(imageBuffer, originalImage.ContentType?.split("image/")[1]);
-  if (imageType === undefined) {
+  const contentType = originalImage.ContentType?.split("image/")[1];
+  const originalImageType = detectImageFormat(imageBuffer, contentType);
+  if (originalImageType === undefined) {
     logger.error({
       message: "unable to determine image type"
     });
-    throw new Error("Unable to determine image type");
+    return {
+      image: imageBuffer,
+      imageType: contentType ?? ""
+    };
+  }
+  try {
+    const { image, imageType } = await optimiseImage(imageBuffer, originalImageType, width, quality, canAcceptAvif);
+    return {
+      image,
+      imageType,
+      cacheControl: originalImage.CacheControl,
+      etag: originalImage.ETag
+    };
+  } catch (error) {
+    logger.error({
+      message: "failed to optimise image",
+      error
+    });
   }
   return {
-    ...await optimiseImage(imageBuffer, imageType, width, quality, canAcceptAvif),
+    image: imageBuffer,
+    imageType: originalImageType,
     cacheControl: originalImage.CacheControl,
     etag: originalImage.ETag
   };
@@ -35015,7 +35034,7 @@ var handle = async (request) => {
       }
     };
   }
-  const acceptsAvif = canAcceptAvif(request.headers["accept"]);
+  const acceptsAvif = canAcceptAvif(request.headers["Accept"]);
   logger.info({
     acceptsAvif
   });
