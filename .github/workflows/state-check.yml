@@ -1,7 +1,7 @@
 name: Check Generated Files
 
 on:
-  push:
+  pull_request:
     branches:
       - main
 
@@ -14,7 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Build
         run: make build
