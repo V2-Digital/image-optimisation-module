@@ -34991,8 +34991,14 @@ var getOptimisedImage = async (imagePath, width, quality, canAcceptAvif) => {
 };
 // src/controllers/image-request.ts
 var canAcceptAvif = (acceptHeader) => {
+  if (acceptHeader === undefined) {
+    return false;
+  }
   acceptHeader.forEach(({ value }) => {
     if (value.includes("image/avif")) {
+      return true;
+    }
+    if (value.includes("*/*")) {
       return true;
     }
   });
@@ -35034,7 +35040,7 @@ var handle = async (request) => {
       }
     };
   }
-  const acceptsAvif = canAcceptAvif(request.headers["Accept"]);
+  const acceptsAvif = canAcceptAvif(request.headers["accept"]);
   logger.info({
     acceptsAvif
   });

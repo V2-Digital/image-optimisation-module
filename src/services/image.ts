@@ -70,6 +70,7 @@ export const getOptimisedImage = async (
       cacheControl: originalImage.CacheControl,
       etag: originalImage.ETag,
     };
+
   } catch (error) {
     logger.error({
       message: 'failed to optimise image',
