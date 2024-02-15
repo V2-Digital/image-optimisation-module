@@ -72,8 +72,8 @@ export const handle = async (
     };
   }
 
-  const acceptsAvif = canAcceptAvif(request.headers['accept']);
-  
+  const acceptsAvif = canAcceptAvif(request.headers['Accept']);
+
   logger.info({
     acceptsAvif
   })
