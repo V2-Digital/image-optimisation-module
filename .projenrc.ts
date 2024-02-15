@@ -1,5 +1,3 @@
-import { DockerCompose, DockerComposeService } from 'projen';
-
 import { BunTypescript } from 'bun-ts-projen';
 
 const PROJECT_NAME = 'image-optimisation-module';

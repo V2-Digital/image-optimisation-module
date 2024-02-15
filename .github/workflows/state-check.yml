@@ -1,0 +1,27 @@
+name: Check Generated Files
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  build_check:
+    name: Build Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Build
+        run: make build
+
+      - name: Commit Build Package
+        run: |
+          git config --global user.name 'Github Actions'
+          git config --global user.email 'github@actions.com'
+          git commit ./terraform/bin/index.js -m "chore(build)"
+          git push
