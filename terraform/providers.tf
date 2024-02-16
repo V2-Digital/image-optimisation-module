@@ -10,11 +10,4 @@ terraform {
       version = "~> 5.7"
     }
   }
-
-
-}
-
-provider "aws" {
-  alias  = "ap_southeast_2"
-  region = "ap-southeast-2"
 }
