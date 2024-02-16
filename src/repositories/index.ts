@@ -1,1 +1,1 @@
-export * as imageRepository from './image'
+export * as imageRepository from './image';

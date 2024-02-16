@@ -6,7 +6,7 @@ export const optimiseImage = async (
   imageType: string,
   width: number,
   quality: number,
-  canAcceptAvif: boolean
+  canAcceptAvif: boolean,
 ): Promise<{
   image: Buffer;
   imageType: ImageTypes;
@@ -19,24 +19,24 @@ export const optimiseImage = async (
   }
 
   const pipe = sharp(image);
-  
+
   if (width > 0) {
     pipe.resize(width, undefined, {
-      withoutEnlargement: true
+      withoutEnlargement: true,
     });
   }
 
   if (imageType === ImageTypes.gif) {
     return {
       image: await pipe.toBuffer(),
-      imageType
-    }
+      imageType,
+    };
   }
 
-  const desiredImageFormat = canAcceptAvif ? ImageTypes.avif : ImageTypes.webp
+  const desiredImageFormat = canAcceptAvif ? ImageTypes.avif : ImageTypes.webp;
 
   pipe.toFormat(desiredImageFormat, {
-    quality
+    quality,
   });
 
   return {

@@ -3,10 +3,12 @@ import { imageService } from '@services';
 import { logger } from '../common/logger';
 
 const canAcceptAvif = (
-  acceptHeader: Array<{
-    key?: string | undefined;
-    value: string;
-  }> | undefined,
+  acceptHeader:
+    | Array<{
+        key?: string | undefined;
+        value: string;
+      }>
+    | undefined,
 ): boolean => {
   if (acceptHeader === undefined) {
     return false;
@@ -18,7 +20,7 @@ const canAcceptAvif = (
     }
 
     if (value.includes('*/*')) {
-      return true
+      return true;
     }
   });
 
