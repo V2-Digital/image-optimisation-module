@@ -1,0 +1,35 @@
+name: Lint & Build
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  build_and_lint:
+    name: Build Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Build
+        run: make build
+
+      - name: Lint JS
+        run: make lint
+
+      - name: Format JS
+        run: make format
+
+      - name: Commit Build Package
+        run: |
+          git config --global user.name 'Github Actions'
+          git config --global user.email 'github@actions.com'
+          git commit -am "chore(build-lint-and-format)"
+          git push

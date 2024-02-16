@@ -13,3 +13,9 @@ clean:
 
 run:
 	docker compose run --service-ports --rm app bun --hot run src/local.ts
+
+lint:
+	docker compose run --service-ports --rm app bun run lint
+
+format:
+	docker compose run --service-ports --rm app bun run format

@@ -8,13 +8,17 @@ import { TASK_PARAMETERS, logger } from '@common';
 
 import { imageRequestController } from '@controllers';
 
+logger.info({
+  message: 'lambda starting',
+  TASK_PARAMETERS,
+});
+
 export const handler: Handler<
   CloudFrontRequestEvent,
   CloudFrontResultResponse
 > = async (event): Promise<CloudFrontResultResponse> => {
   logger.info({
-    message: 'lambda starting',
-    TASK_PARAMETERS,
+    message: 'event recieved',
     event,
   });
   try {
@@ -28,7 +32,7 @@ export const handler: Handler<
       headers[key] = [
         {
           key,
-          value: value ?? "",
+          value: value ?? '',
         },
       ];
     }
@@ -50,8 +54,8 @@ export const handler: Handler<
   } catch (error) {
     logger.error({
       message: 'image optimisation failed',
-      error
-    })
+      error,
+    });
 
     return {
       body: 'Internal Server Error',

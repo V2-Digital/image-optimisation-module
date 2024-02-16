@@ -5,17 +5,16 @@ import { imageRepository } from '@repositories';
 interface OptimisedImage {
   image: Buffer;
   imageType: string;
-  etag: string | undefined;
-  cacheControl: string | undefined;
+  etag?: string;
+  cacheControl?: string;
 }
 
 export const getOptimisedImage = async (
   imagePath: string,
   width: number,
   quality: number,
-  canAcceptAvif: boolean
+  canAcceptAvif: boolean,
 ): Promise<OptimisedImage | undefined> => {
-
   // remove first backslash
   const imageKey = imagePath.slice(1);
 
@@ -41,21 +40,46 @@ export const getOptimisedImage = async (
     await originalImage.Body.transformToByteArray(),
   );
 
-  const imageType = detectImageFormat(
-    imageBuffer,
-    originalImage.ContentType?.split('image/')[1],
-  );
+  const contentType = originalImage.ContentType?.split('image/')[1];
 
-  if (imageType === undefined) {
+  const originalImageType = detectImageFormat(imageBuffer, contentType);
+
+  if (originalImageType === undefined) {
     logger.error({
       message: 'unable to determine image type',
     });
 
-    throw new Error('Unable to determine image type');
+    return {
+      image: imageBuffer,
+      imageType: contentType ?? '',
+    };
+  }
+
+  try {
+    const { image, imageType } = await optimiseImage(
+      imageBuffer,
+      originalImageType,
+      width,
+      quality,
+      canAcceptAvif,
+    );
+
+    return {
+      image,
+      imageType,
+      cacheControl: originalImage.CacheControl,
+      etag: originalImage.ETag,
+    };
+  } catch (error) {
+    logger.error({
+      message: 'failed to optimise image',
+      error,
+    });
   }
 
   return {
-    ...await optimiseImage(imageBuffer, imageType, width, quality, canAcceptAvif),
+    image: imageBuffer,
+    imageType: originalImageType,
     cacheControl: originalImage.CacheControl,
     etag: originalImage.ETag,
   };

@@ -1,5 +1,3 @@
-import { DockerCompose, DockerComposeService } from 'projen';
-
 import { BunTypescript } from 'bun-ts-projen';
 
 const PROJECT_NAME = 'image-optimisation-module';
@@ -47,6 +45,16 @@ project.makefile.addRule({
   recipe: [
     'docker compose run --service-ports --rm app bun --hot run src/local.ts',
   ],
+});
+
+project.makefile.addRule({
+  targets: ['lint'],
+  recipe: ['docker compose run --service-ports --rm app bun run lint'],
+});
+
+project.makefile.addRule({
+  targets: ['format'],
+  recipe: ['docker compose run --service-ports --rm app bun run format'],
 });
 
 project.package.setScript('start:node', 'node terraform/templates/index.js');
