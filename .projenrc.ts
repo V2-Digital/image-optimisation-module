@@ -47,6 +47,16 @@ project.makefile.addRule({
   ],
 });
 
+project.makefile.addRule({
+  targets: ['lint'],
+  recipe: ['docker compose run --service-ports --rm app bun run lint'],
+});
+
+project.makefile.addRule({
+  targets: ['format'],
+  recipe: ['docker compose run --service-ports --rm app bun run format'],
+});
+
 project.package.setScript('start:node', 'node terraform/templates/index.js');
 
 project.appService.addPort(SERVICE_PORT, SERVICE_PORT);
