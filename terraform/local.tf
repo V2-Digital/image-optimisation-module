@@ -1,7 +1,7 @@
 locals {
   var_substitues = {
-    "process.env.IMAGE_STORE_BUCKET" = "\"${data.aws_s3_bucket.image_bucket.id}\"",
-    "process.env.AWS_REGION"         = "\"${data.aws_s3_bucket.image_bucket.region}\""
+    "process.env.IMAGE_STORE_BUCKET" = "\"${var.image_bucket_name}\"",
+    "process.env.AWS_REGION"         = "\"${var.image_bucket_region}\""
   }
 
   name = "image-optimisation"
