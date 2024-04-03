@@ -36,13 +36,27 @@ export const getOptimisedImage = async (
     return;
   }
 
+  logger.info({
+    message: 'fetched image from source',
+  });
+
   const imageBuffer = Buffer.from(
     await originalImage.Body.transformToByteArray(),
   );
 
+  logger.info({
+    message: 'generated-image-buffer',
+  });
+
   const contentType = originalImage.ContentType?.split('image/')[1];
 
   const originalImageType = detectImageFormat(imageBuffer, contentType);
+
+  logger.info({
+    message: 'determined image metadata',
+    contentType,
+    originalImageType,
+  });
 
   if (originalImageType === undefined) {
     logger.error({
@@ -63,6 +77,10 @@ export const getOptimisedImage = async (
       quality,
       canAcceptAvif,
     );
+
+    logger.info({
+      message: 'optimised image',
+    });
 
     return {
       image,
