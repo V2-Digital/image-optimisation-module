@@ -37,16 +37,16 @@ export const getOptimisedImage = async (
   }
 
   logger.info({
-    message: 'fetched image from source'
-  })
+    message: 'fetched image from source',
+  });
 
   const imageBuffer = Buffer.from(
     await originalImage.Body.transformToByteArray(),
   );
 
   logger.info({
-    message: 'generated-image-buffer'
-  })
+    message: 'generated-image-buffer',
+  });
 
   const contentType = originalImage.ContentType?.split('image/')[1];
 
@@ -55,8 +55,8 @@ export const getOptimisedImage = async (
   logger.info({
     message: 'determined image metadata',
     contentType,
-    originalImageType
-  })
+    originalImageType,
+  });
 
   if (originalImageType === undefined) {
     logger.error({
@@ -80,7 +80,7 @@ export const getOptimisedImage = async (
 
     logger.info({
       message: 'optimised image',
-    })
+    });
 
     return {
       image,
