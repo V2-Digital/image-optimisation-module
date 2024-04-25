@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.499.0",
-    "pino": "^8.17.2",
+    "pino": "^9.0.0",
     "sharp": "^0.33.2"
   },
   "main": "lib/index.js",
