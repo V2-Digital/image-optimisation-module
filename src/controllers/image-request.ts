@@ -18,42 +18,34 @@ const bestAcceptedFormat = (
     return ImageTypes.webp;
   }
 
-  // get all the header values out incase there is multiple 'accept' headers
-  const headerValues: string[] = [];
-  acceptHeader.forEach(({ value }) => {
-    if (value.includes(',')) {
-      const temp = value.split(',');
-      temp.forEach((t) => {
-        headerValues.push(t.trim());
-      });
-    } else headerValues.push(value);
-  });
+  const values = acceptHeader.reduce(
+    (previousValue, { value }) => previousValue + value + ',', '')
 
-  if (headerValues.includes('*/*') || headerValues.includes('image/avif')) {
+  if (values.includes('*/*') || values.includes('image/avif')) {
     logger.info({
       message: `best format is: ${ImageTypes.avif}`,
     });
     return ImageTypes.avif;
   }
-  if (headerValues.includes('image/webp')) {
+  if (values.includes('image/webp')) {
     logger.info({
       message: `best format is: ${ImageTypes.webp}`,
     });
     return ImageTypes.webp;
   }
-  if (headerValues.includes('image/png')) {
+  if (values.includes('image/png')) {
     logger.info({
       message: `best format is: ${ImageTypes.png}`,
     });
     return ImageTypes.png;
-  }
-  if (headerValues.includes('image/jpeg')) {
+  } 
+  if (values.includes('image/jpeg')) {
     logger.info({
       message: `best format is: ${ImageTypes.jpeg}`,
     });
     return ImageTypes.jpeg;
-  }
-  if (headerValues.includes('image/jpg')) {
+  } 
+  if (values.includes('image/jpg')) {
     logger.info({
       message: `best format is: ${ImageTypes.jpg}`,
     });
