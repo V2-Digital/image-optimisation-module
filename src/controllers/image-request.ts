@@ -34,22 +34,26 @@ const bestAcceptedFormat = (
       message: `best format is: ${ImageTypes.avif}`,
     });
     return ImageTypes.avif;
-  } else if (headerValues.includes('image/webp')) {
+  }
+  if (headerValues.includes('image/webp')) {
     logger.info({
       message: `best format is: ${ImageTypes.webp}`,
     });
     return ImageTypes.webp;
-  } else if (headerValues.includes('image/png')) {
+  }
+  if (headerValues.includes('image/png')) {
     logger.info({
       message: `best format is: ${ImageTypes.png}`,
     });
     return ImageTypes.png;
-  } else if (headerValues.includes('image/jpeg')) {
+  } 
+  if (headerValues.includes('image/jpeg')) {
     logger.info({
       message: `best format is: ${ImageTypes.jpeg}`,
     });
     return ImageTypes.jpeg;
-  } else if (headerValues.includes('image/jpg')) {
+  } 
+  if (headerValues.includes('image/jpg')) {
     logger.info({
       message: `best format is: ${ImageTypes.jpg}`,
     });
