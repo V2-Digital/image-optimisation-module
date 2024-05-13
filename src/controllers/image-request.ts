@@ -1,30 +1,60 @@
 import { CloudFrontRequest } from 'aws-lambda';
 import { imageService } from '@services';
 import { logger } from '../common/logger';
+import { ImageTypes } from '../common/constants';
 
-const canAcceptAvif = (
+const bestAcceptedFormat = (
   acceptHeader:
     | Array<{
         key?: string | undefined;
         value: string;
       }>
     | undefined,
-): boolean => {
+): ImageTypes => {
   if (acceptHeader === undefined) {
-    return false;
+    logger.info({
+      message: 'no accept header',
+    });
+    return ImageTypes.webp;
   }
 
-  acceptHeader.forEach(({ value }) => {
-    if (value.includes('image/avif')) {
-      return true;
-    }
+  const values = acceptHeader.reduce(
+    (previousValue, { value }) => previousValue + value + ',',
+    '',
+  );
 
-    if (value.includes('*/*')) {
-      return true;
-    }
-  });
+  if (values.includes('*/*') || values.includes('image/avif')) {
+    logger.info({
+      message: `best format is: ${ImageTypes.avif}`,
+    });
+    return ImageTypes.avif;
+  }
+  if (values.includes('image/webp')) {
+    logger.info({
+      message: `best format is: ${ImageTypes.webp}`,
+    });
+    return ImageTypes.webp;
+  }
+  if (values.includes('image/png')) {
+    logger.info({
+      message: `best format is: ${ImageTypes.png}`,
+    });
+    return ImageTypes.png;
+  }
+  if (values.includes('image/jpeg')) {
+    logger.info({
+      message: `best format is: ${ImageTypes.jpeg}`,
+    });
+    return ImageTypes.jpeg;
+  }
+  if (values.includes('image/jpg')) {
+    logger.info({
+      message: `best format is: ${ImageTypes.jpg}`,
+    });
+    return ImageTypes.jpg;
+  }
 
-  return false;
+  return ImageTypes.webp;
 };
 
 interface HandlerResponse {
@@ -82,17 +112,16 @@ export const handle = async (
     };
   }
 
-  const acceptsAvif = canAcceptAvif(request.headers['accept']);
-
+  const format = bestAcceptedFormat(request.headers['accept']);
   logger.info({
-    acceptsAvif,
+    message: `accepted format: ${format}`,
   });
 
   const result = await imageService.getOptimisedImage(
     uri,
     width,
     Math.min(quality, 75),
-    acceptsAvif,
+    format,
   );
 
   if (result === undefined) {

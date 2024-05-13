@@ -1,4 +1,4 @@
-import { detectImageFormat, logger, optimiseImage } from '@common';
+import { ImageTypes, detectImageFormat, logger, optimiseImage } from '@common';
 
 import { imageRepository } from '@repositories';
 
@@ -13,7 +13,7 @@ export const getOptimisedImage = async (
   imagePath: string,
   width: number,
   quality: number,
-  canAcceptAvif: boolean,
+  format: ImageTypes,
 ): Promise<OptimisedImage | undefined> => {
   // remove first backslash
   const imageKey = imagePath.slice(1);
@@ -75,7 +75,7 @@ export const getOptimisedImage = async (
       originalImageType,
       width,
       quality,
-      canAcceptAvif,
+      format,
     );
 
     logger.info({
