@@ -38,4 +38,5 @@ resource "aws_lambda_function" "main" {
 
   handler = "index.handler"
   runtime = "nodejs20.x"
+  memory_size = 1769
 }
