@@ -1,5 +1,5 @@
 import { ImageTypes } from './constants';
-import sharp, { AvailableFormatInfo }  from 'sharp';
+import sharp, { AvailableFormatInfo } from 'sharp';
 import { logger } from './logger';
 
 export const optimiseImage = async (
