@@ -1,30 +1,70 @@
 import { CloudFrontRequest } from 'aws-lambda';
 import { imageService } from '@services';
 import { logger } from '../common/logger';
+import { ImageTypes } from '../common/constants';
 
-const canAcceptAvif = (
+const bestAcceptedFormat = (
   acceptHeader:
     | Array<{
         key?: string | undefined;
         value: string;
       }>
     | undefined,
-): boolean => {
+): ImageTypes => {
+
   if (acceptHeader === undefined) {
-    return false;
+    logger.info({
+      message: 'no accept header',
+    });
+    return ImageTypes.webp;
   }
 
-  acceptHeader.forEach(({ value }) => {
-    if (value.includes('image/avif')) {
-      return true;
+  // get all the header values out incase there is multiple 'accept' headers
+  const headerValues: string[] = []
+  acceptHeader.forEach(({value}) => {
+   
+    if(value.includes(',')){
+      const temp = value.split(',')
+      temp.forEach(t => {
+        headerValues.push(t.trim())
+      });
     }
+    else(
+      headerValues.push(value)
+    )
+  })
 
-    if (value.includes('*/*')) {
-      return true;
-    }
-  });
+  if(headerValues.includes('*/*') || headerValues.includes('image/avif')){
+    logger.info({
+      message: `best format is: ${ImageTypes.avif}`,
+    });
+    return ImageTypes.avif
+  } else if(headerValues.includes('image/webp')){
+    logger.info({
+      message: `best format is: ${ImageTypes.webp}`,
+    });
+    return ImageTypes.webp
+  }
+  else if(headerValues.includes('image/png')){
+    logger.info({
+      message: `best format is: ${ImageTypes.png}`,
+    });
+    return ImageTypes.png
+  }
+  else if(headerValues.includes('image/jpeg')){
+    logger.info({
+      message: `best format is: ${ImageTypes.jpeg}`,
+    });
+    return ImageTypes.jpeg
+  }
+  else if(headerValues.includes('image/jpg')){
+    logger.info({
+      message: `best format is: ${ImageTypes.jpg}`,
+    });
+    return ImageTypes.jpg
+  }
 
-  return false;
+  return ImageTypes.webp
 };
 
 interface HandlerResponse {
@@ -82,17 +122,16 @@ export const handle = async (
     };
   }
 
-  const acceptsAvif = canAcceptAvif(request.headers['accept']);
-
+  const format = bestAcceptedFormat(request.headers['accept'])
   logger.info({
-    acceptsAvif,
+    message: `accepted format: ${format}`,
   });
 
   const result = await imageService.getOptimisedImage(
     uri,
     width,
     Math.min(quality, 75),
-    acceptsAvif,
+    format,
   );
 
   if (result === undefined) {

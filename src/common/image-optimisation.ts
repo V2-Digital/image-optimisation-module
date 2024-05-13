@@ -1,12 +1,13 @@
 import { ImageTypes } from './constants';
-import sharp from 'sharp';
+import sharp, { AvailableFormatInfo }  from 'sharp';
+import { logger } from './logger';
 
 export const optimiseImage = async (
   image: Buffer,
   imageType: string,
   width: number,
   quality: number,
-  canAcceptAvif: boolean,
+  format: ImageTypes,
 ): Promise<{
   image: Buffer;
   imageType: ImageTypes;
@@ -33,14 +34,16 @@ export const optimiseImage = async (
     };
   }
 
-  const desiredImageFormat = canAcceptAvif ? ImageTypes.avif : ImageTypes.webp;
+  logger.info({
+    message: `converting image to format: ${format}`,
+  });
 
-  pipe.toFormat(desiredImageFormat, {
+  pipe.toFormat(format as unknown as AvailableFormatInfo, {
     quality,
   });
 
   return {
     image: await pipe.toBuffer(),
-    imageType: desiredImageFormat,
+    imageType: format,
   };
 };
