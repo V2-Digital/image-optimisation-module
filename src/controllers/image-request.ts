@@ -19,7 +19,9 @@ const bestAcceptedFormat = (
   }
 
   const values = acceptHeader.reduce(
-    (previousValue, { value }) => previousValue + value + ',', '')
+    (previousValue, { value }) => previousValue + value + ',',
+    '',
+  );
 
   if (values.includes('*/*') || values.includes('image/avif')) {
     logger.info({
@@ -38,13 +40,13 @@ const bestAcceptedFormat = (
       message: `best format is: ${ImageTypes.png}`,
     });
     return ImageTypes.png;
-  } 
+  }
   if (values.includes('image/jpeg')) {
     logger.info({
       message: `best format is: ${ImageTypes.jpeg}`,
     });
     return ImageTypes.jpeg;
-  } 
+  }
   if (values.includes('image/jpg')) {
     logger.info({
       message: `best format is: ${ImageTypes.jpg}`,
