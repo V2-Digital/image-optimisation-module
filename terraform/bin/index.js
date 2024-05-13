@@ -27,7 +27,7 @@ var __export = (target, all) => {
 };
 var __require = createRequire(import.meta.url);
 
-// node_modules/pino-std-serializers/lib/err-helpers.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/wha
 var require_err_helpers = __commonJS((exports, module) => {
   var isErrorLike = (err) => {
     return err && typeof err.message === "string";
@@ -84,7 +84,7 @@ var require_err_helpers = __commonJS((exports, module) => {
   };
 });
 
-// node_modules/pino-std-serializers/lib/err-proto.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/w
 var require_err_proto = __commonJS((exports, module) => {
   var seen = Symbol("circular-ref-tag");
   var rawSymbol = Symbol("pino-raw-err-ref");
@@ -132,7 +132,7 @@ var require_err_proto = __commonJS((exports, module) => {
   };
 });
 
-// node_modules/pino-std-serializers/lib/err.js
+// node_modules/@aws-sdk/util-utf8-browser/dist
 var require_err = __commonJS((exports, module) => {
   var errSerializer = function(err) {
     if (!isErrorLike(err)) {
@@ -169,7 +169,7 @@ var require_err = __commonJS((exports, module) => {
   var { toString } = Object.prototype;
 });
 
-// node_modules/pino-std-serializers/lib/err-with-cause.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwg
 var require_err_with_cause = __commonJS((exports, module) => {
   var errWithCauseSerializer = function(err) {
     if (!isErrorLike(err)) {
@@ -209,7 +209,7 @@ var require_err_with_cause = __commonJS((exports, module) => {
   var { toString } = Object.prototype;
 });
 
-// node_modules/pino-std-serializers/lib/req.js
+// node_modules/@aws-sdk/util-utf8-browser/dist
 var require_req = __commonJS((exports, module) => {
   var reqSerializer = function(req) {
     const connection = req.info || req.socket;
@@ -301,7 +301,7 @@ var require_req = __commonJS((exports, module) => {
   });
 });
 
-// node_modules/pino-std-serializers/lib/res.js
+// node_modules/@aws-sdk/util-utf8-browser/dist
 var require_res = __commonJS((exports, module) => {
   var resSerializer = function(res) {
     const _res = Object.create(pinoResProto);
@@ -347,7 +347,7 @@ var require_res = __commonJS((exports, module) => {
   });
 });
 
-// node_modules/pino-std-serializers/index.js
+// node_modules/@aws-sdk/util-utf8-browser/di
 var require_pino_std_serializers = __commonJS((exports, module) => {
   var errSerializer = require_err();
   var errWithCauseSerializer = require_err_with_cause();
@@ -384,7 +384,7 @@ var require_pino_std_serializers = __commonJS((exports, module) => {
   };
 });
 
-// node_modules/pino/lib/caller.js
+// node_modules/@aws-sdk/util-utf8
 var require_caller = __commonJS((exports, module) => {
   var noOpPrepareStackTrace = function(_, stack) {
     return stack;
@@ -409,7 +409,7 @@ var require_caller = __commonJS((exports, module) => {
   };
 });
 
-// node_modules/fast-redact/lib/validator.js
+// node_modules/@aws-sdk/util-utf8-browser/d
 var require_validator = __commonJS((exports, module) => {
   var validator = function(opts = {}) {
     const {
@@ -444,12 +444,12 @@ var require_validator = __commonJS((exports, module) => {
   module.exports = validator;
 });
 
-// node_modules/fast-redact/lib/rx.js
+// node_modules/@aws-sdk/util-utf8-br
 var require_rx = __commonJS((exports, module) => {
   module.exports = /[^.[\]]+|\[((?:.)*?)\]/g;
 });
 
-// node_modules/fast-redact/lib/parse.js
+// node_modules/@aws-sdk/util-utf8-brows
 var require_parse = __commonJS((exports, module) => {
   var parse = function({ paths }) {
     const wildcards = [];
@@ -494,7 +494,7 @@ var require_parse = __commonJS((exports, module) => {
   module.exports = parse;
 });
 
-// node_modules/fast-redact/lib/redactor.js
+// node_modules/@aws-sdk/util-utf8-browser/
 var require_redactor = __commonJS((exports, module) => {
   var redactor = function({ secret, serialize, wcLen, strict, isCensorFct, censorFctTakesPath }, state) {
     const redact = Function("o", `
@@ -582,7 +582,7 @@ var require_redactor = __commonJS((exports, module) => {
   module.exports = redactor;
 });
 
-// node_modules/fast-redact/lib/modifiers.js
+// node_modules/@aws-sdk/util-utf8-browser/d
 var require_modifiers = __commonJS((exports, module) => {
   var groupRestore = function({ keys, values, target }) {
     if (target == null)
@@ -804,7 +804,7 @@ var require_modifiers = __commonJS((exports, module) => {
   };
 });
 
-// node_modules/fast-redact/lib/restorer.js
+// node_modules/@aws-sdk/util-utf8-browser/
 var require_restorer = __commonJS((exports, module) => {
   var restorer = function({ secret, wcLen }) {
     return function compileRestore() {
@@ -854,7 +854,7 @@ var require_restorer = __commonJS((exports, module) => {
   module.exports = restorer;
 });
 
-// node_modules/fast-redact/lib/state.js
+// node_modules/@aws-sdk/util-utf8-brows
 var require_state = __commonJS((exports, module) => {
   var state = function(o) {
     const {
@@ -877,7 +877,7 @@ var require_state = __commonJS((exports, module) => {
   module.exports = state;
 });
 
-// node_modules/fast-redact/index.js
+// node_modules/@aws-sdk/util-utf8-b
 var require_fast_redact = __commonJS((exports, module) => {
   var fastRedact = function(opts = {}) {
     const paths = Array.from(new Set(opts.paths || []));
@@ -922,7 +922,7 @@ var require_fast_redact = __commonJS((exports, module) => {
   module.exports = fastRedact;
 });
 
-// node_modules/pino/lib/symbols.js
+// node_modules/@aws-sdk/util-utf8-
 var require_symbols = __commonJS((exports, module) => {
   var setLevelSym = Symbol("pino.setLevel");
   var getLevelSym = Symbol("pino.getLevel");
@@ -988,7 +988,7 @@ var require_symbols = __commonJS((exports, module) => {
   };
 });
 
-// node_modules/pino/lib/redaction.js
+// node_modules/@aws-sdk/util-utf8-br
 var require_redaction = __commonJS((exports, module) => {
   var redaction = function(opts, serialize) {
     const { paths, censor } = handle(opts);
@@ -1073,7 +1073,7 @@ var require_redaction = __commonJS((exports, module) => {
   module.exports = redaction;
 });
 
-// node_modules/pino/lib/time.js
+// node_modules/@aws-sdk/util-ut
 var require_time = __commonJS((exports, module) => {
   var nullTime = () => "";
   var epochTime = () => `,"time":${Date.now()}`;
@@ -1082,7 +1082,7 @@ var require_time = __commonJS((exports, module) => {
   module.exports = { nullTime, epochTime, unixTime, isoTime };
 });
 
-// node_modules/quick-format-unescaped/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist
 var require_quick_format_unescaped = __commonJS((exports, module) => {
   var tryStringify = function(o) {
     try {
@@ -1200,7 +1200,7 @@ var require_quick_format_unescaped = __commonJS((exports, module) => {
   module.exports = format;
 });
 
-// node_modules/atomic-sleep/index.js
+// node_modules/@aws-sdk/util-utf8-br
 var require_atomic_sleep = __commonJS((exports, module) => {
   if (typeof SharedArrayBuffer !== "undefined" && typeof Atomics !== "undefined") {
     let sleep = function(ms) {
@@ -1232,7 +1232,7 @@ var require_atomic_sleep = __commonJS((exports, module) => {
   }
 });
 
-// node_modules/sonic-boom/index.js
+// node_modules/@aws-sdk/util-utf8-
 var require_sonic_boom = __commonJS((exports, module) => {
   var openFile = function(file, sonic) {
     sonic._opening = true;
@@ -1778,7 +1778,7 @@ var require_sonic_boom = __commonJS((exports, module) => {
   module.exports = SonicBoom;
 });
 
-// node_modules/on-exit-leak-free/index.js
+// node_modules/@aws-sdk/util-utf8-browser
 var require_on_exit_leak_free = __commonJS((exports, module) => {
   var ensureRegistry = function() {
     if (registry === undefined) {
@@ -1869,7 +1869,7 @@ var require_on_exit_leak_free = __commonJS((exports, module) => {
   };
 });
 
-// node_modules/thread-stream/package.json
+// node_modules/@aws-sdk/util-utf8-browser
 var require_package = __commonJS((exports, module) => {
   module.exports = {
     name: "thread-stream",
@@ -1927,7 +1927,7 @@ var require_package = __commonJS((exports, module) => {
   };
 });
 
-// node_modules/thread-stream/lib/wait.js
+// node_modules/@aws-sdk/util-utf8-browse
 var require_wait = __commonJS((exports, module) => {
   var wait = function(state, index, expected, timeout, done) {
     const max = Date.now() + timeout;
@@ -1984,7 +1984,7 @@ var require_wait = __commonJS((exports, module) => {
   module.exports = { wait, waitDiff };
 });
 
-// node_modules/thread-stream/lib/indexes.js
+// node_modules/@aws-sdk/util-utf8-browser/d
 var require_indexes = __commonJS((exports, module) => {
   var WRITE_INDEX = 4;
   var READ_INDEX = 8;
@@ -1994,7 +1994,7 @@ var require_indexes = __commonJS((exports, module) => {
   };
 });
 
-// node_modules/thread-stream/index.js
+// node_modules/@aws-sdk/util-utf8-bro
 var require_thread_stream = __commonJS((exports, module) => {
   var createWorker = function(stream, opts) {
     const { filename, workerData } = opts;
@@ -2415,7 +2415,7 @@ var require_thread_stream = __commonJS((exports, module) => {
   module.exports = ThreadStream;
 });
 
-// node_modules/pino/lib/transport.js
+// node_modules/@aws-sdk/util-utf8-br
 var require_transport = __commonJS((exports, module) => {
   var setupOnExit = function(stream) {
     onExit.register(stream, autoEnd);
@@ -2529,7 +2529,7 @@ var require_transport = __commonJS((exports, module) => {
   module.exports = transport;
 });
 
-// node_modules/pino/lib/tools.js
+// node_modules/@aws-sdk/util-utf
 var require_tools = __commonJS((exports, module) => {
   var noop = function() {
   };
@@ -2850,7 +2850,7 @@ var require_tools = __commonJS((exports, module) => {
   };
 });
 
-// node_modules/pino/lib/levels.js
+// node_modules/@aws-sdk/util-utf8
 var require_levels = __commonJS((exports, module) => {
   var genLsCache = function(instance) {
     const formatter = instance[formattersSym].level;
@@ -3002,12 +3002,12 @@ var require_levels = __commonJS((exports, module) => {
   };
 });
 
-// node_modules/pino/lib/meta.js
+// node_modules/@aws-sdk/util-ut
 var require_meta = __commonJS((exports, module) => {
   module.exports = { version: "8.17.2" };
 });
 
-// node_modules/pino/lib/proto.js
+// node_modules/@aws-sdk/util-utf
 var require_proto = __commonJS((exports, module) => {
   var child = function(bindings2, options) {
     if (!bindings2) {
@@ -3208,7 +3208,7 @@ var require_proto = __commonJS((exports, module) => {
   var resetChildingsFormatter = (bindings2) => bindings2;
 });
 
-// node_modules/safe-stable-stringify/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dis
 var require_safe_stable_stringify = __commonJS((exports, module) => {
   var strEscape = function(str) {
     if (str.length < 5000 && !strEscapeSequencesRegExp.test(str)) {
@@ -3761,7 +3761,7 @@ var require_safe_stable_stringify = __commonJS((exports, module) => {
   var typedArrayPrototypeGetSymbolToStringTag = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(Object.getPrototypeOf(new Int8Array)), Symbol.toStringTag).get;
 });
 
-// node_modules/pino/lib/multistream.js
+// node_modules/@aws-sdk/util-utf8-brow
 var require_multistream = __commonJS((exports, module) => {
   var multistream = function(streamsArray, opts) {
     let counter = 0;
@@ -3905,7 +3905,7 @@ var require_multistream = __commonJS((exports, module) => {
   module.exports = multistream;
 });
 
-// node_modules/pino/pino.js
+// node_modules/@aws-sdk/uti
 var require_pino = __commonJS((exports, module) => {
   var pino = function(...args) {
     const instance = {};
@@ -4098,7 +4098,7 @@ var require_pino = __commonJS((exports, module) => {
   module.exports.pino = pino;
 });
 
-// node_modules/@smithy/types/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist
 var require_dist_cjs = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -4216,7 +4216,7 @@ var require_dist_cjs = __commonJS((exports, module) => {
   })(RequestHandlerProtocol || {});
 });
 
-// node_modules/@smithy/protocol-http/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/wha
 var require_dist_cjs2 = __commonJS((exports, module) => {
   var cloneQuery = function(query) {
     return Object.keys(query).reduce((carry, paramName) => {
@@ -4380,7 +4380,7 @@ var require_dist_cjs2 = __commonJS((exports, module) => {
   __name(isValidHostname, "isValidHostname");
 });
 
-// node_modules/@aws-sdk/middleware-expect-continue/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi
 var require_dist_cjs3 = __commonJS((exports, module) => {
   var addExpectContinueMiddleware = function(options) {
     return (next) => async (args) => {
@@ -4437,7 +4437,7 @@ var require_dist_cjs3 = __commonJS((exports, module) => {
   }), "getAddExpectContinuePlugin");
 });
 
-// node_modules/@aws-sdk/middleware-host-header/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodin
 var require_dist_cjs4 = __commonJS((exports, module) => {
   var resolveHostHeaderConfig = function(input) {
     return input;
@@ -4500,7 +4500,7 @@ var require_dist_cjs4 = __commonJS((exports, module) => {
   }), "getHostHeaderPlugin");
 });
 
-// node_modules/@aws-sdk/middleware-logger/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEn
 var require_dist_cjs5 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -4571,7 +4571,7 @@ var require_dist_cjs5 = __commonJS((exports, module) => {
   }), "getLoggerPlugin");
 });
 
-// node_modules/@aws-sdk/middleware-recursion-detection/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.jss
 var require_dist_cjs6 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -4632,7 +4632,7 @@ var require_dist_cjs6 = __commonJS((exports, module) => {
   }), "getRecursionDetectionPlugin");
 });
 
-// node_modules/@smithy/middleware-stack/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwg
 var require_dist_cjs7 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -4930,7 +4930,7 @@ var require_dist_cjs7 = __commonJS((exports, module) => {
   };
 });
 
-// node_modules/@smithy/is-array-buffer/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatw
 var require_dist_cjs8 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -4958,7 +4958,7 @@ var require_dist_cjs8 = __commonJS((exports, module) => {
   var isArrayBuffer = __name((arg) => typeof ArrayBuffer === "function" && arg instanceof ArrayBuffer || Object.prototype.toString.call(arg) === "[object ArrayBuffer]", "isArrayBuffer");
 });
 
-// node_modules/@smithy/util-buffer-from/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwg
 var require_dist_cjs9 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -5000,7 +5000,7 @@ var require_dist_cjs9 = __commonJS((exports, module) => {
   }, "fromString");
 });
 
-// node_modules/@smithy/util-base64/dist-cjs/fromBase64.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwg
 var require_fromBase64 = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.fromBase64 = undefined;
@@ -5019,7 +5019,7 @@ var require_fromBase64 = __commonJS((exports) => {
   exports.fromBase64 = fromBase642;
 });
 
-// node_modules/@smithy/util-base64/dist-cjs/toBase64.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/what
 var require_toBase64 = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.toBase64 = undefined;
@@ -5028,7 +5028,7 @@ var require_toBase64 = __commonJS((exports) => {
   exports.toBase64 = toBase642;
 });
 
-// node_modules/@smithy/util-base64/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/w
 var require_dist_cjs10 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -5050,7 +5050,7 @@ var require_dist_cjs10 = __commonJS((exports, module) => {
   __reExport(src_exports, require_toBase64(), module.exports);
 });
 
-// node_modules/@smithy/util-utf8/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs
 var require_dist_cjs11 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -5094,7 +5094,7 @@ var require_dist_cjs11 = __commonJS((exports, module) => {
   var toUtf8 = __name((input) => (0, import_util_buffer_from.fromArrayBuffer)(input.buffer, input.byteOffset, input.byteLength).toString("utf8"), "toUtf8");
 });
 
-// node_modules/@smithy/util-stream/dist-cjs/getAwsChunkedEncodingStream.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.jssno
 var require_getAwsChunkedEncodingStream = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getAwsChunkedEncodingStream = undefined;
@@ -5125,7 +5125,7 @@ var require_getAwsChunkedEncodingStream = __commonJS((exports) => {
   exports.getAwsChunkedEncodingStream = getAwsChunkedEncodingStream2;
 });
 
-// node_modules/@smithy/util-uri-escape/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatw
 var require_dist_cjs12 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -5156,7 +5156,7 @@ var require_dist_cjs12 = __commonJS((exports, module) => {
   var escapeUriPath = __name((uri) => uri.split("/").map(escapeUri).join("/"), "escapeUriPath");
 });
 
-// node_modules/@smithy/querystring-builder/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEnc
 var require_dist_cjs13 = __commonJS((exports, module) => {
   var buildQueryString = function(query) {
     const parts = [];
@@ -5204,7 +5204,7 @@ var require_dist_cjs13 = __commonJS((exports, module) => {
   __name(buildQueryString, "buildQueryString");
 });
 
-// node_modules/@smithy/node-http-handler/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgE
 var require_dist_cjs14 = __commonJS((exports, module) => {
   async function writeRequestBody(httpRequest, request, maxContinueTimeoutMs = MIN_WAIT_TIME) {
     const headers = request.headers ?? {};
@@ -5757,7 +5757,7 @@ var require_dist_cjs14 = __commonJS((exports, module) => {
   }), "streamCollector");
 });
 
-// node_modules/@smithy/util-stream/dist-cjs/sdk-stream-mixin.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodi
 var require_sdk_stream_mixin = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.sdkStreamMixin = undefined;
@@ -5809,7 +5809,7 @@ var require_sdk_stream_mixin = __commonJS((exports) => {
   exports.sdkStreamMixin = sdkStreamMixin2;
 });
 
-// node_modules/@smithy/util-stream/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/w
 var require_dist_cjs15 = __commonJS((exports, module) => {
   var transformToString = function(payload, encoding = "utf-8") {
     if (encoding === "base64") {
@@ -5874,7 +5874,7 @@ var require_dist_cjs15 = __commonJS((exports, module) => {
   __reExport(src_exports, require_sdk_stream_mixin(), module.exports);
 });
 
-// node_modules/@smithy/smithy-client/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/wha
 var require_dist_cjs16 = __commonJS((exports, module) => {
   var dateToUtcString = function(date) {
     const year = date.getUTCFullYear();
@@ -6905,7 +6905,7 @@ var require_dist_cjs16 = __commonJS((exports, module) => {
   __name(splitEvery, "splitEvery");
 });
 
-// node_modules/@aws-crypto/crc32/node_modules/tslib/tslib.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEnc
 var require_tslib = __commonJS((exports, module) => {
   /*! *****************************************************************************
   Copyright (c) Microsoft Corporation.
@@ -7317,7 +7317,7 @@ var require_tslib = __commonJS((exports, module) => {
   });
 });
 
-// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/pureJs.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEnc
 var require_pureJs = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.toUtf8 = exports.fromUtf8 = undefined;
@@ -7375,7 +7375,7 @@ var require_whatwgEncodingApi = __commonJS((exports) => {
   exports.toUtf8 = toUtf8;
 });
 
-// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEn
 var require_dist_cjs17 = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.toUtf8 = exports.fromUtf8 = undefined;
@@ -7387,7 +7387,7 @@ var require_dist_cjs17 = __commonJS((exports) => {
   exports.toUtf8 = toUtf8;
 });
 
-// node_modules/@aws-crypto/util/build/convertToBuffer.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatw
 var require_convertToBuffer = __commonJS((exports) => {
   var convertToBuffer = function(data) {
     if (data instanceof Uint8Array)
@@ -7409,7 +7409,7 @@ var require_convertToBuffer = __commonJS((exports) => {
   exports.convertToBuffer = convertToBuffer;
 });
 
-// node_modules/@aws-crypto/util/build/isEmptyData.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/w
 var require_isEmptyData = __commonJS((exports) => {
   var isEmptyData = function(data) {
     if (typeof data === "string") {
@@ -7422,7 +7422,7 @@ var require_isEmptyData = __commonJS((exports) => {
   exports.isEmptyData = isEmptyData;
 });
 
-// node_modules/@aws-crypto/util/build/numToUint8.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/
 var require_numToUint8 = __commonJS((exports) => {
   var numToUint8 = function(num) {
     return new Uint8Array([
@@ -7437,7 +7437,7 @@ var require_numToUint8 = __commonJS((exports) => {
   exports.numToUint8 = numToUint8;
 });
 
-// node_modules/@aws-crypto/util/build/uint32ArrayFrom.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatw
 var require_uint32ArrayFrom = __commonJS((exports) => {
   var uint32ArrayFrom = function(a_lookUpTable) {
     if (!Uint32Array.from) {
@@ -7456,7 +7456,7 @@ var require_uint32ArrayFrom = __commonJS((exports) => {
   exports.uint32ArrayFrom = uint32ArrayFrom;
 });
 
-// node_modules/@aws-crypto/util/build/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist
 var require_build = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.uint32ArrayFrom = exports.numToUint8 = exports.isEmptyData = exports.convertToBuffer = undefined;
@@ -7478,7 +7478,7 @@ var require_build = __commonJS((exports) => {
   } });
 });
 
-// node_modules/@aws-crypto/crc32/build/aws_crc32.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/
 var require_aws_crc32 = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.AwsCrc32 = undefined;
@@ -7509,7 +7509,7 @@ var require_aws_crc32 = __commonJS((exports) => {
   exports.AwsCrc32 = AwsCrc32;
 });
 
-// node_modules/@aws-crypto/crc32/build/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-
 var require_build2 = __commonJS((exports) => {
   var crc32 = function(data) {
     return new Crc32().update(data).digest();
@@ -7814,7 +7814,7 @@ var require_build2 = __commonJS((exports) => {
   } });
 });
 
-// node_modules/@smithy/util-hex-encoding/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgE
 var require_dist_cjs18 = __commonJS((exports, module) => {
   var fromHex = function(encoded) {
     if (encoded.length % 2 !== 0) {
@@ -7876,7 +7876,7 @@ var require_dist_cjs18 = __commonJS((exports, module) => {
   __name(toHex, "toHex");
 });
 
-// node_modules/@smithy/eventstream-codec/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgE
 var require_dist_cjs19 = __commonJS((exports, module) => {
   var negate = function(bytes) {
     for (let i = 0;i < 8; i++) {
@@ -8286,7 +8286,7 @@ var require_dist_cjs19 = __commonJS((exports, module) => {
   var SmithyMessageEncoderStream = _SmithyMessageEncoderStream;
 });
 
-// node_modules/@smithy/util-middleware/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatw
 var require_dist_cjs20 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -8322,7 +8322,7 @@ var require_dist_cjs20 = __commonJS((exports, module) => {
   }, "normalizeProvider");
 });
 
-// node_modules/@smithy/signature-v4/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/wh
 var require_dist_cjs21 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -8731,7 +8731,7 @@ ${(0, import_util_hex_encoding.toHex)(hashedRequest)}`;
   var getCanonicalHeaderList = __name((headers) => Object.keys(headers).sort().join(";"), "getCanonicalHeaderList");
 });
 
-// node_modules/@smithy/util-config-provider/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEnco
 var require_dist_cjs22 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -8783,7 +8783,7 @@ var require_dist_cjs22 = __commonJS((exports, module) => {
   })(SelectorType || {});
 });
 
-// node_modules/@aws-sdk/util-arn-parser/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwg
 var require_dist_cjs23 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -8840,7 +8840,7 @@ var require_dist_cjs23 = __commonJS((exports, module) => {
   }, "build");
 });
 
-// node_modules/@aws-sdk/middleware-sdk-s3/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEn
 var require_dist_cjs24 = __commonJS((exports, module) => {
   var checkContentLengthHeader = function() {
     return (next, context) => async (args) => {
@@ -9294,7 +9294,7 @@ var require_dist_cjs24 = __commonJS((exports, module) => {
   }), "getValidateBucketNamePlugin");
 });
 
-// node_modules/@smithy/property-provider/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgE
 var require_dist_cjs25 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -9423,7 +9423,7 @@ var require_dist_cjs25 = __commonJS((exports, module) => {
   }, "memoize");
 });
 
-// node_modules/@aws-sdk/middleware-signing/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEnc
 var require_dist_cjs26 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -9613,7 +9613,7 @@ var require_dist_cjs26 = __commonJS((exports, module) => {
   var getSigV4AuthPlugin = getAwsAuthPlugin;
 });
 
-// node_modules/@smithy/util-endpoints/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/what
 var require_dist_cjs27 = __commonJS((exports, module) => {
   var toDebugString = function(input) {
     if (typeof input !== "object" || input == null) {
@@ -10015,7 +10015,7 @@ var require_dist_cjs27 = __commonJS((exports, module) => {
   }, "resolveEndpoint");
 });
 
-// node_modules/@aws-sdk/util-endpoints/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatw
 var require_dist_cjs28 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -10368,7 +10368,7 @@ var require_dist_cjs28 = __commonJS((exports, module) => {
   import_util_endpoints.customEndpointFunctions.aws = awsEndpointFunctions;
 });
 
-// node_modules/@aws-sdk/middleware-user-agent/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodi
 var require_dist_cjs29 = __commonJS((exports, module) => {
   var resolveUserAgentConfig = function(input) {
     return {
@@ -10475,7 +10475,7 @@ var require_dist_cjs29 = __commonJS((exports, module) => {
   }), "getUserAgentPlugin");
 });
 
-// node_modules/@smithy/config-resolver/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatw
 var require_dist_cjs30 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -10657,7 +10657,7 @@ var require_dist_cjs30 = __commonJS((exports, module) => {
   }, "getRegionInfo");
 });
 
-// node_modules/@smithy/eventstream-serde-config-resolver/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.jssno
 var require_dist_cjs31 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -10688,7 +10688,7 @@ var require_dist_cjs31 = __commonJS((exports, module) => {
   }), "resolveEventStreamSerdeConfig");
 });
 
-// node_modules/@smithy/middleware-content-length/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingA
 var require_dist_cjs32 = __commonJS((exports, module) => {
   var contentLengthMiddleware = function(bodyLengthChecker) {
     return (next) => async (args) => {
@@ -10753,7 +10753,7 @@ var require_dist_cjs32 = __commonJS((exports, module) => {
   }), "getContentLengthPlugin");
 });
 
-// node_modules/uuid/dist/rng.js
+// node_modules/@aws-sdk/util-ut
 var require_rng = __commonJS((exports) => {
   var _interopRequireDefault = function(obj) {
     return obj && obj.__esModule ? obj : { default: obj };
@@ -10774,7 +10774,7 @@ var require_rng = __commonJS((exports) => {
   var poolPtr = rnds8Pool.length;
 });
 
-// node_modules/uuid/dist/regex.js
+// node_modules/@aws-sdk/util-utf8
 var require_regex = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", {
     value: true
@@ -10784,7 +10784,7 @@ var require_regex = __commonJS((exports) => {
   exports.default = _default;
 });
 
-// node_modules/uuid/dist/validate.js
+// node_modules/@aws-sdk/util-utf8-br
 var require_validate = __commonJS((exports) => {
   var _interopRequireDefault = function(obj) {
     return obj && obj.__esModule ? obj : { default: obj };
@@ -10801,7 +10801,7 @@ var require_validate = __commonJS((exports) => {
   exports.default = _default;
 });
 
-// node_modules/uuid/dist/stringify.js
+// node_modules/@aws-sdk/util-utf8-bro
 var require_stringify = __commonJS((exports) => {
   var _interopRequireDefault = function(obj) {
     return obj && obj.__esModule ? obj : { default: obj };
@@ -10826,7 +10826,7 @@ var require_stringify = __commonJS((exports) => {
   exports.default = _default;
 });
 
-// node_modules/uuid/dist/v1.js
+// node_modules/@aws-sdk/util-u
 var require_v1 = __commonJS((exports) => {
   var _interopRequireDefault = function(obj) {
     return obj && obj.__esModule ? obj : { default: obj };
@@ -10893,7 +10893,7 @@ var require_v1 = __commonJS((exports) => {
   exports.default = _default;
 });
 
-// node_modules/uuid/dist/parse.js
+// node_modules/@aws-sdk/util-utf8
 var require_parse2 = __commonJS((exports) => {
   var _interopRequireDefault = function(obj) {
     return obj && obj.__esModule ? obj : { default: obj };
@@ -10931,7 +10931,7 @@ var require_parse2 = __commonJS((exports) => {
   exports.default = _default;
 });
 
-// node_modules/uuid/dist/v35.js
+// node_modules/@aws-sdk/util-ut
 var require_v35 = __commonJS((exports) => {
   var _interopRequireDefault = function(obj) {
     return obj && obj.__esModule ? obj : { default: obj };
@@ -10991,7 +10991,7 @@ var require_v35 = __commonJS((exports) => {
   exports.URL = URL2;
 });
 
-// node_modules/uuid/dist/md5.js
+// node_modules/@aws-sdk/util-ut
 var require_md5 = __commonJS((exports) => {
   var _interopRequireDefault = function(obj) {
     return obj && obj.__esModule ? obj : { default: obj };
@@ -11013,7 +11013,7 @@ var require_md5 = __commonJS((exports) => {
   exports.default = _default;
 });
 
-// node_modules/uuid/dist/v3.js
+// node_modules/@aws-sdk/util-u
 var require_v3 = __commonJS((exports) => {
   var _interopRequireDefault = function(obj) {
     return obj && obj.__esModule ? obj : { default: obj };
@@ -11029,7 +11029,7 @@ var require_v3 = __commonJS((exports) => {
   exports.default = _default;
 });
 
-// node_modules/uuid/dist/v4.js
+// node_modules/@aws-sdk/util-u
 var require_v4 = __commonJS((exports) => {
   var _interopRequireDefault = function(obj) {
     return obj && obj.__esModule ? obj : { default: obj };
@@ -11058,7 +11058,7 @@ var require_v4 = __commonJS((exports) => {
   exports.default = _default;
 });
 
-// node_modules/uuid/dist/sha1.js
+// node_modules/@aws-sdk/util-utf
 var require_sha1 = __commonJS((exports) => {
   var _interopRequireDefault = function(obj) {
     return obj && obj.__esModule ? obj : { default: obj };
@@ -11080,7 +11080,7 @@ var require_sha1 = __commonJS((exports) => {
   exports.default = _default;
 });
 
-// node_modules/uuid/dist/v5.js
+// node_modules/@aws-sdk/util-u
 var require_v5 = __commonJS((exports) => {
   var _interopRequireDefault = function(obj) {
     return obj && obj.__esModule ? obj : { default: obj };
@@ -11096,7 +11096,7 @@ var require_v5 = __commonJS((exports) => {
   exports.default = _default;
 });
 
-// node_modules/uuid/dist/nil.js
+// node_modules/@aws-sdk/util-ut
 var require_nil = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", {
     value: true
@@ -11106,7 +11106,7 @@ var require_nil = __commonJS((exports) => {
   exports.default = _default;
 });
 
-// node_modules/uuid/dist/version.js
+// node_modules/@aws-sdk/util-utf8-b
 var require_version = __commonJS((exports) => {
   var _interopRequireDefault = function(obj) {
     return obj && obj.__esModule ? obj : { default: obj };
@@ -11126,7 +11126,7 @@ var require_version = __commonJS((exports) => {
   exports.default = _default;
 });
 
-// node_modules/uuid/dist/index.js
+// node_modules/@aws-sdk/util-utf8
 var require_dist = __commonJS((exports) => {
   var _interopRequireDefault = function(obj) {
     return obj && obj.__esModule ? obj : { default: obj };
@@ -11199,7 +11199,7 @@ var require_dist = __commonJS((exports) => {
   var _parse = _interopRequireDefault(require_parse2());
 });
 
-// node_modules/@smithy/service-error-classification/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.
 var require_dist_cjs33 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -11278,7 +11278,7 @@ var require_dist_cjs33 = __commonJS((exports, module) => {
   }, "isServerError");
 });
 
-// node_modules/@smithy/util-retry/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/
 var require_dist_cjs34 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -11561,7 +11561,7 @@ var require_dist_cjs34 = __commonJS((exports, module) => {
   var ConfiguredRetryStrategy = _ConfiguredRetryStrategy;
 });
 
-// node_modules/@smithy/middleware-retry/dist-cjs/isStreamingPayload/isStreamingPayload.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.jssnode.js.jsand.jsm
 var require_isStreamingPayload = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.isStreamingPayload = undefined;
@@ -11570,7 +11570,7 @@ var require_isStreamingPayload = __commonJS((exports) => {
   exports.isStreamingPayload = isStreamingPayload;
 });
 
-// node_modules/@smithy/middleware-retry/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwg
 var require_dist_cjs35 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -11935,7 +11935,7 @@ var require_dist_cjs35 = __commonJS((exports, module) => {
   }, "getRetryAfterHint");
 });
 
-// node_modules/@smithy/shared-ini-file-loader/dist-cjs/getHomeDir.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi
 var require_getHomeDir = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getHomeDir = undefined;
@@ -11964,7 +11964,7 @@ var require_getHomeDir = __commonJS((exports) => {
   exports.getHomeDir = getHomeDir2;
 });
 
-// node_modules/@smithy/shared-ini-file-loader/dist-cjs/getSSOTokenFilepath.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.jssnode.
 var require_getSSOTokenFilepath = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getSSOTokenFilepath = undefined;
@@ -11979,7 +11979,7 @@ var require_getSSOTokenFilepath = __commonJS((exports) => {
   exports.getSSOTokenFilepath = getSSOTokenFilepath2;
 });
 
-// node_modules/@smithy/shared-ini-file-loader/dist-cjs/getSSOTokenFromFile.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.jssnode.
 var require_getSSOTokenFromFile = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getSSOTokenFromFile = undefined;
@@ -11994,7 +11994,7 @@ var require_getSSOTokenFromFile = __commonJS((exports) => {
   exports.getSSOTokenFromFile = getSSOTokenFromFile2;
 });
 
-// node_modules/@smithy/shared-ini-file-loader/dist-cjs/slurpFile.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingAp
 var require_slurpFile = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.slurpFile = undefined;
@@ -12010,7 +12010,7 @@ var require_slurpFile = __commonJS((exports) => {
   exports.slurpFile = slurpFile;
 });
 
-// node_modules/@smithy/shared-ini-file-loader/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodi
 var require_dist_cjs36 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -12158,7 +12158,7 @@ var require_dist_cjs36 = __commonJS((exports, module) => {
   }, "parseKnownFiles");
 });
 
-// node_modules/@smithy/node-config-provider/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEnco
 var require_dist_cjs37 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -12218,7 +12218,7 @@ var require_dist_cjs37 = __commonJS((exports, module) => {
   var loadConfig = __name(({ environmentVariableSelector, configFileSelector, default: defaultValue }, configuration = {}) => (0, import_property_provider.memoize)((0, import_property_provider.chain)(fromEnv(environmentVariableSelector), fromSharedConfigFiles(configFileSelector, configuration), fromStatic(defaultValue))), "loadConfig");
 });
 
-// node_modules/@smithy/middleware-endpoint/dist-cjs/adaptors/getEndpointUrlConfig.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.jssnode.js.jsan
 var require_getEndpointUrlConfig = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getEndpointUrlConfig = undefined;
@@ -12256,7 +12256,7 @@ var require_getEndpointUrlConfig = __commonJS((exports) => {
   exports.getEndpointUrlConfig = getEndpointUrlConfig;
 });
 
-// node_modules/@smithy/middleware-endpoint/dist-cjs/adaptors/getEndpointFromConfig.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.jssnode.js.jsand
 var require_getEndpointFromConfig = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getEndpointFromConfig = undefined;
@@ -12266,7 +12266,7 @@ var require_getEndpointFromConfig = __commonJS((exports) => {
   exports.getEndpointFromConfig = getEndpointFromConfig;
 });
 
-// node_modules/@smithy/querystring-parser/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEn
 var require_dist_cjs38 = __commonJS((exports, module) => {
   var parseQueryString = function(querystring) {
     const query = {};
@@ -12315,7 +12315,7 @@ var require_dist_cjs38 = __commonJS((exports, module) => {
   __name(parseQueryString, "parseQueryString");
 });
 
-// node_modules/@smithy/url-parser/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/
 var require_dist_cjs39 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -12360,7 +12360,7 @@ var require_dist_cjs39 = __commonJS((exports, module) => {
   }, "parseUrl");
 });
 
-// node_modules/@smithy/middleware-serde/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwg
 var require_dist_cjs40 = __commonJS((exports, module) => {
   var getSerdePlugin = function(config, serializer, deserializer) {
     return {
@@ -12443,7 +12443,7 @@ var require_dist_cjs40 = __commonJS((exports, module) => {
   __name(getSerdePlugin, "getSerdePlugin");
 });
 
-// node_modules/@smithy/middleware-endpoint/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEnc
 var require_dist_cjs41 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -12658,7 +12658,7 @@ var require_dist_cjs41 = __commonJS((exports, module) => {
   }, "resolveEndpointConfig");
 });
 
-// node_modules/@aws-sdk/xml-builder/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/wh
 var require_dist_cjs42 = __commonJS((exports, module) => {
   var escapeAttribute = function(value) {
     return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -12790,7 +12790,7 @@ var require_dist_cjs42 = __commonJS((exports, module) => {
   var XmlNode = _XmlNode;
 });
 
-// node_modules/@smithy/core/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dis
 var require_dist_cjs43 = __commonJS((exports, module) => {
   var convertHttpAuthSchemesToMap = function(httpAuthSchemes) {
     const map = new Map;
@@ -13178,7 +13178,7 @@ var require_dist_cjs43 = __commonJS((exports, module) => {
   __name(createPaginator, "createPaginator");
 });
 
-// node_modules/fast-xml-parser/src/util.js
+// node_modules/@aws-sdk/util-utf8-browser/
 var require_util = __commonJS((exports) => {
   var nameStartChar = ":A-Za-z_\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD";
   var nameChar = nameStartChar + "\\-.\\d\\u00B7\\u0300-\\u036F\\u203F-\\u2040";
@@ -13234,7 +13234,7 @@ var require_util = __commonJS((exports) => {
   exports.nameRegexp = nameRegexp;
 });
 
-// node_modules/fast-xml-parser/src/validator.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-
 var require_validator2 = __commonJS((exports) => {
   var isWhiteSpace = function(char) {
     return char === " " || char === "\t" || char === "\n" || char === "\r";
@@ -13537,7 +13537,7 @@ var require_validator2 = __commonJS((exports) => {
   var validAttrStrRegxp = new RegExp('(\\s*)([^\\s=]+)(\\s*=)?(\\s*([\'"])(([\\s\\S])*?)\\5)?', "g");
 });
 
-// node_modules/fast-xml-parser/src/xmlparser/OptionsBuilder.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncod
 var require_OptionsBuilder = __commonJS((exports) => {
   var defaultOptions = {
     preserveOrder: false,
@@ -13584,7 +13584,7 @@ var require_OptionsBuilder = __commonJS((exports) => {
   exports.defaultOptions = defaultOptions;
 });
 
-// node_modules/fast-xml-parser/src/xmlparser/xmlNode.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/what
 var require_xmlNode = __commonJS((exports, module) => {
   class XmlNode {
     constructor(tagname) {
@@ -13610,7 +13610,7 @@ var require_xmlNode = __commonJS((exports, module) => {
   module.exports = XmlNode;
 });
 
-// node_modules/fast-xml-parser/src/xmlparser/DocTypeReader.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEnco
 var require_DocTypeReader = __commonJS((exports, module) => {
   var readDocType = function(xmlData, i) {
     const entities = {};
@@ -13717,7 +13717,7 @@ var require_DocTypeReader = __commonJS((exports, module) => {
   module.exports = readDocType;
 });
 
-// node_modules/strnum/strnum.js
+// node_modules/@aws-sdk/util-ut
 var require_strnum = __commonJS((exports, module) => {
   var toNumber = function(str, options = {}) {
     options = Object.assign({}, consider, options);
@@ -13811,7 +13811,7 @@ var require_strnum = __commonJS((exports, module) => {
   module.exports = toNumber;
 });
 
-// node_modules/fast-xml-parser/src/xmlparser/OrderedObjParser.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodin
 var require_OrderedObjParser = __commonJS((exports, module) => {
   var addExternalEntities = function(externalEntities) {
     const entKeys = Object.keys(externalEntities);
@@ -14283,7 +14283,7 @@ var require_OrderedObjParser = __commonJS((exports, module) => {
   module.exports = OrderedObjParser;
 });
 
-// node_modules/fast-xml-parser/src/xmlparser/node2json.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwg
 var require_node2json = __commonJS((exports) => {
   var prettify = function(node, options) {
     return compress(node, options);
@@ -14376,7 +14376,7 @@ var require_node2json = __commonJS((exports) => {
   exports.prettify = prettify;
 });
 
-// node_modules/fast-xml-parser/src/xmlparser/XMLParser.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwg
 var require_XMLParser = __commonJS((exports, module) => {
   var { buildOptions } = require_OptionsBuilder();
   var OrderedObjParser = require_OrderedObjParser();
@@ -14426,7 +14426,7 @@ var require_XMLParser = __commonJS((exports, module) => {
   module.exports = XMLParser;
 });
 
-// node_modules/fast-xml-parser/src/xmlbuilder/orderedJs2Xml.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncod
 var require_orderedJs2Xml = __commonJS((exports, module) => {
   var toXml = function(jArray, options) {
     let indentation = "";
@@ -14552,7 +14552,7 @@ var require_orderedJs2Xml = __commonJS((exports, module) => {
   module.exports = toXml;
 });
 
-// node_modules/fast-xml-parser/src/xmlbuilder/json2xml.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwg
 var require_json2xml = __commonJS((exports, module) => {
   var Builder = function(options) {
     this.options = Object.assign({}, defaultOptions, options);
@@ -14774,7 +14774,7 @@ var require_json2xml = __commonJS((exports, module) => {
   module.exports = Builder;
 });
 
-// node_modules/fast-xml-parser/src/fxp.js
+// node_modules/@aws-sdk/util-utf8-browser
 var require_fxp = __commonJS((exports, module) => {
   var validator = require_validator2();
   var XMLParser = require_XMLParser();
@@ -14786,7 +14786,7 @@ var require_fxp = __commonJS((exports, module) => {
   };
 });
 
-// node_modules/tslib/tslib.js
+// node_modules/@aws-sdk/util-
 var require_tslib2 = __commonJS((exports, module) => {
   var __extends;
   var __assign;
@@ -15346,7 +15346,7 @@ var require_tslib2 = __commonJS((exports, module) => {
   });
 });
 
-// node_modules/@aws-sdk/client-s3/package.json
+// node_modules/@aws-sdk/util-utf8-browser/dist
 var require_package2 = __commonJS((exports, module) => {
   module.exports = {
     name: "@aws-sdk/client-s3",
@@ -15476,7 +15476,7 @@ var require_package2 = __commonJS((exports, module) => {
   };
 });
 
-// node_modules/@aws-sdk/core/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist
 var require_dist_cjs44 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -15736,7 +15736,7 @@ More information can be found at: https://a.co/dzr2AJd`);
   }, "awsExpectUnion");
 });
 
-// node_modules/@aws-sdk/client-sts/dist-cjs/auth/httpAuthSchemeProvider.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.jssno
 var require_httpAuthSchemeProvider = __commonJS((exports) => {
   var createAwsAuthSigv4HttpAuthOption = function(authParameters) {
     return {
@@ -15805,7 +15805,7 @@ var require_httpAuthSchemeProvider = __commonJS((exports) => {
   exports.resolveHttpAuthSchemeConfig = resolveHttpAuthSchemeConfig;
 });
 
-// node_modules/@aws-sdk/client-sts/dist-cjs/endpoint/EndpointParameters.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.jssno
 var require_EndpointParameters = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.commonParams = exports.resolveClientEndpointParameters = undefined;
@@ -15828,7 +15828,7 @@ var require_EndpointParameters = __commonJS((exports) => {
   };
 });
 
-// node_modules/@aws-sdk/client-sts/package.json
+// node_modules/@aws-sdk/util-utf8-browser/dist-
 var require_package3 = __commonJS((exports, module) => {
   module.exports = {
     name: "@aws-sdk/client-sts",
@@ -15935,7 +15935,7 @@ var require_package3 = __commonJS((exports, module) => {
   };
 });
 
-// node_modules/@aws-sdk/client-sts/dist-cjs/models/STSServiceException.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.jssn
 var require_STSServiceException = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.STSServiceException = exports.__ServiceException = undefined;
@@ -15953,7 +15953,7 @@ var require_STSServiceException = __commonJS((exports) => {
   exports.STSServiceException = STSServiceException2;
 });
 
-// node_modules/@aws-sdk/client-sts/dist-cjs/models/models_0.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncod
 var require_models_0 = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.GetSessionTokenResponseFilterSensitiveLog = exports.GetFederationTokenResponseFilterSensitiveLog = exports.AssumeRoleWithWebIdentityResponseFilterSensitiveLog = exports.AssumeRoleWithWebIdentityRequestFilterSensitiveLog = exports.AssumeRoleWithSAMLResponseFilterSensitiveLog = exports.AssumeRoleWithSAMLRequestFilterSensitiveLog = exports.AssumeRoleResponseFilterSensitiveLog = exports.CredentialsFilterSensitiveLog = exports.InvalidAuthorizationMessageException = exports.IDPCommunicationErrorException = exports.InvalidIdentityTokenException = exports.IDPRejectedClaimException = exports.RegionDisabledException = exports.PackedPolicyTooLargeException = exports.MalformedPolicyDocumentException = exports.ExpiredTokenException = undefined;
@@ -16113,7 +16113,7 @@ var require_models_0 = __commonJS((exports) => {
   exports.GetSessionTokenResponseFilterSensitiveLog = GetSessionTokenResponseFilterSensitiveLog2;
 });
 
-// node_modules/@aws-sdk/client-sts/dist-cjs/protocols/Aws_query.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingA
 var require_Aws_query = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.de_GetSessionTokenCommand = exports.de_GetFederationTokenCommand = exports.de_GetCallerIdentityCommand = exports.de_GetAccessKeyInfoCommand = exports.de_DecodeAuthorizationMessageCommand = exports.de_AssumeRoleWithWebIdentityCommand = exports.de_AssumeRoleWithSAMLCommand = exports.de_AssumeRoleCommand = exports.se_GetSessionTokenCommand = exports.se_GetFederationTokenCommand = exports.se_GetCallerIdentityCommand = exports.se_GetAccessKeyInfoCommand = exports.se_DecodeAuthorizationMessageCommand = exports.se_AssumeRoleWithWebIdentityCommand = exports.se_AssumeRoleWithSAMLCommand = exports.se_AssumeRoleCommand = undefined;
@@ -17198,7 +17198,7 @@ var require_Aws_query = __commonJS((exports) => {
   };
 });
 
-// node_modules/@aws-sdk/client-sts/dist-cjs/commands/AssumeRoleCommand.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.jssn
 var require_AssumeRoleCommand = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.AssumeRoleCommand = exports.$Command = undefined;
@@ -17224,7 +17224,7 @@ var require_AssumeRoleCommand = __commonJS((exports) => {
   exports.AssumeRoleCommand = AssumeRoleCommand2;
 });
 
-// node_modules/@aws-sdk/client-sts/dist-cjs/commands/AssumeRoleWithWebIdentityCommand.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.jssnode.js.jsand.js
 var require_AssumeRoleWithWebIdentityCommand = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.AssumeRoleWithWebIdentityCommand = exports.$Command = undefined;
@@ -17250,7 +17250,7 @@ var require_AssumeRoleWithWebIdentityCommand = __commonJS((exports) => {
   exports.AssumeRoleWithWebIdentityCommand = AssumeRoleWithWebIdentityCommand2;
 });
 
-// node_modules/@aws-sdk/client-sts/dist-cjs/defaultStsRoleAssumers.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.
 var require_defaultStsRoleAssumers = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.decorateDefaultCredentialProvider = exports.getDefaultRoleAssumerWithWebIdentity = exports.getDefaultRoleAssumer = undefined;
@@ -17330,7 +17330,7 @@ var require_defaultStsRoleAssumers = __commonJS((exports) => {
   exports.decorateDefaultCredentialProvider = decorateDefaultCredentialProvider;
 });
 
-// node_modules/@smithy/credential-provider-imds/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncoding
 var require_dist_cjs45 = __commonJS((exports, module) => {
   var httpRequest = function(options) {
     return new Promise((resolve, reject) => {
@@ -17682,7 +17682,7 @@ var require_dist_cjs45 = __commonJS((exports, module) => {
   }, "getCredentialsFromProfile");
 });
 
-// node_modules/@aws-sdk/credential-provider-env/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncoding
 var require_dist_cjs46 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -17737,7 +17737,7 @@ var require_dist_cjs46 = __commonJS((exports, module) => {
   }, "fromEnv");
 });
 
-// node_modules/@aws-sdk/client-sso/package.json
+// node_modules/@aws-sdk/util-utf8-browser/dist-
 var require_package4 = __commonJS((exports, module) => {
   module.exports = {
     name: "@aws-sdk/client-sso",
@@ -17839,7 +17839,7 @@ var require_package4 = __commonJS((exports, module) => {
   };
 });
 
-// node_modules/@aws-sdk/util-user-agent-node/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncod
 var require_dist_cjs47 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -17915,7 +17915,7 @@ var require_dist_cjs47 = __commonJS((exports, module) => {
   }, "defaultUserAgent");
 });
 
-// node_modules/@smithy/hash-node/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs
 var require_dist_cjs48 = __commonJS((exports, module) => {
   var castSourceData = function(toCast, encoding) {
     if (import_buffer.Buffer.isBuffer(toCast)) {
@@ -17977,7 +17977,7 @@ var require_dist_cjs48 = __commonJS((exports, module) => {
   __name(castSourceData, "castSourceData");
 });
 
-// node_modules/@smithy/util-body-length-node/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncod
 var require_dist_cjs49 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -18024,7 +18024,7 @@ var require_dist_cjs49 = __commonJS((exports, module) => {
   }, "calculateBodyLength");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodi
 var require_ruleset = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.ruleSet = undefined;
@@ -18056,7 +18056,7 @@ var require_ruleset = __commonJS((exports) => {
   exports.ruleSet = _data;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/endpointResolver.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.jss
 var require_endpointResolver = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.defaultEndpointResolver = undefined;
@@ -18071,7 +18071,7 @@ var require_endpointResolver = __commonJS((exports) => {
   exports.defaultEndpointResolver = defaultEndpointResolver;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/runtimeConfig.shared.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingAp
 var require_runtimeConfig_shared = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getRuntimeConfig = undefined;
@@ -18098,7 +18098,7 @@ var require_runtimeConfig_shared = __commonJS((exports) => {
   exports.getRuntimeConfig = getRuntimeConfig;
 });
 
-// node_modules/@smithy/util-defaults-mode-node/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodin
 var require_dist_cjs50 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -18193,7 +18193,7 @@ var require_dist_cjs50 = __commonJS((exports, module) => {
   }, "inferPhysicalRegion");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/runtimeConfig.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEnc
 var require_runtimeConfig = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getRuntimeConfig = undefined;
@@ -18241,7 +18241,7 @@ var require_runtimeConfig = __commonJS((exports) => {
   exports.getRuntimeConfig = getRuntimeConfig;
 });
 
-// node_modules/@aws-sdk/region-config-resolver/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodin
 var require_dist_cjs51 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -18336,7 +18336,7 @@ var require_dist_cjs51 = __commonJS((exports, module) => {
   }, "resolveRegionConfig");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/w
 var require_dist_cjs52 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -18925,7 +18925,7 @@ var require_dist_cjs52 = __commonJS((exports, module) => {
   var import_util_endpoints = require_dist_cjs28();
 });
 
-// node_modules/@aws-sdk/token-providers/dist-cjs/bundle/client-sso-oidc-node.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.jssnode.js
 var require_client_sso_oidc_node = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.UnsupportedGrantTypeException = exports.UnauthorizedClientException = exports.SlowDownException = exports.SSOOIDCClient = exports.InvalidScopeException = exports.InvalidRequestException = exports.InvalidClientException = exports.InternalServerException = exports.ExpiredTokenException = exports.CreateTokenCommand = exports.AuthorizationPendingException = exports.AccessDeniedException = undefined;
@@ -19969,7 +19969,7 @@ var require_client_sso_oidc_node = __commonJS((exports) => {
   (0, smithy_client_6.createAggregatedClient)(commands, SSOOIDC);
 });
 
-// node_modules/@aws-sdk/token-providers/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwg
 var require_dist_cjs53 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -20117,7 +20117,7 @@ var require_dist_cjs53 = __commonJS((exports, module) => {
   }), (token) => token.expiration !== undefined && token.expiration.getTime() - Date.now() < 300000, (token) => token.expiration !== undefined), "nodeProvider");
 });
 
-// node_modules/@aws-sdk/credential-provider-sso/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncoding
 var require_dist_cjs54 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -20260,7 +20260,7 @@ Reference: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.ht
   }, "fromSSO");
 });
 
-// node_modules/@aws-sdk/credential-provider-process/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.
 var require_dist_cjs55 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -20342,7 +20342,7 @@ var require_dist_cjs55 = __commonJS((exports, module) => {
   }, "fromProcess");
 });
 
-// node_modules/@aws-sdk/credential-provider-web-identity/dist-cjs/fromWebToken.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.jssnode.js.j
 var require_fromWebToken = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.fromWebToken = undefined;
@@ -20365,7 +20365,7 @@ var require_fromWebToken = __commonJS((exports) => {
   exports.fromWebToken = fromWebToken2;
 });
 
-// node_modules/@aws-sdk/credential-provider-web-identity/dist-cjs/fromTokenFile.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.jssnode.js.js
 var require_fromTokenFile = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.fromTokenFile = undefined;
@@ -20393,7 +20393,7 @@ var require_fromTokenFile = __commonJS((exports) => {
   exports.fromTokenFile = fromTokenFile2;
 });
 
-// node_modules/@aws-sdk/credential-provider-web-identity/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.jssno
 var require_dist_cjs56 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -20415,7 +20415,7 @@ var require_dist_cjs56 = __commonJS((exports, module) => {
   __reExport(src_exports, require_fromWebToken(), module.exports);
 });
 
-// node_modules/@aws-sdk/credential-provider-ini/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncoding
 var require_dist_cjs57 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -20549,7 +20549,7 @@ var require_dist_cjs57 = __commonJS((exports, module) => {
   }, "fromIni");
 });
 
-// node_modules/@aws-sdk/credential-provider-node/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingA
 var require_dist_cjs58 = __commonJS((exports, module) => {
   var __create2 = Object.create;
   var __defProp2 = Object.defineProperty;
@@ -20620,7 +20620,7 @@ var require_dist_cjs58 = __commonJS((exports, module) => {
   var credentialsTreatedAsExpired = __name((credentials) => (credentials == null ? undefined : credentials.expiration) !== undefined && credentials.expiration.getTime() - Date.now() < 300000, "credentialsTreatedAsExpired");
 });
 
-// node_modules/@aws-sdk/client-sts/dist-cjs/endpoint/ruleset.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodi
 var require_ruleset2 = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.ruleSet = undefined;
@@ -20664,7 +20664,7 @@ var require_ruleset2 = __commonJS((exports) => {
   exports.ruleSet = _data;
 });
 
-// node_modules/@aws-sdk/client-sts/dist-cjs/endpoint/endpointResolver.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.jss
 var require_endpointResolver2 = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.defaultEndpointResolver = undefined;
@@ -20679,7 +20679,7 @@ var require_endpointResolver2 = __commonJS((exports) => {
   exports.defaultEndpointResolver = defaultEndpointResolver;
 });
 
-// node_modules/@aws-sdk/client-sts/dist-cjs/runtimeConfig.shared.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingAp
 var require_runtimeConfig_shared2 = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getRuntimeConfig = undefined;
@@ -20722,7 +20722,7 @@ var require_runtimeConfig_shared2 = __commonJS((exports) => {
   exports.getRuntimeConfig = getRuntimeConfig;
 });
 
-// node_modules/@aws-sdk/client-sts/dist-cjs/runtimeConfig.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEnc
 var require_runtimeConfig2 = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getRuntimeConfig = undefined;
@@ -20786,7 +20786,7 @@ var require_runtimeConfig2 = __commonJS((exports) => {
   exports.getRuntimeConfig = getRuntimeConfig;
 });
 
-// node_modules/@aws-sdk/client-sts/dist-cjs/auth/httpAuthExtensionConfiguration.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.jssnode.js.js
 var require_httpAuthExtensionConfiguration = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.resolveHttpAuthRuntimeConfig = exports.getHttpAuthExtensionConfiguration = undefined;
@@ -20831,7 +20831,7 @@ var require_httpAuthExtensionConfiguration = __commonJS((exports) => {
   exports.resolveHttpAuthRuntimeConfig = resolveHttpAuthRuntimeConfig;
 });
 
-// node_modules/@aws-sdk/client-sts/dist-cjs/runtimeExtensions.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodin
 var require_runtimeExtensions = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.resolveRuntimeExtensions = undefined;
@@ -20859,7 +20859,7 @@ var require_runtimeExtensions = __commonJS((exports) => {
   exports.resolveRuntimeExtensions = resolveRuntimeExtensions;
 });
 
-// node_modules/@aws-sdk/client-sts/dist-cjs/STSClient.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatw
 var require_STSClient = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.STSClient = exports.__Client = undefined;
@@ -20921,7 +20921,7 @@ var require_STSClient = __commonJS((exports) => {
   exports.STSClient = STSClient2;
 });
 
-// node_modules/@aws-sdk/client-sts/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/w
 var require_dist_cjs59 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -21107,7 +21107,7 @@ var require_dist_cjs59 = __commonJS((exports, module) => {
   var import_STSServiceException = require_STSServiceException();
 });
 
-// node_modules/@aws-sdk/middleware-bucket-endpoint/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi
 var require_dist_cjs60 = __commonJS((exports, module) => {
   var resolveBucketEndpointConfig = function(input) {
     const {
@@ -21561,7 +21561,7 @@ var require_dist_cjs60 = __commonJS((exports, module) => {
   __name(resolveBucketEndpointConfig, "resolveBucketEndpointConfig");
 });
 
-// node_modules/@smithy/eventstream-serde-universal/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi
 var require_dist_cjs61 = __commonJS((exports, module) => {
   var getChunkedStream = function(source) {
     let currentMessageTotalLength = 0;
@@ -21709,7 +21709,7 @@ var require_dist_cjs61 = __commonJS((exports, module) => {
   var eventStreamSerdeProvider = __name((options) => new EventStreamMarshaller(options), "eventStreamSerdeProvider");
 });
 
-// node_modules/@smithy/eventstream-serde-node/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodi
 var require_dist_cjs62 = __commonJS((exports, module) => {
   async function* readabletoIterable(readStream) {
     let streamEnded = false;
@@ -21784,7 +21784,7 @@ var require_dist_cjs62 = __commonJS((exports, module) => {
   var eventStreamSerdeProvider = __name((options) => new EventStreamMarshaller(options), "eventStreamSerdeProvider");
 });
 
-// node_modules/@smithy/hash-stream-node/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwg
 var require_dist_cjs63 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -21871,7 +21871,7 @@ var require_dist_cjs63 = __commonJS((exports, module) => {
   }, "readableStreamHasher");
 });
 
-// node_modules/@aws-sdk/signature-v4-multi-region/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingAp
 var require_dist_cjs64 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -21962,7 +21962,7 @@ For more information please go to https://github.com/aws/aws-sdk-js-v3#functiona
   var SignatureV4MultiRegion = _SignatureV4MultiRegion;
 });
 
-// node_modules/@aws-sdk/client-s3/dist-cjs/endpoint/ruleset.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncod
 var require_ruleset3 = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.ruleSet = undefined;
@@ -22143,7 +22143,7 @@ var require_ruleset3 = __commonJS((exports) => {
   exports.ruleSet = _data;
 });
 
-// node_modules/@aws-sdk/client-s3/dist-cjs/endpoint/endpointResolver.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.js
 var require_endpointResolver3 = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.defaultEndpointResolver = undefined;
@@ -22158,7 +22158,7 @@ var require_endpointResolver3 = __commonJS((exports) => {
   exports.defaultEndpointResolver = defaultEndpointResolver;
 });
 
-// node_modules/@aws-sdk/client-s3/dist-cjs/runtimeConfig.shared.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingA
 var require_runtimeConfig_shared3 = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getRuntimeConfig = undefined;
@@ -22192,7 +22192,7 @@ var require_runtimeConfig_shared3 = __commonJS((exports) => {
   exports.getRuntimeConfig = getRuntimeConfig;
 });
 
-// node_modules/@aws-sdk/client-s3/dist-cjs/runtimeConfig.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEn
 var require_runtimeConfig3 = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getRuntimeConfig = undefined;
@@ -22253,7 +22253,7 @@ var require_runtimeConfig3 = __commonJS((exports) => {
   exports.getRuntimeConfig = getRuntimeConfig;
 });
 
-// node_modules/@aws-sdk/middleware-ssec/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwg
 var require_dist_cjs65 = __commonJS((exports, module) => {
   var ssecMiddleware = function(options) {
     return (next) => async (args) => {
@@ -22334,7 +22334,7 @@ var require_dist_cjs65 = __commonJS((exports, module) => {
   }), "getSsecPlugin");
 });
 
-// node_modules/@aws-sdk/middleware-location-constraint/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.jss
 var require_dist_cjs66 = __commonJS((exports, module) => {
   var locationConstraintMiddleware = function(options) {
     return (next) => async (args) => {
@@ -22391,7 +22391,7 @@ var require_dist_cjs66 = __commonJS((exports, module) => {
   }), "getLocationConstraintPlugin");
 });
 
-// node_modules/@aws-crypto/crc32c/node_modules/tslib/tslib.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEnco
 var require_tslib3 = __commonJS((exports, module) => {
   /*! *****************************************************************************
   Copyright (c) Microsoft Corporation.
@@ -22803,7 +22803,7 @@ var require_tslib3 = __commonJS((exports, module) => {
   });
 });
 
-// node_modules/@aws-crypto/crc32c/build/aws_crc32c.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/wh
 var require_aws_crc32c = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.AwsCrc32c = undefined;
@@ -22834,7 +22834,7 @@ var require_aws_crc32c = __commonJS((exports) => {
   exports.AwsCrc32c = AwsCrc32c;
 });
 
-// node_modules/@aws-crypto/crc32c/build/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-c
 var require_build3 = __commonJS((exports) => {
   var crc32c = function(data) {
     return new Crc32c().update(data).digest();
@@ -23139,7 +23139,7 @@ var require_build3 = __commonJS((exports) => {
   } });
 });
 
-// node_modules/@aws-sdk/middleware-flexible-checksums/dist-cjs/streams/create-read-stream-on-buffer.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.jssnode.js.jsand.jsm-on-buffer.js
 var require_create_read_stream_on_buffer = __commonJS((exports) => {
   var createReadStreamOnBuffer = function(buffer) {
     const stream = new stream_1.Transform;
@@ -23153,7 +23153,7 @@ var require_create_read_stream_on_buffer = __commonJS((exports) => {
   exports.createReadStreamOnBuffer = createReadStreamOnBuffer;
 });
 
-// node_modules/@aws-sdk/middleware-flexible-checksums/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/whatwgEncodingApi.js
 var require_dist_cjs67 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -23403,7 +23403,7 @@ var require_dist_cjs67 = __commonJS((exports, module) => {
   }), "getFlexibleChecksumsPlugin");
 });
 
-// node_modules/@smithy/util-waiter/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/w
 var require_dist_cjs68 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -23533,7 +23533,7 @@ var require_dist_cjs68 = __commonJS((exports, module) => {
   }, "createWaiter");
 });
 
-// node_modules/@aws-sdk/client-s3/dist-cjs/index.js
+// node_modules/@aws-sdk/util-utf8-browser/dist-cjs/
 var require_dist_cjs69 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -34785,7 +34785,7 @@ var require_dist_cjs69 = __commonJS((exports, module) => {
   var import_util_endpoints = require_dist_cjs28();
 });
 
-// src/common/task-parameters.ts
+// node_modules/@aws-sdk/util-ut
 var exports_task_parameters = {};
 __export(exports_task_parameters, {
   PORT: () => {
@@ -34813,14 +34813,14 @@ var IMAGE_STORE_BUCKET = process.env.IMAGE_STORE_BUCKET;
 var LOCAL_ENVIRONMENT = process.env.ENVIRONMENT === "local";
 var AWS_REGION = process.env.AWS_REGION;
 var PORT = process.env.PORT;
-// src/common/logger.ts
+// node_modules/@aws-sd
 var import_pino = __toESM(require_pino(), 1);
 var logger = import_pino.default({
   formatters: {
     level: (label) => ({ level: label })
   }
 });
-// src/common/constants.ts
+// node_modules/@aws-sdk/u
 var ImageTypes;
 (function(ImageTypes2) {
   ImageTypes2["avif"] = "avif";
@@ -34846,7 +34846,7 @@ var ImageTypes;
   ImageTypes2["v"] = "v";
   ImageTypes2["webp"] = "webp";
 })(ImageTypes || (ImageTypes = {}));
-// src/common/image-optimisation.ts
+// node_modules/@aws-sdk/util-utf8-
 import sharp from "sharp";
 var optimiseImage = async (image, imageType, width, quality, format) => {
   if (imageType === ImageTypes.svg || imageType === ImageTypes["svg+xml"]) {
@@ -34878,7 +34878,7 @@ var optimiseImage = async (image, imageType, width, quality, format) => {
     imageType: format
   };
 };
-// src/common/image-format.ts
+// node_modules/@aws-sdk/util
 var detectImageFormat = (buffer, fallbackContentType) => {
   if ([255, 216, 255].every((b, i) => buffer[i] === b)) {
     return ImageTypes.jpeg;
@@ -34903,7 +34903,7 @@ var detectImageFormat = (buffer, fallbackContentType) => {
   }
   return;
 };
-// src/controllers/image-request.ts
+// node_modules/@aws-sdk/util-utf8-
 var exports_image_request = {};
 __export(exports_image_request, {
   handle: () => {
@@ -34913,7 +34913,7 @@ __export(exports_image_request, {
   }
 });
 
-// src/services/image.ts
+// node_modules/@aws-sdk
 var exports_image2 = {};
 __export(exports_image2, {
   getOptimisedImage: () => {
@@ -34923,7 +34923,7 @@ __export(exports_image2, {
   }
 });
 
-// src/repositories/image.ts
+// node_modules/@aws-sdk/uti
 var exports_image = {};
 __export(exports_image, {
   get: () => {
@@ -34949,7 +34949,7 @@ var get = async (imageKey) => {
     return null;
   });
 };
-// src/services/image.ts
+// node_modules/@aws-sdk
 var getOptimisedImage = async (imagePath, width, quality, format) => {
   const imageKey = imagePath.slice(1);
   logger.info({
@@ -35013,7 +35013,7 @@ var getOptimisedImage = async (imagePath, width, quality, format) => {
     etag: originalImage.ETag
   };
 };
-// src/controllers/image-request.ts
+// node_modules/@aws-sdk/util-utf8-
 var bestAcceptedFormat = (acceptHeader) => {
   if (acceptHeader === undefined) {
     logger.info({
@@ -35126,7 +35126,7 @@ var handle = async (request) => {
     }
   };
 };
-// src/index.ts
+// node_modules
 logger.info({
   message: "lambda starting",
   TASK_PARAMETERS: exports_task_parameters

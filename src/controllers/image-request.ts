@@ -46,13 +46,13 @@ const bestAcceptedFormat = (
       message: `best format is: ${ImageTypes.png}`,
     });
     return ImageTypes.png;
-  } 
+  }
   if (headerValues.includes('image/jpeg')) {
     logger.info({
       message: `best format is: ${ImageTypes.jpeg}`,
     });
     return ImageTypes.jpeg;
-  } 
+  }
   if (headerValues.includes('image/jpg')) {
     logger.info({
       message: `best format is: ${ImageTypes.jpg}`,
