@@ -37,13 +37,20 @@ export const optimiseImage = async (
   logger.info({
     message: `converting image to format: ${format}`,
   });
+  const convertImageStart = performance.now();
+  const imageBuffer = await pipe
+    .toFormat(format as unknown as AvailableFormatInfo, {
+      quality,
+    })
+    .toBuffer();
+  const convertImageEnd = performance.now();
 
-  pipe.toFormat(format as unknown as AvailableFormatInfo, {
-    quality,
+  logger.info({
+    message: `converted image to format: ${format} in ${convertImageEnd - convertImageStart}ms`,
   });
 
   return {
-    image: await pipe.toBuffer(),
+    image: imageBuffer,
     imageType: format,
   };
 };

@@ -23,13 +23,12 @@ const bestAcceptedFormat = (
     '',
   );
 
-  if (values.includes('*/*') || values.includes('image/avif')) {
-    logger.info({
-      message: `best format is: ${ImageTypes.avif}`,
-    });
-    return ImageTypes.avif;
-  }
-  if (values.includes('image/webp')) {
+  logger.info({
+    message: `accept headers`,
+    values,
+  });
+
+  if (values.includes('*/*') || values.includes('image/webp')) {
     logger.info({
       message: `best format is: ${ImageTypes.webp}`,
     });

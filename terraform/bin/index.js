@@ -4380,7 +4380,7 @@ var require_dist_cjs2 = __commonJS((exports, module) => {
   __name(isValidHostname, "isValidHostname");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolve
 var require_dist_cjs3 = __commonJS((exports, module) => {
   var addExpectContinueMiddleware = function(options) {
     return (next) => async (args) => {
@@ -4437,7 +4437,7 @@ var require_dist_cjs3 = __commonJS((exports, module) => {
   }), "getAddExpectContinuePlugin");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsn
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jss
 var require_dist_cjs4 = __commonJS((exports, module) => {
   var resolveHostHeaderConfig = function(input) {
     return input;
@@ -4571,7 +4571,7 @@ var require_dist_cjs5 = __commonJS((exports, module) => {
   }), "getLoggerPlugin");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.jss
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.js
 var require_dist_cjs6 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -5094,7 +5094,7 @@ var require_dist_cjs11 = __commonJS((exports, module) => {
   var toUtf8 = __name((input) => (0, import_util_buffer_from.fromArrayBuffer)(input.buffer, input.byteOffset, input.byteLength).toString("utf8"), "toUtf8");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.jssno
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsno
 var require_getAwsChunkedEncodingStream = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getAwsChunkedEncodingStream = undefined;
@@ -7361,7 +7361,7 @@ var require_pureJs = __commonJS((exports) => {
   exports.toUtf8 = toUtf8;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.js
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.j
 var require_whatwgEncodingApi = __commonJS((exports) => {
   var fromUtf8 = function(input) {
     return new TextEncoder().encode(input);
@@ -10657,7 +10657,7 @@ var require_dist_cjs30 = __commonJS((exports, module) => {
   }, "getRegionInfo");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.jssno
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsno
 var require_dist_cjs31 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -10688,7 +10688,7 @@ var require_dist_cjs31 = __commonJS((exports, module) => {
   }), "resolveEventStreamSerdeConfig");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngA
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssol
 var require_dist_cjs32 = __commonJS((exports, module) => {
   var contentLengthMiddleware = function(bodyLengthChecker) {
     return (next) => async (args) => {
@@ -11199,7 +11199,7 @@ var require_dist = __commonJS((exports) => {
   var _parse = _interopRequireDefault(require_parse2());
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver
 var require_dist_cjs33 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -11561,7 +11561,7 @@ var require_dist_cjs34 = __commonJS((exports, module) => {
   var ConfiguredRetryStrategy = _ConfiguredRetryStrategy;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.jssnode.js.jsand.jss
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.jsjssand.jsm
 var require_isStreamingPayload = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.isStreamingPayload = undefined;
@@ -11935,7 +11935,7 @@ var require_dist_cjs35 = __commonJS((exports, module) => {
   }, "getRetryAfterHint");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolve
 var require_getHomeDir = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getHomeDir = undefined;
@@ -11964,7 +11964,7 @@ var require_getHomeDir = __commonJS((exports) => {
   exports.getHomeDir = getHomeDir2;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.jssnode.
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.
 var require_getSSOTokenFilepath = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getSSOTokenFilepath = undefined;
@@ -11979,7 +11979,7 @@ var require_getSSOTokenFilepath = __commonJS((exports) => {
   exports.getSSOTokenFilepath = getSSOTokenFilepath2;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.jssnode.
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.
 var require_getSSOTokenFromFile = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getSSOTokenFromFile = undefined;
@@ -11994,7 +11994,7 @@ var require_getSSOTokenFromFile = __commonJS((exports) => {
   exports.getSSOTokenFromFile = getSSOTokenFromFile2;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngAp
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolv
 var require_slurpFile = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.slurpFile = undefined;
@@ -12218,7 +12218,7 @@ var require_dist_cjs37 = __commonJS((exports, module) => {
   var loadConfig = __name(({ environmentVariableSelector, configFileSelector, default: defaultValue }, configuration = {}) => (0, import_property_provider.memoize)((0, import_property_provider.chain)(fromEnv(environmentVariableSelector), fromSharedConfigFiles(configFileSelector, configuration), fromStatic(defaultValue))), "loadConfig");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.jssnode.js.jsan
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.jsjssan
 var require_getEndpointUrlConfig = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getEndpointUrlConfig = undefined;
@@ -12256,7 +12256,7 @@ var require_getEndpointUrlConfig = __commonJS((exports) => {
   exports.getEndpointUrlConfig = getEndpointUrlConfig;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.jssnode.js.jsand
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.jsjssand
 var require_getEndpointFromConfig = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getEndpointFromConfig = undefined;
@@ -13811,7 +13811,7 @@ var require_strnum = __commonJS((exports, module) => {
   module.exports = toNumber;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsn
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jss
 var require_OrderedObjParser = __commonJS((exports, module) => {
   var addExternalEntities = function(externalEntities) {
     const entKeys = Object.keys(externalEntities);
@@ -15736,7 +15736,7 @@ More information can be found at: https://a.co/dzr2AJd`);
   }, "awsExpectUnion");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.jssno
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsno
 var require_httpAuthSchemeProvider = __commonJS((exports) => {
   var createAwsAuthSigv4HttpAuthOption = function(authParameters) {
     return {
@@ -15805,7 +15805,7 @@ var require_httpAuthSchemeProvider = __commonJS((exports) => {
   exports.resolveHttpAuthSchemeConfig = resolveHttpAuthSchemeConfig;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.jssno
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsno
 var require_EndpointParameters = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.commonParams = exports.resolveClientEndpointParameters = undefined;
@@ -15935,7 +15935,7 @@ var require_package3 = __commonJS((exports, module) => {
   };
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.jssn
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsn
 var require_STSServiceException = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.STSServiceException = exports.__ServiceException = undefined;
@@ -16113,7 +16113,7 @@ var require_models_0 = __commonJS((exports) => {
   exports.GetSessionTokenResponseFilterSensitiveLog = GetSessionTokenResponseFilterSensitiveLog2;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngA
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssol
 var require_Aws_query = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.de_GetSessionTokenCommand = exports.de_GetFederationTokenCommand = exports.de_GetCallerIdentityCommand = exports.de_GetAccessKeyInfoCommand = exports.de_DecodeAuthorizationMessageCommand = exports.de_AssumeRoleWithWebIdentityCommand = exports.de_AssumeRoleWithSAMLCommand = exports.de_AssumeRoleCommand = exports.se_GetSessionTokenCommand = exports.se_GetFederationTokenCommand = exports.se_GetCallerIdentityCommand = exports.se_GetAccessKeyInfoCommand = exports.se_DecodeAuthorizationMessageCommand = exports.se_AssumeRoleWithWebIdentityCommand = exports.se_AssumeRoleWithSAMLCommand = exports.se_AssumeRoleCommand = undefined;
@@ -17198,7 +17198,7 @@ var require_Aws_query = __commonJS((exports) => {
   };
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.jssn
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsn
 var require_AssumeRoleCommand = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.AssumeRoleCommand = exports.$Command = undefined;
@@ -17224,7 +17224,7 @@ var require_AssumeRoleCommand = __commonJS((exports) => {
   exports.AssumeRoleCommand = AssumeRoleCommand2;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.jssnode.js.jsand.js
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.jsjssand.js
 var require_AssumeRoleWithWebIdentityCommand = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.AssumeRoleWithWebIdentityCommand = exports.$Command = undefined;
@@ -17250,7 +17250,7 @@ var require_AssumeRoleWithWebIdentityCommand = __commonJS((exports) => {
   exports.AssumeRoleWithWebIdentityCommand = AssumeRoleWithWebIdentityCommand2;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver
 var require_defaultStsRoleAssumers = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.decorateDefaultCredentialProvider = exports.getDefaultRoleAssumerWithWebIdentity = exports.getDefaultRoleAssumer = undefined;
@@ -17330,7 +17330,7 @@ var require_defaultStsRoleAssumers = __commonJS((exports) => {
   exports.decorateDefaultCredentialProvider = decorateDefaultCredentialProvider;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsng
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsso
 var require_dist_cjs45 = __commonJS((exports, module) => {
   var httpRequest = function(options) {
     return new Promise((resolve, reject) => {
@@ -17682,7 +17682,7 @@ var require_dist_cjs45 = __commonJS((exports, module) => {
   }, "getCredentialsFromProfile");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsng
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsso
 var require_dist_cjs46 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -18056,7 +18056,7 @@ var require_ruleset = __commonJS((exports) => {
   exports.ruleSet = _data;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.jss
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.js
 var require_endpointResolver = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.defaultEndpointResolver = undefined;
@@ -18071,7 +18071,7 @@ var require_endpointResolver = __commonJS((exports) => {
   exports.defaultEndpointResolver = defaultEndpointResolver;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngAp
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolv
 var require_runtimeConfig_shared = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getRuntimeConfig = undefined;
@@ -18098,7 +18098,7 @@ var require_runtimeConfig_shared = __commonJS((exports) => {
   exports.getRuntimeConfig = getRuntimeConfig;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsn
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jss
 var require_dist_cjs50 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -18241,7 +18241,7 @@ var require_runtimeConfig = __commonJS((exports) => {
   exports.getRuntimeConfig = getRuntimeConfig;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsn
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jss
 var require_dist_cjs51 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -18925,7 +18925,7 @@ var require_dist_cjs52 = __commonJS((exports, module) => {
   var import_util_endpoints = require_dist_cjs28();
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.jssnode.js
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.js
 var require_client_sso_oidc_node = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.UnsupportedGrantTypeException = exports.UnauthorizedClientException = exports.SlowDownException = exports.SSOOIDCClient = exports.InvalidScopeException = exports.InvalidRequestException = exports.InvalidClientException = exports.InternalServerException = exports.ExpiredTokenException = exports.CreateTokenCommand = exports.AuthorizationPendingException = exports.AccessDeniedException = undefined;
@@ -20117,7 +20117,7 @@ var require_dist_cjs53 = __commonJS((exports, module) => {
   }), (token) => token.expiration !== undefined && token.expiration.getTime() - Date.now() < 300000, (token) => token.expiration !== undefined), "nodeProvider");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsng
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsso
 var require_dist_cjs54 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -20260,7 +20260,7 @@ Reference: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.ht
   }, "fromSSO");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver
 var require_dist_cjs55 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -20342,7 +20342,7 @@ var require_dist_cjs55 = __commonJS((exports, module) => {
   }, "fromProcess");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.jssnode.js.j
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.jsjs
 var require_fromWebToken = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.fromWebToken = undefined;
@@ -20365,7 +20365,7 @@ var require_fromWebToken = __commonJS((exports) => {
   exports.fromWebToken = fromWebToken2;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.jssnode.js.js
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.jsjss
 var require_fromTokenFile = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.fromTokenFile = undefined;
@@ -20393,7 +20393,7 @@ var require_fromTokenFile = __commonJS((exports) => {
   exports.fromTokenFile = fromTokenFile2;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.jssno
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsno
 var require_dist_cjs56 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -20415,7 +20415,7 @@ var require_dist_cjs56 = __commonJS((exports, module) => {
   __reExport(src_exports, require_fromWebToken(), module.exports);
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsng
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsso
 var require_dist_cjs57 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -20549,7 +20549,7 @@ var require_dist_cjs57 = __commonJS((exports, module) => {
   }, "fromIni");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngA
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssol
 var require_dist_cjs58 = __commonJS((exports, module) => {
   var __create2 = Object.create;
   var __defProp2 = Object.defineProperty;
@@ -20664,7 +20664,7 @@ var require_ruleset2 = __commonJS((exports) => {
   exports.ruleSet = _data;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.jss
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.js
 var require_endpointResolver2 = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.defaultEndpointResolver = undefined;
@@ -20679,7 +20679,7 @@ var require_endpointResolver2 = __commonJS((exports) => {
   exports.defaultEndpointResolver = defaultEndpointResolver;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngAp
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolv
 var require_runtimeConfig_shared2 = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getRuntimeConfig = undefined;
@@ -20786,7 +20786,7 @@ var require_runtimeConfig2 = __commonJS((exports) => {
   exports.getRuntimeConfig = getRuntimeConfig;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.jssnode.js.js
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.jsjss
 var require_httpAuthExtensionConfiguration = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.resolveHttpAuthRuntimeConfig = exports.getHttpAuthExtensionConfiguration = undefined;
@@ -20831,7 +20831,7 @@ var require_httpAuthExtensionConfiguration = __commonJS((exports) => {
   exports.resolveHttpAuthRuntimeConfig = resolveHttpAuthRuntimeConfig;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsn
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jss
 var require_runtimeExtensions = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.resolveRuntimeExtensions = undefined;
@@ -21107,7 +21107,7 @@ var require_dist_cjs59 = __commonJS((exports, module) => {
   var import_STSServiceException = require_STSServiceException();
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolve
 var require_dist_cjs60 = __commonJS((exports, module) => {
   var resolveBucketEndpointConfig = function(input) {
     const {
@@ -21561,7 +21561,7 @@ var require_dist_cjs60 = __commonJS((exports, module) => {
   __name(resolveBucketEndpointConfig, "resolveBucketEndpointConfig");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolve
 var require_dist_cjs61 = __commonJS((exports, module) => {
   var getChunkedStream = function(source) {
     let currentMessageTotalLength = 0;
@@ -21871,7 +21871,7 @@ var require_dist_cjs63 = __commonJS((exports, module) => {
   }, "readableStreamHasher");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngAp
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolv
 var require_dist_cjs64 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -22143,7 +22143,7 @@ var require_ruleset3 = __commonJS((exports) => {
   exports.ruleSet = _data;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.js
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.j
 var require_endpointResolver3 = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.defaultEndpointResolver = undefined;
@@ -22158,7 +22158,7 @@ var require_endpointResolver3 = __commonJS((exports) => {
   exports.defaultEndpointResolver = defaultEndpointResolver;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngA
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssol
 var require_runtimeConfig_shared3 = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getRuntimeConfig = undefined;
@@ -22334,7 +22334,7 @@ var require_dist_cjs65 = __commonJS((exports, module) => {
   }), "getSsecPlugin");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.jss
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.js
 var require_dist_cjs66 = __commonJS((exports, module) => {
   var locationConstraintMiddleware = function(options) {
     return (next) => async (args) => {
@@ -23139,7 +23139,7 @@ var require_build3 = __commonJS((exports) => {
   } });
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.jssnode.js.jsand.jss-on-buffer.js
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.jsjssand.jsm-on-buffer.js
 var require_create_read_stream_on_buffer = __commonJS((exports) => {
   var createReadStreamOnBuffer = function(buffer) {
     const stream = new stream_1.Transform;
@@ -23153,7 +23153,7 @@ var require_create_read_stream_on_buffer = __commonJS((exports) => {
   exports.createReadStreamOnBuffer = createReadStreamOnBuffer;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jsngApi.js
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.j
 var require_dist_cjs67 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -34870,11 +34870,16 @@ var optimiseImage = async (image, imageType, width, quality, format) => {
   logger.info({
     message: `converting image to format: ${format}`
   });
-  pipe.toFormat(format, {
+  const convertImageStart = performance.now();
+  const imageBuffer = await pipe.toFormat(format, {
     quality
+  }).toBuffer();
+  const convertImageEnd = performance.now();
+  logger.info({
+    message: `converted image to format: ${format} in ${convertImageEnd - convertImageStart}ms`
   });
   return {
-    image: await pipe.toBuffer(),
+    image: imageBuffer,
     imageType: format
   };
 };
@@ -34959,19 +34964,23 @@ var getOptimisedImage = async (imagePath, width, quality, format) => {
     quality,
     imageKey
   });
+  const fetchImageStart = performance.now();
   const originalImage = await exports_image.get(imageKey);
+  const fetchImageEnd = performance.now();
+  logger.info({
+    message: `fetched image from s3 in: ${fetchImageEnd - fetchImageStart}ms`
+  });
   if (originalImage?.Body === undefined) {
     logger.error({
       message: "unable to find image"
     });
     return;
   }
-  logger.info({
-    message: "fetched image from source"
-  });
+  const bufferImageStart = performance.now();
   const imageBuffer = Buffer.from(await originalImage.Body.transformToByteArray());
+  const bufferImageEnd = performance.now();
   logger.info({
-    message: "generated-image-buffer"
+    message: `generated-image-buffer in ${bufferImageEnd - bufferImageStart}ms`
   });
   const contentType = originalImage.ContentType?.split("image/")[1];
   const originalImageType = detectImageFormat(imageBuffer, contentType);
@@ -35022,13 +35031,11 @@ var bestAcceptedFormat = (acceptHeader) => {
     return ImageTypes.webp;
   }
   const values = acceptHeader.reduce((previousValue, { value }) => previousValue + value + ",", "");
-  if (values.includes("*/*") || values.includes("image/avif")) {
-    logger.info({
-      message: `best format is: ${ImageTypes.avif}`
-    });
-    return ImageTypes.avif;
-  }
-  if (values.includes("image/webp")) {
+  logger.info({
+    message: `accept headers`,
+    values
+  });
+  if (values.includes("*/*") || values.includes("image/webp")) {
     logger.info({
       message: `best format is: ${ImageTypes.webp}`
     });
