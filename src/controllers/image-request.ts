@@ -25,7 +25,7 @@ const bestAcceptedFormat = (
 
   logger.info({
     message: `accept headers`,
-    values
+    values,
   });
 
   if (values.includes('*/*') || values.includes('image/webp')) {

@@ -26,9 +26,9 @@ export const getOptimisedImage = async (
     imageKey,
   });
 
-  const fetchImageStart = performance.now()
+  const fetchImageStart = performance.now();
   const originalImage = await imageRepository.get(imageKey);
-  const fetchImageEnd = performance.now()
+  const fetchImageEnd = performance.now();
 
   logger.info({
     message: `fetched image from s3 in: ${fetchImageEnd - fetchImageStart}ms`,
@@ -42,11 +42,11 @@ export const getOptimisedImage = async (
     return;
   }
 
-  const bufferImageStart = performance.now()
+  const bufferImageStart = performance.now();
   const imageBuffer = Buffer.from(
     await originalImage.Body.transformToByteArray(),
   );
-  const bufferImageEnd = performance.now()
+  const bufferImageEnd = performance.now();
 
   logger.info({
     message: `generated-image-buffer in ${bufferImageEnd - bufferImageStart}ms`,
