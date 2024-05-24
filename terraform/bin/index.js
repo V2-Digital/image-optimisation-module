@@ -5094,7 +5094,7 @@ var require_dist_cjs11 = __commonJS((exports, module) => {
   var toUtf8 = __name((input) => (0, import_util_buffer_from.fromArrayBuffer)(input.buffer, input.byteOffset, input.byteLength).toString("utf8"), "toUtf8");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsno
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsur
 var require_getAwsChunkedEncodingStream = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getAwsChunkedEncodingStream = undefined;
@@ -10657,7 +10657,7 @@ var require_dist_cjs30 = __commonJS((exports, module) => {
   }, "getRegionInfo");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsno
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsur
 var require_dist_cjs31 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -11561,7 +11561,7 @@ var require_dist_cjs34 = __commonJS((exports, module) => {
   var ConfiguredRetryStrategy = _ConfiguredRetryStrategy;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.jsjssand.jsm
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsuration.jsand.jss
 var require_isStreamingPayload = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.isStreamingPayload = undefined;
@@ -11964,7 +11964,7 @@ var require_getHomeDir = __commonJS((exports) => {
   exports.getHomeDir = getHomeDir2;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsurati
 var require_getSSOTokenFilepath = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getSSOTokenFilepath = undefined;
@@ -11979,7 +11979,7 @@ var require_getSSOTokenFilepath = __commonJS((exports) => {
   exports.getSSOTokenFilepath = getSSOTokenFilepath2;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsurati
 var require_getSSOTokenFromFile = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getSSOTokenFromFile = undefined;
@@ -12218,7 +12218,7 @@ var require_dist_cjs37 = __commonJS((exports, module) => {
   var loadConfig = __name(({ environmentVariableSelector, configFileSelector, default: defaultValue }, configuration = {}) => (0, import_property_provider.memoize)((0, import_property_provider.chain)(fromEnv(environmentVariableSelector), fromSharedConfigFiles(configFileSelector, configuration), fromStatic(defaultValue))), "loadConfig");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.jsjssan
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsuration.jsan
 var require_getEndpointUrlConfig = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getEndpointUrlConfig = undefined;
@@ -12256,7 +12256,7 @@ var require_getEndpointUrlConfig = __commonJS((exports) => {
   exports.getEndpointUrlConfig = getEndpointUrlConfig;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.jsjssand
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsuration.jsand
 var require_getEndpointFromConfig = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getEndpointFromConfig = undefined;
@@ -15736,7 +15736,7 @@ More information can be found at: https://a.co/dzr2AJd`);
   }, "awsExpectUnion");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsno
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsur
 var require_httpAuthSchemeProvider = __commonJS((exports) => {
   var createAwsAuthSigv4HttpAuthOption = function(authParameters) {
     return {
@@ -15805,7 +15805,7 @@ var require_httpAuthSchemeProvider = __commonJS((exports) => {
   exports.resolveHttpAuthSchemeConfig = resolveHttpAuthSchemeConfig;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsno
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsur
 var require_EndpointParameters = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.commonParams = exports.resolveClientEndpointParameters = undefined;
@@ -15935,7 +15935,7 @@ var require_package3 = __commonJS((exports, module) => {
   };
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsn
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsu
 var require_STSServiceException = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.STSServiceException = exports.__ServiceException = undefined;
@@ -17198,7 +17198,7 @@ var require_Aws_query = __commonJS((exports) => {
   };
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsn
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsu
 var require_AssumeRoleCommand = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.AssumeRoleCommand = exports.$Command = undefined;
@@ -17224,7 +17224,7 @@ var require_AssumeRoleCommand = __commonJS((exports) => {
   exports.AssumeRoleCommand = AssumeRoleCommand2;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.jsjssand.js
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsuration.jsand.js
 var require_AssumeRoleWithWebIdentityCommand = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.AssumeRoleWithWebIdentityCommand = exports.$Command = undefined;
@@ -18925,7 +18925,7 @@ var require_dist_cjs52 = __commonJS((exports, module) => {
   var import_util_endpoints = require_dist_cjs28();
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.js
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsuration
 var require_client_sso_oidc_node = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.UnsupportedGrantTypeException = exports.UnauthorizedClientException = exports.SlowDownException = exports.SSOOIDCClient = exports.InvalidScopeException = exports.InvalidRequestException = exports.InvalidClientException = exports.InternalServerException = exports.ExpiredTokenException = exports.CreateTokenCommand = exports.AuthorizationPendingException = exports.AccessDeniedException = undefined;
@@ -20342,7 +20342,7 @@ var require_dist_cjs55 = __commonJS((exports, module) => {
   }, "fromProcess");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.jsjs
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsuration.j
 var require_fromWebToken = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.fromWebToken = undefined;
@@ -20365,7 +20365,7 @@ var require_fromWebToken = __commonJS((exports) => {
   exports.fromWebToken = fromWebToken2;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.jsjss
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsuration.js
 var require_fromTokenFile = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.fromTokenFile = undefined;
@@ -20393,7 +20393,7 @@ var require_fromTokenFile = __commonJS((exports) => {
   exports.fromTokenFile = fromTokenFile2;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsno
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsur
 var require_dist_cjs56 = __commonJS((exports, module) => {
   var __defProp2 = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -20786,7 +20786,7 @@ var require_runtimeConfig2 = __commonJS((exports) => {
   exports.getRuntimeConfig = getRuntimeConfig;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.jsjss
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsuration.js
 var require_httpAuthExtensionConfiguration = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.resolveHttpAuthRuntimeConfig = exports.getHttpAuthExtensionConfiguration = undefined;
@@ -23139,7 +23139,7 @@ var require_build3 = __commonJS((exports) => {
   } });
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.jsjssand.jsm-on-buffer.js
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsuration.jsand.jss-on-buffer.js
 var require_create_read_stream_on_buffer = __commonJS((exports) => {
   var createReadStreamOnBuffer = function(buffer) {
     const stream = new stream_1.Transform;
