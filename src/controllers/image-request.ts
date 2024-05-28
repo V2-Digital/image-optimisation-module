@@ -1,6 +1,5 @@
 import { CloudFrontRequest } from 'aws-lambda';
 import { TASK_PARAMETERS, ImageTypes, logger} from '@common';
-import { isExternalUrl } from '../services/utils.ts';
 import { getOptimisedImageFromExternal, getOptimisedImageFromS3 } from '../services/image.ts';
 
 const bestAcceptedFormat = (
@@ -88,12 +87,7 @@ export const handle = async (
   }
 
   const getFromExternal = TASK_PARAMETERS.GET_FROM_EXTERNAL === 'true';
-  const baseExternalUrl = TASK_PARAMETERS.BASE_EXTERNAL_URL;
-
-  let imagePath = request.uri;
-  if (getFromExternal && baseExternalUrl) {
-    imagePath = `${baseExternalUrl}${request.uri}`;
-  }
+  const imagePath = request.uri;
 
   if (!imagePath) {
     return {
@@ -115,7 +109,7 @@ export const handle = async (
     message: `accepted format: ${format}`,
   });
 
-  const result = isExternalUrl(imagePath)
+  const result = getFromExternal
     ? await getOptimisedImageFromExternal(imagePath, width, Math.min(quality, 75), format)
     : await getOptimisedImageFromS3(imagePath, width, Math.min(quality, 75), format);
 

@@ -81,19 +81,19 @@ export const getOptimisedImageFromS3 = async (
 /**
  * Fetches and optimises an image from an external URL.
  *
- * @param {string} imageUrl - The URL of the image to fetch.
+ * @param {string} imagePath - The relative path of the image to fetch. Example: "/images/photo.jpg"
  * @param {number} width - The desired width of the optimised image.
  * @param {number} quality - The desired quality of the optimised image.
  * @param {ImageTypes} format - The desired format of the optimised image.
  * @returns {Promise<OptimisedImage | undefined>} - A promise that resolves to the optimised image or undefined if an error occurs.
  */
 export const getOptimisedImageFromExternal = async (
-  imageUrl: string,
+  imagePath: string,
   width: number,
   quality: number,
   format: ImageTypes
 ): Promise<OptimisedImage | undefined> => {
-  const imageBuffer = await externalRepository.get(imageUrl);
+  const imageBuffer = await externalRepository.get(imagePath);
   if (!imageBuffer) {
     logger.error({
       message: 'unable to find image at external URL',
