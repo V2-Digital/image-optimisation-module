@@ -5,7 +5,7 @@ const SERVICE_PORT = 3000;
 
 const project = new BunTypescript({
   name: PROJECT_NAME,
-  deps: ['@aws-sdk/client-s3', 'pino', 'sharp'],
+  deps: ['@aws-sdk/client-s3', 'pino', 'sharp', 'axios'],
   devDeps: ['bun-ts-projen', '@types/aws-lambda'],
   bunContainerVersion: '1.0.25-slim',
   tsconfigPaths: {
