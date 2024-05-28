@@ -1,7 +1,9 @@
 import { CloudFrontRequest } from 'aws-lambda';
-import { imageService } from '@services';
-import { logger } from '../common/logger';
-import { ImageTypes } from '../common/constants';
+import { TASK_PARAMETERS, ImageTypes, logger } from '@common';
+import {
+  getOptimisedImageFromExternal,
+  getOptimisedImageFromS3,
+} from '../services/image.ts';
 
 const bestAcceptedFormat = (
   acceptHeader:
@@ -67,37 +69,13 @@ interface HandlerResponse {
 export const handle = async (
   request: CloudFrontRequest,
 ): Promise<HandlerResponse> => {
-  const uri = request.uri;
-
-  if (uri === undefined) {
-    return {
-      statusCode: '400',
-      body: 'Invalid Request',
-      headers: {
-        'Content-Type': 'text/plain',
-      },
-    };
-  }
-
-  logger.info({
-    message: 'valid uri',
-    uri,
-  });
-
   const queryString = new URLSearchParams(request.querystring);
 
-  logger.info({
-    queryString,
-  });
-
   const width = parseInt(queryString.get('width') ?? '0');
-  logger.info({
-    width,
-  });
-
   const quality = parseInt(queryString.get('quality') ?? '75');
 
   logger.info({
+    width,
     quality,
   });
 
@@ -111,17 +89,42 @@ export const handle = async (
     };
   }
 
+  const getFromExternal = TASK_PARAMETERS.GET_FROM_EXTERNAL === 'true';
+  const imagePath = request.uri;
+
+  if (!imagePath) {
+    return {
+      statusCode: '400',
+      body: 'Invalid Request',
+      headers: {
+        'Content-Type': 'text/plain',
+      },
+    };
+  }
+
+  logger.info({
+    message: 'valid uri or externalUrl',
+    imagePath,
+  });
+
   const format = bestAcceptedFormat(request.headers['accept']);
   logger.info({
     message: `accepted format: ${format}`,
   });
 
-  const result = await imageService.getOptimisedImage(
-    uri,
-    width,
-    Math.min(quality, 75),
-    format,
-  );
+  const result = getFromExternal
+    ? await getOptimisedImageFromExternal(
+        imagePath,
+        width,
+        Math.min(quality, 75),
+        format,
+      )
+    : await getOptimisedImageFromS3(
+        imagePath,
+        width,
+        Math.min(quality, 75),
+        format,
+      );
 
   if (result === undefined) {
     return {
@@ -134,7 +137,7 @@ export const handle = async (
   }
 
   logger.info({
-    message: 'succesfully generated optimised image',
+    message: 'successfully generated optimised image',
   });
 
   return {
