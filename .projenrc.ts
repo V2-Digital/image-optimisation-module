@@ -8,11 +8,13 @@ const project = new BunTypescript({
   deps: ['@aws-sdk/client-s3', 'pino', 'sharp', 'axios'],
   devDeps: ['bun-ts-projen', '@types/aws-lambda'],
   bunContainerVersion: '1.0.25-slim',
-  tsconfigPaths: {
-    '@repositories': ['./src/repositories'],
-    '@services': ['./src/services'],
-    '@common': ['./src/common'],
-    '@controllers': ['./src/controllers'],
+  tsconfigCompilerOptionsOverride: {
+    paths: {
+      '@repositories': ['./src/repositories'],
+      '@services': ['./src/services'],
+      '@common': ['./src/common'],
+      '@controllers': ['./src/controllers'],
+    },
   },
   skipRunCommand: true,
   appEnvironmentVariables: {
