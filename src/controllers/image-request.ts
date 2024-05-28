@@ -1,6 +1,5 @@
 import { CloudFrontRequest } from 'aws-lambda';
-import { logger } from '../common/logger';
-import { ImageTypes } from '../common/constants';
+import { TASK_PARAMETERS, ImageTypes, logger} from '@common';
 import { isExternalUrl } from '../services/utils.ts';
 import { getOptimisedImageFromExternal, getOptimisedImageFromS3 } from '../services/image.ts';
 
@@ -88,8 +87,8 @@ export const handle = async (
     };
   }
 
-  const getFromExternal = process.env.GET_FROM_EXTERNAL === 'true';
-  const baseExternalUrl = process.env.BASE_EXTERNAL_URL;
+  const getFromExternal = TASK_PARAMETERS.GET_FROM_EXTERNAL === 'true';
+  const baseExternalUrl = TASK_PARAMETERS.BASE_EXTERNAL_URL;
 
   let imagePath = request.uri;
   if (getFromExternal && baseExternalUrl) {
