@@ -1,5 +1,4 @@
 import { ImageTypes, detectImageFormat, logger, optimiseImage } from '@common';
-
 import { s3Repository, externalRepository } from '@repositories';
 
 interface OptimisedImage {
@@ -9,79 +8,40 @@ interface OptimisedImage {
   cacheControl?: string;
 }
 
+
 /**
- * Fetches and optimises an image from either an S3 bucket or an external URL.
+ * Fetches and optimises an image from an S3 bucket.
  *
- * @param {string} imagePath - The path or URL of the image to fetch.
+ * @param {string} imagePath - The S3 key of the image to fetch.
  * @param {number} width - The desired width of the optimised image.
  * @param {number} quality - The desired quality of the optimised image.
  * @param {ImageTypes} format - The desired format of the optimised image.
  * @returns {Promise<OptimisedImage | undefined>} - A promise that resolves to the optimised image or undefined if an error occurs.
  */
-export const getOptimisedImage = async (
+export const getOptimisedImageFromS3 = async (
   imagePath: string,
   width: number,
   quality: number,
-  format: ImageTypes,
+  format: ImageTypes
 ): Promise<OptimisedImage | undefined> => {
-  logger.info({
-    message: 'getting optimised image',
-    imagePath,
-    width,
-    quality,
-  });
+  const imageKey = imagePath.slice(1);
+  const originalImage = await s3Repository.get(imageKey);
 
-  const fetchImageStart = performance.now();
-
-  let imageBuffer: Buffer | null = null;
-  let cacheControl: string | undefined;
-  let etag: string | undefined;
-  let contentType: string | undefined;
-
-  if (imagePath.startsWith('http')) {
-    // If imagePath starts with 'http', treat it as an external URL and fetch the image
-    imageBuffer = await externalRepository.get(imagePath);
-  } else {
-    // If imagePath does not start with 'http', treat it as an S3 key and fetch the image from S3
-    const imageKey = imagePath.slice(1);
-    const originalImage = await s3Repository.get(imageKey);
-
-    if (originalImage?.Body) {
-      imageBuffer = Buffer.from(
-        await originalImage.Body.transformToByteArray(),
-      );
-      cacheControl = originalImage.CacheControl;
-      etag = originalImage.ETag;
-      contentType = originalImage.ContentType?.split('image/')[1];
-    }
-  }
-
-  const fetchImageEnd = performance.now();
-  logger.info({
-    message: `fetched image in: ${fetchImageEnd - fetchImageStart}ms`,
-  });
-
-  if (!imageBuffer) {
+  if (!originalImage?.Body) {
     logger.error({
-      message: 'unable to find image',
+      message: 'unable to find image in S3',
     });
-
     return;
   }
 
+  const imageBuffer = Buffer.from(await originalImage.Body.transformToByteArray());
+  const contentType = originalImage.ContentType?.split('image/')[1];
   const originalImageType = detectImageFormat(imageBuffer, contentType);
-
-  logger.info({
-    message: 'determined image metadata',
-    contentType,
-    originalImageType,
-  });
 
   if (!originalImageType) {
     logger.error({
       message: 'unable to determine image type',
     });
-
     return {
       image: imageBuffer,
       imageType: contentType ?? '',
@@ -94,18 +54,14 @@ export const getOptimisedImage = async (
       originalImageType,
       width,
       quality,
-      format,
+      format
     );
-
-    logger.info({
-      message: 'optimised image',
-    });
 
     return {
       image,
       imageType,
-      cacheControl,
-      etag,
+      cacheControl: originalImage.CacheControl,
+      etag: originalImage.ETag,
     };
   } catch (error) {
     logger.error({
@@ -117,7 +73,67 @@ export const getOptimisedImage = async (
   return {
     image: imageBuffer,
     imageType: originalImageType,
-    cacheControl,
-    etag,
+    cacheControl: originalImage.CacheControl,
+    etag: originalImage.ETag,
+  };
+};
+
+/**
+ * Fetches and optimises an image from an external URL.
+ *
+ * @param {string} imageUrl - The URL of the image to fetch.
+ * @param {number} width - The desired width of the optimised image.
+ * @param {number} quality - The desired quality of the optimised image.
+ * @param {ImageTypes} format - The desired format of the optimised image.
+ * @returns {Promise<OptimisedImage | undefined>} - A promise that resolves to the optimised image or undefined if an error occurs.
+ */
+export const getOptimisedImageFromExternal = async (
+  imageUrl: string,
+  width: number,
+  quality: number,
+  format: ImageTypes
+): Promise<OptimisedImage | undefined> => {
+  const imageBuffer = await externalRepository.get(imageUrl);
+  if (!imageBuffer) {
+    logger.error({
+      message: 'unable to find image at external URL',
+    });
+    return;
+  }
+
+  const originalImageType = detectImageFormat(imageBuffer, undefined);
+  if (!originalImageType) {
+    logger.error({
+      message: 'unable to determine image type',
+    });
+    return {
+      image: imageBuffer,
+      imageType: '',
+    };
+  }
+
+  try {
+    const { image, imageType } = await optimiseImage(
+      imageBuffer,
+      originalImageType,
+      width,
+      quality,
+      format
+    );
+
+    return {
+      image,
+      imageType,
+    };
+  } catch (error) {
+    logger.error({
+      message: 'failed to optimise image',
+      error,
+    });
+  }
+
+  return {
+    image: imageBuffer,
+    imageType: originalImageType,
   };
 };
