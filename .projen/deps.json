@@ -60,6 +60,10 @@
       "type": "runtime"
     },
     {
+      "name": "axios",
+      "type": "runtime"
+    },
+    {
       "name": "pino",
       "type": "runtime"
     },

@@ -10,8 +10,8 @@
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.131",
-    "@typescript-eslint/eslint-plugin": "^7.0.0",
-    "@typescript-eslint/parser": "^7.0.0",
+    "@typescript-eslint/eslint-plugin": "^6",
+    "@typescript-eslint/parser": "^6",
     "bun-plugin-dts": "^0.2.1",
     "bun-ts-projen": "0.0.20",
     "bun-types": "^1.0.25",
@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.499.0",
+    "axios": "^1.7.2",
     "pino": "^8.17.2",
     "sharp": "^0.33.2"
   },
