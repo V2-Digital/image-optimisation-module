@@ -67,37 +67,17 @@ interface HandlerResponse {
 export const handle = async (
   request: CloudFrontRequest,
 ): Promise<HandlerResponse> => {
-  const uri = request.uri;
-
-  if (uri === undefined) {
-    return {
-      statusCode: '400',
-      body: 'Invalid Request',
-      headers: {
-        'Content-Type': 'text/plain',
-      },
-    };
-  }
-
-  logger.info({
-    message: 'valid uri',
-    uri,
-  });
-
   const queryString = new URLSearchParams(request.querystring);
 
-  logger.info({
-    queryString,
-  });
-
+  const getFromExternal = queryString.get('getFromExternal') === 'true';
+  const externalUrl = queryString.get('externalUrl');
   const width = parseInt(queryString.get('width') ?? '0');
-  logger.info({
-    width,
-  });
-
   const quality = parseInt(queryString.get('quality') ?? '75');
 
   logger.info({
+    getFromExternal,
+    externalUrl,
+    width,
     quality,
   });
 
@@ -111,13 +91,33 @@ export const handle = async (
     };
   }
 
+  let imagePath = request.uri;
+  if (getFromExternal && externalUrl) {
+    imagePath = externalUrl;
+  }
+
+  if (!imagePath) {
+    return {
+      statusCode: '400',
+      body: 'Invalid Request',
+      headers: {
+        'Content-Type': 'text/plain',
+      },
+    };
+  }
+
+  logger.info({
+    message: 'valid uri or externalUrl',
+    imagePath,
+  });
+
   const format = bestAcceptedFormat(request.headers['accept']);
   logger.info({
     message: `accepted format: ${format}`,
   });
 
   const result = await imageService.getOptimisedImage(
-    uri,
+    imagePath,
     width,
     Math.min(quality, 75),
     format,
@@ -134,7 +134,7 @@ export const handle = async (
   }
 
   logger.info({
-    message: 'succesfully generated optimised image',
+    message: 'successfully generated optimised image',
   });
 
   return {
