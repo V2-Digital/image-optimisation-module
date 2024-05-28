@@ -8,7 +8,6 @@ interface OptimisedImage {
   cacheControl?: string;
 }
 
-
 /**
  * Fetches and optimises an image from an S3 bucket.
  *
@@ -22,7 +21,7 @@ export const getOptimisedImageFromS3 = async (
   imagePath: string,
   width: number,
   quality: number,
-  format: ImageTypes
+  format: ImageTypes,
 ): Promise<OptimisedImage | undefined> => {
   const imageKey = imagePath.slice(1);
   const originalImage = await s3Repository.get(imageKey);
@@ -34,7 +33,9 @@ export const getOptimisedImageFromS3 = async (
     return;
   }
 
-  const imageBuffer = Buffer.from(await originalImage.Body.transformToByteArray());
+  const imageBuffer = Buffer.from(
+    await originalImage.Body.transformToByteArray(),
+  );
   const contentType = originalImage.ContentType?.split('image/')[1];
   const originalImageType = detectImageFormat(imageBuffer, contentType);
 
@@ -54,7 +55,7 @@ export const getOptimisedImageFromS3 = async (
       originalImageType,
       width,
       quality,
-      format
+      format,
     );
 
     return {
@@ -91,7 +92,7 @@ export const getOptimisedImageFromExternal = async (
   imagePath: string,
   width: number,
   quality: number,
-  format: ImageTypes
+  format: ImageTypes,
 ): Promise<OptimisedImage | undefined> => {
   const imageBuffer = await externalRepository.get(imagePath);
   if (!imageBuffer) {
@@ -118,7 +119,7 @@ export const getOptimisedImageFromExternal = async (
       originalImageType,
       width,
       quality,
-      format
+      format,
     );
 
     return {

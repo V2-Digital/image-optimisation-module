@@ -1,6 +1,9 @@
 import { CloudFrontRequest } from 'aws-lambda';
-import { TASK_PARAMETERS, ImageTypes, logger} from '@common';
-import { getOptimisedImageFromExternal, getOptimisedImageFromS3 } from '../services/image.ts';
+import { TASK_PARAMETERS, ImageTypes, logger } from '@common';
+import {
+  getOptimisedImageFromExternal,
+  getOptimisedImageFromS3,
+} from '../services/image.ts';
 
 const bestAcceptedFormat = (
   acceptHeader:
@@ -110,8 +113,18 @@ export const handle = async (
   });
 
   const result = getFromExternal
-    ? await getOptimisedImageFromExternal(imagePath, width, Math.min(quality, 75), format)
-    : await getOptimisedImageFromS3(imagePath, width, Math.min(quality, 75), format);
+    ? await getOptimisedImageFromExternal(
+        imagePath,
+        width,
+        Math.min(quality, 75),
+        format,
+      )
+    : await getOptimisedImageFromS3(
+        imagePath,
+        width,
+        Math.min(quality, 75),
+        format,
+      );
 
   if (result === undefined) {
     return {
