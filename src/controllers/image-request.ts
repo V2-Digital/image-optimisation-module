@@ -69,14 +69,10 @@ export const handle = async (
 ): Promise<HandlerResponse> => {
   const queryString = new URLSearchParams(request.querystring);
 
-  const getFromExternal = queryString.get('getFromExternal') === 'true';
-  const externalUrl = queryString.get('externalUrl');
   const width = parseInt(queryString.get('width') ?? '0');
   const quality = parseInt(queryString.get('quality') ?? '75');
 
   logger.info({
-    getFromExternal,
-    externalUrl,
     width,
     quality,
   });
@@ -91,9 +87,12 @@ export const handle = async (
     };
   }
 
+  const getFromExternal = process.env.GET_FROM_EXTERNAL === 'true';
+  const baseExternalUrl = process.env.BASE_EXTERNAL_URL;
+
   let imagePath = request.uri;
-  if (getFromExternal && externalUrl) {
-    imagePath = externalUrl;
+  if (getFromExternal && baseExternalUrl) {
+    imagePath = `${baseExternalUrl}${request.uri}`;
   }
 
   if (!imagePath) {
