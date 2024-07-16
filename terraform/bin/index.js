@@ -11561,7 +11561,7 @@ var require_dist_cjs34 = __commonJS((exports, module) => {
   var ConfiguredRetryStrategy = _ConfiguredRetryStrategy;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.jsjssand.jss
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.js.jsjsd.jss
 var require_isStreamingPayload = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.isStreamingPayload = undefined;
@@ -12218,7 +12218,7 @@ var require_dist_cjs37 = __commonJS((exports, module) => {
   var loadConfig = __name(({ environmentVariableSelector, configFileSelector, default: defaultValue }, configuration = {}) => (0, import_property_provider.memoize)((0, import_property_provider.chain)(fromEnv(environmentVariableSelector), fromSharedConfigFiles(configFileSelector, configuration), fromStatic(defaultValue))), "loadConfig");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.jsjssan
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.js.jsjs
 var require_getEndpointUrlConfig = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getEndpointUrlConfig = undefined;
@@ -12256,7 +12256,7 @@ var require_getEndpointUrlConfig = __commonJS((exports) => {
   exports.getEndpointUrlConfig = getEndpointUrlConfig;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.jsjssand
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.js.jsjsd
 var require_getEndpointFromConfig = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getEndpointFromConfig = undefined;
@@ -17224,7 +17224,7 @@ var require_AssumeRoleCommand = __commonJS((exports) => {
   exports.AssumeRoleCommand = AssumeRoleCommand2;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.jsjssand.js
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.js.jsjsd.js
 var require_AssumeRoleWithWebIdentityCommand = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.AssumeRoleWithWebIdentityCommand = exports.$Command = undefined;
@@ -20342,7 +20342,7 @@ var require_dist_cjs55 = __commonJS((exports, module) => {
   }, "fromProcess");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.jsjs
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.js.j
 var require_fromWebToken = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.fromWebToken = undefined;
@@ -20365,7 +20365,7 @@ var require_fromWebToken = __commonJS((exports) => {
   exports.fromWebToken = fromWebToken2;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.jsjss
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.js.js
 var require_fromTokenFile = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.fromTokenFile = undefined;
@@ -20786,7 +20786,7 @@ var require_runtimeConfig2 = __commonJS((exports) => {
   exports.getRuntimeConfig = getRuntimeConfig;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.jsjss
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.js.js
 var require_httpAuthExtensionConfiguration = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.resolveHttpAuthRuntimeConfig = exports.getHttpAuthExtensionConfiguration = undefined;
@@ -23139,7 +23139,7 @@ var require_build3 = __commonJS((exports) => {
   } });
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.jsjssand.jss-on-buffer.js
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.js.jsjsd.jss-on-buffer.js
 var require_create_read_stream_on_buffer = __commonJS((exports) => {
   var createReadStreamOnBuffer = function(buffer) {
     const stream = new stream_1.Transform;
@@ -45506,7 +45506,7 @@ var detectImageFormat = (buffer, fallbackContentType) => {
     return ImageTypes["svg+xml"];
   }
   if ([60, 115, 118, 103].every((b, i) => buffer[i] === b)) {
-    return ImageTypes["svg"];
+    return ImageTypes["svg+xml"];
   }
   if ([0, 0, 0, 0, 102, 116, 121, 112, 97, 118, 105, 102].every((b, i) => !b || buffer[i] === b)) {
     return ImageTypes.avif;
