@@ -11561,7 +11561,7 @@ var require_dist_cjs34 = __commonJS((exports, module) => {
   var ConfiguredRetryStrategy = _ConfiguredRetryStrategy;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.js.jsjsd.jss
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.js.jsand.jsm
 var require_isStreamingPayload = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.isStreamingPayload = undefined;
@@ -12218,7 +12218,7 @@ var require_dist_cjs37 = __commonJS((exports, module) => {
   var loadConfig = __name(({ environmentVariableSelector, configFileSelector, default: defaultValue }, configuration = {}) => (0, import_property_provider.memoize)((0, import_property_provider.chain)(fromEnv(environmentVariableSelector), fromSharedConfigFiles(configFileSelector, configuration), fromStatic(defaultValue))), "loadConfig");
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.js.jsjs
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.js.jsan
 var require_getEndpointUrlConfig = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getEndpointUrlConfig = undefined;
@@ -12256,7 +12256,7 @@ var require_getEndpointUrlConfig = __commonJS((exports) => {
   exports.getEndpointUrlConfig = getEndpointUrlConfig;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.js.jsjsd
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.js.jsand
 var require_getEndpointFromConfig = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getEndpointFromConfig = undefined;
@@ -17224,7 +17224,7 @@ var require_AssumeRoleCommand = __commonJS((exports) => {
   exports.AssumeRoleCommand = AssumeRoleCommand2;
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.js.jsjsd.js
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.js.jsand.js
 var require_AssumeRoleWithWebIdentityCommand = __commonJS((exports) => {
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.AssumeRoleWithWebIdentityCommand = exports.$Command = undefined;
@@ -23139,7 +23139,7 @@ var require_build3 = __commonJS((exports) => {
   } });
 });
 
-// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.js.jsjsd.jss-on-buffer.js
+// node_modules/@aws-sdk/client-sso/dist-cjs/endpoint/ruleset.jssolver.jsnode.js.jsand.jsm-on-buffer.js
 var require_create_read_stream_on_buffer = __commonJS((exports) => {
   var createReadStreamOnBuffer = function(buffer) {
     const stream = new stream_1.Transform;
